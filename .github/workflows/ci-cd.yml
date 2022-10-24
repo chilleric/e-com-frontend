@@ -1,7 +1,7 @@
 name: e-com-frontend CI/CD work-flow
 
 env:
-  SECRET_JWT_KEY: {{ secrets.E_COM_SECRET_JWT_KEY }}
+  SECRET_JWT_KEY: ${{ secrets.E_COM_SECRET_JWT_KEY }}
 
 on:
   push:
