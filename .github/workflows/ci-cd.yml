@@ -20,4 +20,4 @@ jobs:
         with:
           node-version: '16.x'
       - name: build next
-        run: next run build
+        run: npm run build
