@@ -1,0 +1,23 @@
+name: e-com-frontend CI/CD work-flow
+
+env:
+  SECRET_JWT_KWY: { { secrets.E_COM_SECRET_JWT_KEY } }
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - name: build next
+        run: npm build
