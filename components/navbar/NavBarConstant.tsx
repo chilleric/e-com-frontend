@@ -19,4 +19,8 @@ export const NavBarItems: NavBarItemType[] = [
       },
     ],
   },
+  {
+    label: 'Dashboard2',
+    path: '/dashboard',
+  },
 ];

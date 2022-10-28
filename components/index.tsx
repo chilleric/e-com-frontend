@@ -1,3 +1,2 @@
-export * from "./layout";
-export * from "./shared";
-export * from "./table";
+export * from './layout';
+export * from './table';
