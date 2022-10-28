@@ -1,18 +1,11 @@
-import { Box } from '../';
+import { Container } from '@nextui-org/react';
 import { NavBar } from '../navbar';
 
-const DefaultLayout = ({ children }: { children: JSX.Element }) => {
+const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NavBar />
-      <Box
-        css={{
-          maxW: '100%',
-          paddingLeft: 10,
-        }}
-      >
-        {children}
-      </Box>
+      <Container fluid>{children}</Container>
     </>
   );
 };
