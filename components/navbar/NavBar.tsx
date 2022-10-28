@@ -9,7 +9,7 @@ export const NavBar = () => {
   const router = useRouter();
 
   return (
-    <Navbar isBordered variant='sticky' css={{ zIndex: 1000 }}>
+    <Navbar isBordered variant='floating' css={{ zIndex: 1000 }}>
       <Navbar.Toggle showIn='md' />
       <Navbar.Content hideIn='md' enableCursorHighlight variant='underline'>
         <Dropdown isBordered>
