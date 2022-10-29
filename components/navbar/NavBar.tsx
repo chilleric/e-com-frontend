@@ -10,8 +10,8 @@ export const NavBar = () => {
 
   return (
     <Navbar isBordered variant='floating' css={{ zIndex: 1000 }}>
-      <Navbar.Toggle showIn='md' />
-      <Navbar.Content hideIn='md' enableCursorHighlight variant='underline'>
+      <Navbar.Toggle showIn='xs' />
+      <Navbar.Content hideIn='xs' enableCursorHighlight variant='underline'>
         <Dropdown isBordered>
           <Dropdown.Trigger>
             <Navbar.Item>
@@ -37,7 +37,7 @@ export const NavBar = () => {
           </Fragment>
         ))}
       </Navbar.Content>
-      <Navbar.Collapse showIn='md'>
+      <Navbar.Collapse showIn='xs'>
         {NavBarItems.map((item) => (
           <Fragment key={item.path}>
             <RenderItemMobile level={0} item={item} />
