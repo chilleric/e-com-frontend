@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: 'https://e-com-api-dev.herokuapp.com',
+  baseURL: process.env.API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -9,10 +9,10 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => Promise.resolve(response),
+  (response) => Promise.resolve(response.data),
   (error) => {
-    return Promise.reject(error);
-  },
+    if (error.response) return Promise.reject(error.response);
+  }
 );
 
 export default axiosInstance;
