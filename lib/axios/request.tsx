@@ -1,24 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "https://e-com-api-dev.herokuapp.com",
-  headers: {
-    "Content-type": "application/json",
-  },
+  baseURL: 'https://e-com-api-dev.herokuapp.com',
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  return config;
+  return { ...config };
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return Promise.resolve(response);
+  (response) => Promise.resolve(response),
+  (error) => {
+    return Promise.reject(error);
   },
-  async (error) => {
-    if (error.reponse) return Promise.reject(error.reponse);
-    // return Promise.reject(error);
-  }
 );
 
 export default axiosInstance;
