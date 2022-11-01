@@ -9,7 +9,7 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => Promise.resolve(response.data),
+  (response) => Promise.resolve(response),
   (error) => {
     if (error.response) return Promise.reject(error.response);
   },

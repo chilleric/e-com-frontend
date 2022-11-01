@@ -1,7 +1,7 @@
 name: e-com-frontend CI/CD work-flow
 
 env:
-  SECRET_JWT_KEY: ${{ secrets.E_COM_SECRET_JWT_KEY }}
+  NEXT_PUBLIC_SECRET_JWT_KEY: ${{ secrets.E_COM_SECRET_JWT_KEY }}
   NEXT_PUBLIC_API_BASE_URL: ${{ secrets.API_BASE_URL_E_COM }}
 
 on:

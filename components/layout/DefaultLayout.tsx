@@ -5,7 +5,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NavBar />
-      <Container fluid>{children}</Container>
+      <Container>{children}</Container>
     </>
   );
 };
