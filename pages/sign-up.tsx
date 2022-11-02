@@ -1,5 +1,5 @@
-import { SignUpForm } from "@/components";
 import { LoginLayout } from "@/components/layout/LoginLayout";
+import { SignUpForm } from "@/modules";
 import { Modal } from "@nextui-org/react";
 
 const SignUpPage = () => {

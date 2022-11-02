@@ -1,5 +1,5 @@
-import { LoginForm } from "@/components";
 import { LoginLayout } from "@/components/layout/LoginLayout";
+import { LoginForm } from "@/modules";
 import { Modal } from "@nextui-org/react";
 
 const Login = () => {

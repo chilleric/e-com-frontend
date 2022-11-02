@@ -1,6 +1,6 @@
 import { DEVICE_ID, USER_ID } from "@/constants/auth";
 import { useApiCall } from "@/hooks";
-import { encodeBase64 } from "@/lib";
+import { decodeBase64, encodeBase64 } from "@/lib";
 import { login } from "@/services";
 import { LoginResponseFailure, LoginResponseSuccess } from "@/types";
 import {

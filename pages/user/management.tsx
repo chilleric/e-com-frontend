@@ -1,4 +1,5 @@
-import { DefaultLayout, UserManagement } from "@/components";
+import { DefaultLayout } from "@/components";
+import { UserManagement } from "@/modules";
 
 const UserManagementPage = () => {
     return (
