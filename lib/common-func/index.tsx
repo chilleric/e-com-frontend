@@ -30,5 +30,5 @@ export const generateToken = (content: {
     },
   );
 
-  return token;
+  return `Bearer ${token}`;
 };

@@ -11,10 +11,20 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     if (
       router &&
       !router.asPath.includes('login') &&
-      !router.asPath.includes('forgot-password')
+      !router.asPath.includes('forgot-password') &&
+      !router.asPath.includes('sign-up')
     ) {
-      if (!cookies.deviceId || !cookies.userId) {
+      if (!cookies.deviceId && !cookies.userId) {
         router.push('/login');
+      }
+    }
+    if (
+      (router && router.asPath.includes('login')) ||
+      router.asPath.includes('forgot-password') ||
+      router.asPath.includes('sign-up')
+    ) {
+      if (cookies.deviceId && cookies.userId) {
+        router.push('/');
       }
     }
   }, [router, cookies]);

@@ -1,13 +1,15 @@
-import { CommonResponseType } from "@/types";
-import { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { CommonResponseType } from '@/types';
+import { AxiosResponse } from 'axios';
+import { useEffect, useState } from 'react';
 
 export const useApiCall = <T, E>({
   callApi,
   handleError,
+  handleSuccess,
 }: {
   callApi: () => Promise<AxiosResponse<any, any>>;
   handleError?: (status: number) => void;
+  handleSuccess?: (message: string) => void;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<CommonResponseType<T>>();
@@ -15,19 +17,22 @@ export const useApiCall = <T, E>({
   const [letCall, setLetCall] = useState<boolean>(false);
 
   const getData = async () => {
-    console.log("!");
     const response = await callApi();
-    const { success, status } = response.data;
+    const { success } = response.data;
     if (success) {
       setData(response.data);
       setError(undefined);
+      if (handleSuccess) {
+        handleSuccess(response.data.message);
+      }
     } else {
-      if (status === 400) {
+      const { statusCode } = response.data;
+      if (statusCode === 400) {
         setData(undefined);
         setError(response.data);
       }
       if (handleError) {
-        handleError(status);
+        handleError(statusCode);
       }
     }
     setLoading(false);

@@ -4,5 +4,6 @@ export const apiRoute = {
   },
   auth: {
     login: '/auth/login',
+    signUp: '/auth/register',
   },
 };

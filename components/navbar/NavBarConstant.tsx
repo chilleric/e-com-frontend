@@ -6,21 +6,8 @@ export const NavBarItems: NavBarItemType[] = [
     path: '/',
   },
   {
-    label: 'Settings',
-    path: '/settings',
-    children: [
-      {
-        label: 'Account',
-        path: '/settings/account',
-      },
-      {
-        label: 'System',
-        path: '/settings/system',
-      },
-    ],
-  },
-  {
-    label: 'Dashboard2',
-    path: '/dashboard',
+    label: 'User',
+    path: '/user',
+    children: [{ label: 'User Management', path: '/user/management' }],
   },
 ];
