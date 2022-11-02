@@ -1,66 +1,66 @@
-import { CommonResponseType } from '@/types';
-import { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
+import { CommonResponseType } from "@/types";
+import { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
 
 export const useApiCall = <T, E>({
-  callApi,
-  handleError,
-  handleSuccess,
+    callApi,
+    handleError,
+    handleSuccess
 }: {
-  callApi: () => Promise<AxiosResponse<any, any>>;
-  handleError?: (status: number, message: string) => void;
-  handleSuccess?: (message: string) => void;
+    callApi: () => Promise<AxiosResponse<any, any>>;
+    handleError?: (status: number, message: string) => void;
+    handleSuccess?: (message: string) => void;
 }) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<CommonResponseType<T>>();
-  const [error, setError] = useState<CommonResponseType<E>>();
-  const [letCall, setLetCall] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [data, setData] = useState<CommonResponseType<T>>();
+    const [error, setError] = useState<CommonResponseType<E>>();
+    const [letCall, setLetCall] = useState<boolean>(false);
 
-  const getData = async () => {
-    try {
-      const response = await callApi();
-      const { success } = response.data;
-      if (success) {
-        setData(response.data);
+    const getData = async () => {
+        try {
+            const response = await callApi();
+            const { success } = response.data;
+            if (success) {
+                setData(response.data);
+                setError(undefined);
+                if (handleSuccess) {
+                    handleSuccess(response.data.message);
+                }
+            } else {
+                const { statusCode } = response.data;
+                if (statusCode === 400) {
+                    setData(undefined);
+                    setError(response.data);
+                }
+                if (handleError) {
+                    handleError(statusCode, response.data.message);
+                }
+            }
+        } finally {
+            setLoading(false);
+            setLetCall(false);
+        }
+    };
+
+    useEffect(() => {
+        if (letCall) {
+            setLoading(true);
+            getData();
+        }
+    }, [letCall]);
+
+    const handleReset = () => {
+        setLoading(false);
+        setData(undefined);
         setError(undefined);
-        if (handleSuccess) {
-          handleSuccess(response.data.message);
-        }
-      } else {
-        const { statusCode } = response.data;
-        if (statusCode === 400) {
-          setData(undefined);
-          setError(response.data);
-        }
-        if (handleError) {
-          handleError(statusCode, response.data.message);
-        }
-      }
-    } finally {
-      setLoading(false);
-      setLetCall(false);
-    }
-  };
+        setLetCall(false);
+    };
 
-  useEffect(() => {
-    if (letCall) {
-      setLoading(true);
-      getData();
-    }
-  }, [letCall]);
-
-  const handleReset = () => {
-    setLoading(false);
-    setData(undefined);
-    setError(undefined);
-    setLetCall(false);
-  };
-
-  return {
-    handleReset,
-    setLetCall,
-    loading,
-    data,
-    error,
-  };
+    return {
+        handleReset,
+        setLetCall,
+        loading,
+        data,
+        error
+    };
 };
