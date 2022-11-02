@@ -1,26 +1,13 @@
-import { NavBarItemType } from '@/types';
+import { NavBarItemType } from "@/types";
 
 export const NavBarItems: NavBarItemType[] = [
-  {
-    label: 'Dashboard',
-    path: '/',
-  },
-  {
-    label: 'Settings',
-    path: '/settings',
-    children: [
-      {
-        label: 'Account',
-        path: '/settings/account',
-      },
-      {
-        label: 'System',
-        path: '/settings/system',
-      },
-    ],
-  },
-  {
-    label: 'Dashboard2',
-    path: '/dashboard',
-  },
+    {
+        label: "Dashboard",
+        path: "/"
+    },
+    {
+        label: "User",
+        path: "/user",
+        children: [{ label: "User Management", path: "/user/management" }]
+    }
 ];
