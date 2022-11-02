@@ -1,4 +1,5 @@
 import { useApiCall } from '@/hooks';
+import { encodeBase64 } from '@/lib';
 import { authenticationSelector } from '@/redux';
 import { singUp } from '@/services';
 import { SignUpFailure } from '@/types';
@@ -31,7 +32,7 @@ export const SignUpForm = () => {
     callApi: () =>
       singUp({
         username: signUpRequest.username,
-        password: signUpRequest.password,
+        password: encodeBase64(signUpRequest.password),
         firstName: signUpRequest.firstName,
         lastName: signUpRequest.lastName,
         gender: signUpRequest.gender,
@@ -40,9 +41,12 @@ export const SignUpForm = () => {
         email: signUpRequest.email,
         address: signUpRequest.address,
       }),
+    handleError(status, message) {
+      toast.error(message);
+    },
     handleSuccess(message) {
       toast.success(message);
-      router.push('/login');
+      setStep(4);
     },
   });
 

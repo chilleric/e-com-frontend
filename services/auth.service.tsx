@@ -9,3 +9,15 @@ export const login = (request: LoginRequest) => {
 export const singUp = (request: SignUpRequest) => {
   return axiosInstance.post(apiRoute.auth.signUp, request);
 };
+
+export const verifySignUp = (email: string, code: string) => {
+  return axiosInstance.post(
+    `${apiRoute.auth.verifySignUp}?email=${email}&code=${code}`,
+  );
+};
+
+export const resendVerifySignUp = (email: string) => {
+  return axiosInstance.post(
+    `${apiRoute.auth.verifySignUp}/resend?email=${email}`,
+  );
+};

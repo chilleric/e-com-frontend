@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { SignUpStep1 } from './SignUpStep1';
 import { SignUpStep2 } from './SignUpStep2';
 import { SignUpStep3 } from './SignUpStep3';
+import { SignUpVerify } from './SignUpVerify';
 
 export const SignUpStepSwitch = ({
   step,
@@ -25,6 +26,10 @@ export const SignUpStepSwitch = ({
     {
       step: 3,
       component: <SignUpStep3 error={error} />,
+    },
+    {
+      step: 4,
+      component: <SignUpVerify />,
     },
   ];
 

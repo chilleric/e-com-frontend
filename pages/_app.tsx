@@ -13,6 +13,7 @@ import '../styles/globals.css';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
+      <ToastContainer style={{ zIndex: 1000000 }} />
       <NextThemesProvider
         defaultTheme='system'
         attribute='class'
@@ -24,7 +25,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <NextUIProvider>
           <CookiesProvider>
             <AuthLayout>
-              <ToastContainer />
               <Component {...pageProps} />
             </AuthLayout>
           </CookiesProvider>

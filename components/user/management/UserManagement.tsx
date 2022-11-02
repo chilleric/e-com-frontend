@@ -7,6 +7,7 @@ import { UserListSuccess, UserResponseSuccess } from '@/types';
 import { Container, Loading } from '@nextui-org/react';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { toast } from 'react-toastify';
 import { header } from './management.inventory';
 
 export const UserManagement = () => {
@@ -17,8 +18,8 @@ export const UserManagement = () => {
       getListUser(
         generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }),
       ),
-    handleError(status) {
-      console.log(status);
+    handleError(status, message) {
+      toast.error(status);
     },
   });
 
@@ -26,9 +27,7 @@ export const UserManagement = () => {
     setLetCall(true);
   }, []);
 
-  const { error, data, loading, setLetCall, handleReset } = result;
-
-  console.log(data);
+  const { data, loading, setLetCall } = result;
 
   return (
     <>

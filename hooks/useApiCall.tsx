@@ -8,7 +8,7 @@ export const useApiCall = <T, E>({
   handleSuccess,
 }: {
   callApi: () => Promise<AxiosResponse<any, any>>;
-  handleError?: (status: number) => void;
+  handleError?: (status: number, message: string) => void;
   handleSuccess?: (message: string) => void;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,26 +17,29 @@ export const useApiCall = <T, E>({
   const [letCall, setLetCall] = useState<boolean>(false);
 
   const getData = async () => {
-    const response = await callApi();
-    const { success } = response.data;
-    if (success) {
-      setData(response.data);
-      setError(undefined);
-      if (handleSuccess) {
-        handleSuccess(response.data.message);
+    try {
+      const response = await callApi();
+      const { success } = response.data;
+      if (success) {
+        setData(response.data);
+        setError(undefined);
+        if (handleSuccess) {
+          handleSuccess(response.data.message);
+        }
+      } else {
+        const { statusCode } = response.data;
+        if (statusCode === 400) {
+          setData(undefined);
+          setError(response.data);
+        }
+        if (handleError) {
+          handleError(statusCode, response.data.message);
+        }
       }
-    } else {
-      const { statusCode } = response.data;
-      if (statusCode === 400) {
-        setData(undefined);
-        setError(response.data);
-      }
-      if (handleError) {
-        handleError(statusCode);
-      }
+    } finally {
+      setLoading(false);
+      setLetCall(false);
     }
-    setLoading(false);
-    setLetCall(false);
   };
 
   useEffect(() => {
