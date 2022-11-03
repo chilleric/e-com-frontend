@@ -27,7 +27,7 @@ export const LoginForm = () => {
     const passwordRef = useRef<FormElement>(null);
     const router = useRouter();
     const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID]);
-
+    console.log(isDark);
     const handleChangeTheme = () => {
         if (isDark) {
             setTheme("light");

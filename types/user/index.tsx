@@ -27,3 +27,5 @@ export interface UserListSuccess {
 export interface Tokens {
     [key: string]: Date;
 }
+
+export type UserDetailFailure = Record<keyof UserResponseSuccess, string>;

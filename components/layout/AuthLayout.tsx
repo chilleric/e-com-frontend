@@ -1,15 +1,19 @@
 import { DEVICE_ID, USER_ID } from "@/constants/auth";
 import { resetSignUpRequest } from "@/redux";
+import { useTheme } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID]);
 
     const dispatch = useDispatch();
+
+    const { isDark } = useTheme();
 
     useEffect(() => {
         if (
@@ -34,5 +38,13 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         }
     }, [router, cookies]);
 
-    return <>{children}</>;
+    return (
+        <>
+            <ToastContainer
+                theme={isDark ? "dark" : "light"}
+                style={{ zIndex: 1000000 }}
+            />
+            {children}
+        </>
+    );
 };

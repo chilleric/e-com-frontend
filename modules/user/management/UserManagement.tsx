@@ -8,7 +8,7 @@ import { Container, Loading } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import { header } from "./management.inventory";
+import { header, listActions } from "./management.inventory";
 
 export const UserManagement = () => {
     const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID]);
@@ -45,7 +45,8 @@ export const UserManagement = () => {
                 <CustomTable<UserResponseSuccess>
                     header={header}
                     body={data ? data.result.data : []}
-                    selectionMode="multiple"
+                    listActions={listActions}
+                    selectionMode="single"
                 >
                     <></>
                 </CustomTable>

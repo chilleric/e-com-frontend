@@ -1,4 +1,6 @@
-import { HeaderTableType } from "@/types";
+import { ActionType, HeaderTableType } from "@/types";
+import { NextRouter } from "next/router";
+import { AiOutlineEdit, AiOutlineEye } from "react-icons/ai";
 
 export const header: HeaderTableType[] = [
     {
@@ -44,5 +46,15 @@ export const header: HeaderTableType[] = [
     {
         key: "deleted",
         name: "Delete status"
+    }
+];
+
+export const listActions: ActionType[] = [
+    {
+        content: "Details",
+        icon: <AiOutlineEye size={20} fill="#979797" />,
+        func: (id: string, router: NextRouter) => {
+            router.push(`/user/${id}`);
+        }
     }
 ];
