@@ -1,6 +1,11 @@
+import { DEVICE_ID, USER_ID } from '@/constants/auth'
+import { setIsForbidden } from '@/redux'
 import { CommonResponseType } from '@/types'
 import { AxiosResponse } from 'axios'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie'
+import { useDispatch } from 'react-redux'
 
 export const useApiCall = <T, E>({
   callApi,
@@ -15,6 +20,12 @@ export const useApiCall = <T, E>({
   const [data, setData] = useState<CommonResponseType<T>>()
   const [error, setError] = useState<CommonResponseType<E>>()
   const [letCall, setLetCall] = useState<boolean>(false)
+
+  const dispatch = useDispatch()
+
+  const [, , removeCookie] = useCookies([DEVICE_ID, USER_ID])
+
+  const router = useRouter()
 
   const getData = async () => {
     try {
@@ -34,6 +45,14 @@ export const useApiCall = <T, E>({
         }
         if (handleError) {
           handleError(statusCode, response.data.message)
+        }
+        if (statusCode === 401) {
+          removeCookie('deviceId')
+          removeCookie('userId')
+          router.push('/login')
+        }
+        if (statusCode === 403) {
+          dispatch(setIsForbidden(true))
         }
       }
     } finally {
