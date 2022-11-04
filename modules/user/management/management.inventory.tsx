@@ -1,3 +1,4 @@
+import { convertValueToLabel, genderList } from '@/lib'
 import { ActionType, HeaderTableType } from '@/types'
 import { NextRouter } from 'next/router'
 import { AiOutlineEdit, AiOutlineEye } from 'react-icons/ai'
@@ -58,3 +59,9 @@ export const listActions: ActionType[] = [
     },
   },
 ]
+
+export const listFunctionParseValue = {
+  gender: (value: number) => {
+    return convertValueToLabel(value, genderList)
+  },
+}

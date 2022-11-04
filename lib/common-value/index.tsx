@@ -1,4 +1,6 @@
-export const genderList = [
+import { OptionsType } from '@/types'
+
+export const genderList: OptionsType<number>[] = [
   {
     value: 0,
     label: 'Male',
@@ -9,7 +11,7 @@ export const genderList = [
   },
 ]
 
-export const statusList = [
+export const statusList: OptionsType<number>[] = [
   {
     value: 0,
     label: 'Active',

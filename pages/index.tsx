@@ -17,6 +17,7 @@ const Home: NextPage = () => {
         body={bodyExample}
         listActions={ltstACtionExample}
         selectionMode="multiple"
+        listFunctionParseValue={{}}
       >
         <>{null}</>
       </CustomTable>

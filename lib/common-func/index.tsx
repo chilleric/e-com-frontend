@@ -1,3 +1,5 @@
+import { OptionsType } from '@/types'
+
 export const encodeBase64 = (data: string) => {
   return Buffer.from(data).toString('base64')
 }
@@ -23,4 +25,8 @@ export const generateToken = (content: { userId: string; deviceId: string }) => 
   })
 
   return `Bearer ${token}`
+}
+
+export const convertValueToLabel = <T,>(value: T, list: OptionsType<T>[]) => {
+  return list.find((item) => item.value === value)?.label ?? ''
 }

@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { header, listActions } from './management.inventory'
+import { header, listActions, listFunctionParseValue } from './management.inventory'
 
 export const UserManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
@@ -60,6 +60,7 @@ export const UserManagement = () => {
             body={data ? data.result.data : []}
             listActions={listActions}
             selectionMode="single"
+            listFunctionParseValue={listFunctionParseValue}
           >
             <>{null}</>
           </CustomTable>
