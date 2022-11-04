@@ -4,14 +4,17 @@ import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
 import { getListUser } from '@/services'
 import { UserListSuccess, UserResponseSuccess } from '@/types'
-import { Container, Loading } from '@nextui-org/react'
+import { Button, Container, Loading, Text } from '@nextui-org/react'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
 import { header, listActions } from './management.inventory'
 
 export const UserManagement = () => {
-  const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID])
+  const [cookies] = useCookies([DEVICE_ID, USER_ID])
+
+  const router = useRouter()
 
   const result = useApiCall<UserListSuccess, String>({
     callApi: () =>
@@ -22,15 +25,17 @@ export const UserManagement = () => {
         })
       ),
     handleError(status, message) {
-      toast.error(status)
+      if (status) {
+        toast.error(message)
+      }
     },
   })
+
+  const { data, loading, setLetCall } = result
 
   useEffect(() => {
     setLetCall(true)
   }, [])
-
-  const { data, loading, setLetCall } = result
 
   return (
     <>
@@ -39,14 +44,26 @@ export const UserManagement = () => {
           <Loading />
         </Container>
       ) : (
-        <CustomTable<UserResponseSuccess>
-          header={header}
-          body={data ? data.result.data : []}
-          listActions={listActions}
-          selectionMode="single"
-        >
-          <></>
-        </CustomTable>
+        <>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text h1>Create User</Text>
+            <Button
+              onClick={() => {
+                router.push('/user/create')
+              }}
+            >
+              Save
+            </Button>
+          </div>
+          <CustomTable<UserResponseSuccess>
+            header={header}
+            body={data ? data.result.data : []}
+            listActions={listActions}
+            selectionMode="single"
+          >
+            <>{null}</>
+          </CustomTable>
+        </>
       )}
     </>
   )

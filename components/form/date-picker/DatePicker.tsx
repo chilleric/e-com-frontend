@@ -7,9 +7,10 @@ interface IDatePicker {
   onChange: Function
   label: string
   buttonProps: Partial<InputProps>
+  disable?: boolean
 }
 
-export const DatePicker = ({ value, label, onChange, buttonProps }: IDatePicker) => {
+export const DatePicker = ({ value, label, onChange, buttonProps, disable }: IDatePicker) => {
   const nowDay = value ? new Date(value) : new Date()
   const [year, setYear] = useState(nowDay.getFullYear())
   const [month, setMonth] = useState(nowDay.getMonth() + 1)
@@ -84,7 +85,11 @@ export const DatePicker = ({ value, label, onChange, buttonProps }: IDatePicker)
         />
       )}
       <div
-        onClick={() => setType('day')}
+        onClick={() => {
+          if (!disable) {
+            setType('day')
+          }
+        }}
         ref={divRef}
         style={{ width: '100%', position: 'relative', zIndex: 101 }}
       >

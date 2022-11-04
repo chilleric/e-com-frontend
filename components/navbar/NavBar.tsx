@@ -14,25 +14,9 @@ export const NavBar = () => {
   const { setTheme } = useNextTheme()
 
   return (
-    <Navbar isBordered variant="floating" css={{ zIndex: 1000 }}>
+    <Navbar isBordered variant="sticky" css={{ zIndex: 1000 }}>
       <Navbar.Toggle showIn="xs" />
       <Navbar.Content hideIn="xs" enableCursorHighlight variant="underline">
-        <Dropdown isBordered>
-          <Dropdown.Trigger>
-            <Navbar.Item>
-              <Avatar
-                bordered
-                as="button"
-                color="primary"
-                size="md"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-              />
-            </Navbar.Item>
-          </Dropdown.Trigger>
-          <Dropdown.Menu variant="light" onAction={(key) => router.push(key.toString())}>
-            <Dropdown.Item>Sign out</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
         {NavBarItems.map((item) => (
           <Fragment key={item.path}>
             <RenderItemDesktop item={item} />
@@ -54,6 +38,25 @@ export const NavBar = () => {
           </Fragment>
         ))}
       </Navbar.Collapse>
+      <Navbar.Content>
+        <Dropdown isBordered>
+          <Dropdown.Trigger>
+            <Navbar.Item>
+              <Avatar
+                bordered
+                as="button"
+                color="primary"
+                size="md"
+                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              />
+            </Navbar.Item>
+          </Dropdown.Trigger>
+          <Dropdown.Menu variant="light" onAction={(key) => router.push(key.toString())}>
+            <Dropdown.Item>Setting</Dropdown.Item>
+            <Dropdown.Item>Sign out</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Navbar.Content>
     </Navbar>
   )
 }
