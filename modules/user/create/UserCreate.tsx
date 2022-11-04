@@ -11,7 +11,7 @@ import { toast } from 'react-toastify'
 import { DefaultUser, UserForm } from '../inventory'
 
 export const UserCreate = () => {
-  const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID])
+  const [cookies] = useCookies([DEVICE_ID, USER_ID])
   const router = useRouter()
 
   const [UserState, setUserState] = useState<UserResponseSuccess>(DefaultUser)
@@ -37,7 +37,7 @@ export const UserCreate = () => {
   })
 
   const onchangeUserState = (newUpdate: Partial<UserResponseSuccess>) => {
-    const newUserState = Object.assign({}, UserState)
+    const newUserState = { ...UserState }
     setUserState({ ...newUserState, ...newUpdate })
   }
 
@@ -63,7 +63,7 @@ export const UserCreate = () => {
           <Button
             color="warning"
             onClick={() => {
-              router.push('user/management')
+              router.push('/user/management')
             }}
           >
             Cancel

@@ -3,8 +3,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken, statusList } from '@/lib'
 import { changeStatusUser, getDetailUser, updateUser } from '@/services'
 import { UserDetailFailure, UserResponseSuccess } from '@/types'
-import { Button, Container, Dropdown, Loading, Switch, Text } from '@nextui-org/react'
-import { error } from 'console'
+import { Button, Container, Dropdown, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -12,7 +11,7 @@ import { toast } from 'react-toastify'
 import { DefaultUser, UserForm } from '../inventory'
 
 export const UserDetail = () => {
-  const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID])
+  const [cookies] = useCookies([DEVICE_ID, USER_ID])
   const router = useRouter()
 
   const [type, setType] = useState<'read' | 'update'>('read')
@@ -88,7 +87,7 @@ export const UserDetail = () => {
     )
 
   const onchangeUserState = (newUpdate: Partial<UserResponseSuccess>) => {
-    const newUserState = Object.assign({}, UserState)
+    const newUserState = { ...UserState }
     setUserState({ ...newUserState, ...newUpdate })
   }
 
