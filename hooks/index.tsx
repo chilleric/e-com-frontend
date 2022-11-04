@@ -1,1 +1,1 @@
-export * from "./useApiCall";
+export * from './useApiCall'

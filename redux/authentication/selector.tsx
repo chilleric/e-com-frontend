@@ -1,4 +1,3 @@
-import { RootState } from "../store";
+import { RootState } from '../store'
 
-export const authenticationSelector = (state: RootState) =>
-    state.authentication;
+export const authenticationSelector = (state: RootState) => state.authentication

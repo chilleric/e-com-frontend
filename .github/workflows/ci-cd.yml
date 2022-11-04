@@ -1,26 +1,26 @@
 name: e-com-frontend CI/CD work-flow
 
 env:
-    NEXT_PUBLIC_SECRET_JWT_KEY: ${{ secrets.E_COM_SECRET_JWT_KEY }}
-    NEXT_PUBLIC_API_BASE_URL: ${{ secrets.API_BASE_URL_E_COM }}
+  NEXT_PUBLIC_SECRET_JWT_KEY: ${{ secrets.E_COM_SECRET_JWT_KEY }}
+  NEXT_PUBLIC_API_BASE_URL: ${{ secrets.API_BASE_URL_E_COM }}
 
 on:
-    push:
-        branches: [develop]
-    pull_request:
-        branches: [develop]
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v3
-            - name: Set up Node 16.x
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "16.x"
-            - name: install packages
-              run: npm install
-            - name: build next
-              run: npm run build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - name: install packages
+        run: npm install
+      - name: build next
+        run: npm run build
