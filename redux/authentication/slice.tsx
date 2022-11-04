@@ -2,15 +2,12 @@ import { AuthenticationStoreTypes, SignUpRequest } from '@/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: AuthenticationStoreTypes = {
-  deviceId: '',
-  userId: '',
+  isForbidden: false,
   signUpRequest: {
     username: '',
     password: '',
     firstName: '',
     lastName: '',
-    gender: 0,
-    dob: '',
     phone: '',
     email: '',
     address: '',
@@ -28,17 +25,19 @@ const AuthenticationSlice = createSlice({
       }
       state.signUpRequest = signUpRequest
     },
+    setIsForbidden: (state, actions: PayloadAction<boolean>) => {
+      state.isForbidden = actions.payload
+    },
     resetSignUpRequest: (state) => {
       state.signUpRequest = initialState.signUpRequest
     },
     reset: (state) => {
-      state = initialState
+      Object.assign(state, initialState)
     },
   },
 })
 
-const { setSignUpRequest, reset, resetSignUpRequest } = AuthenticationSlice.actions
-
-export { setSignUpRequest, reset, resetSignUpRequest }
+export const { setSignUpRequest, reset, resetSignUpRequest, setIsForbidden } =
+  AuthenticationSlice.actions
 
 export default AuthenticationSlice

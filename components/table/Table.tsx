@@ -8,17 +8,22 @@ interface ICustomTable<T> {
   header: HeaderTableType[]
   body: T[]
   listActions?: ActionType[]
+  listFunctionParseValue: Partial<Record<keyof T, Function>>
 }
 
 export function CustomTable<T extends {}>({
   header,
   body,
   listActions,
+  listFunctionParseValue,
   ...props
 }: ICustomTable<T> & TableProps) {
   const router = useRouter()
 
   const renderCell = (data: T, columnKey: React.Key) => {
+    if (listFunctionParseValue[columnKey as keyof T]) {
+      return listFunctionParseValue[columnKey as keyof T]!(data[columnKey as keyof T])
+    }
     switch (columnKey) {
       case 'actions':
         return (

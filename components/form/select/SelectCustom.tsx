@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 interface ISelectCustom {
   value: string | number
   onChange: Function
-  label: string
+  label?: string
   disabled?: boolean
   buttonProps: Partial<InputProps>
   options: { value: string | number; label: string }[]

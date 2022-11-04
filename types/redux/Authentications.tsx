@@ -1,7 +1,6 @@
 import { SignUpRequest } from '../auth'
 
 export type AuthenticationStoreTypes = {
-  userId: string
-  deviceId: string
+  isForbidden: boolean
   signUpRequest: SignUpRequest
 }

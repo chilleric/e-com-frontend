@@ -6,6 +6,7 @@ import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
+import { Modal403 } from '../modals'
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
@@ -41,6 +42,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <ToastContainer theme={isDark ? 'dark' : 'light'} style={{ zIndex: 1000000 }} />
+      <Modal403 />
       {children}
     </>
   )

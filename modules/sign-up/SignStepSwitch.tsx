@@ -38,18 +38,12 @@ export const SignUpStepSwitch = ({
       setStep(1)
       return
     }
-    if (
-      error?.result.firstName ||
-      error?.result.lastName ||
-      error?.result.gender ||
-      error?.result.dob
-    ) {
+    if (error?.result.firstName || error?.result.lastName) {
       setStep(2)
       return
     }
     if (error?.result.phone || error?.result.email || error?.result.address) {
       setStep(3)
-      return
     }
   }, [error?.result])
 

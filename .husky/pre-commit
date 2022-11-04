@@ -13,12 +13,12 @@ yarn check-format ||
 )
 
 # Check ESLint Standards
-#yarn check-lint ||
-#(
-#        echo '😤🏀👋😤 Bla Bla Bla Bla 😤🏀👋😤 
-#                ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
-#        false; 
-#)
+yarn check-lint ||
+(
+        echo '😤🏀👋😤 Bla Bla Bla Bla 😤🏀👋😤 
+                ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
+        false; 
+)
 
 # Check tsconfig standards
 yarn check-types ||

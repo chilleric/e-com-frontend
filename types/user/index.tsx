@@ -29,3 +29,15 @@ export interface Tokens {
 }
 
 export type UserDetailFailure = Record<keyof UserResponseSuccess, string>
+
+export interface UserRequest {
+  username: string
+  gender: number
+  dob: string
+  address: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  deleted: number
+}

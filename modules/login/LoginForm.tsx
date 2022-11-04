@@ -1,6 +1,6 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
-import { decodeBase64, encodeBase64 } from '@/lib'
+import { encodeBase64 } from '@/lib'
 import { login } from '@/services'
 import { LoginResponseFailure, LoginResponseSuccess } from '@/types'
 import { Button, FormElement, Input, Loading, Modal, Row, Text, useTheme } from '@nextui-org/react'
@@ -17,8 +17,8 @@ export const LoginForm = () => {
   const emailRef = useRef<FormElement>(null)
   const passwordRef = useRef<FormElement>(null)
   const router = useRouter()
-  const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID])
-  console.log(isDark)
+  const [, setCookie] = useCookies([DEVICE_ID, USER_ID])
+
   const handleChangeTheme = () => {
     if (isDark) {
       setTheme('light')

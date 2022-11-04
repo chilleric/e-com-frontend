@@ -1,4 +1,4 @@
-import { UserResponseSuccess } from '@/types'
+import { UserRequest, UserResponseSuccess } from '@/types'
 import { InputProps } from '@nextui-org/react'
 
 export const DefaultUser: UserResponseSuccess = {
@@ -23,11 +23,23 @@ export const DefaultUser: UserResponseSuccess = {
 export const inputStylesUser = ({ error }: { error?: string }) => {
   const initialValue: Partial<InputProps> = {
     status: error ? 'error' : 'default',
-    helperText: error ? error : '',
+    helperText: error || '',
     underlined: true,
   }
 
   return {
     ...initialValue,
   }
+}
+
+export const initUserRequest: UserRequest = {
+  username: 'a',
+  gender: 1,
+  dob: 'a',
+  address: 'a',
+  firstName: 'a',
+  lastName: 'a',
+  email: 'a',
+  phone: 'a',
+  deleted: 1,
 }
