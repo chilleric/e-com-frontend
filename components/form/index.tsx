@@ -1,2 +1,2 @@
-export * from "./SelectCustom";
-export * from "./datePicker";
+export * from './SelectCustom'
+export * from './datePicker'

@@ -1,7 +1,7 @@
-import { SignUpRequest } from "../auth";
+import { SignUpRequest } from '../auth'
 
 export type AuthenticationStoreTypes = {
-    userId: string;
-    deviceId: string;
-    signUpRequest: SignUpRequest;
-};
+  userId: string
+  deviceId: string
+  signUpRequest: SignUpRequest
+}

@@ -1,11 +1,11 @@
-import { DefaultLayout } from "@/components";
+import { DefaultLayout } from '@/components'
 
 const Page404 = () => {
-    return (
-        <DefaultLayout>
-            <p>notfound</p>
-        </DefaultLayout>
-    );
-};
+  return (
+    <DefaultLayout>
+      <p>notfound</p>
+    </DefaultLayout>
+  )
+}
 
-export default Page404;
+export default Page404

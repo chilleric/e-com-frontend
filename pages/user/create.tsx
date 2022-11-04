@@ -1,12 +1,12 @@
-import { DefaultLayout } from "@/components";
-import { UserCreate } from "@/modules";
+import { DefaultLayout } from '@/components'
+import { UserCreate } from '@/modules'
 
 const UserCreatePage = () => {
-    return (
-        <DefaultLayout>
-            <UserCreate />
-        </DefaultLayout>
-    );
-};
+  return (
+    <DefaultLayout>
+      <UserCreate />
+    </DefaultLayout>
+  )
+}
 
-export default UserCreatePage;
+export default UserCreatePage

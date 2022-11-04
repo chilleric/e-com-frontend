@@ -1,2 +1,2 @@
-export * from "./UserForm";
-export * from "./User.inventory";
+export * from './UserForm'
+export * from './User.inventory'
