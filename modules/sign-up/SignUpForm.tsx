@@ -7,13 +7,11 @@ import { Button, Loading, Modal, Row, Text, useTheme } from '@nextui-org/react'
 import { useTheme as useNextTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { SignUpStepSwitch } from './SignStepSwitch'
 
 export const SignUpForm = () => {
-  const dispatch = useDispatch()
-
   const { setTheme } = useNextTheme()
   const { isDark } = useTheme()
   const [step, setStep] = useState<number>(1)
@@ -37,8 +35,6 @@ export const SignUpForm = () => {
         password: encodeBase64(signUpRequest.password),
         firstName: signUpRequest.firstName,
         lastName: signUpRequest.lastName,
-        gender: signUpRequest.gender,
-        dob: signUpRequest.dob,
         phone: signUpRequest.phone,
         email: signUpRequest.email,
         address: signUpRequest.address,

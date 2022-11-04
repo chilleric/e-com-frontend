@@ -1,7 +1,6 @@
 import { apiRoute } from '@/constants/apiRoutes'
-import { encodeBase64 } from '@/lib'
 import axiosInstance from '@/lib/axios/request'
-import { UserResponseSuccess } from '@/types'
+import { UserRequest } from '@/types'
 
 export const getListUser = (token: string) => {
   return axiosInstance.get(apiRoute.user.getListUser, {
@@ -22,18 +21,24 @@ export const getDetailUser = ({ id, token }: { id: string; token: string }) => {
   })
 }
 
-export const addNewUser = ({ user, token }: { user: UserResponseSuccess; token: string }) => {
-  const { id, password, ...body } = user
-  return axiosInstance.post(apiRoute.user.addNewUser, body, {
+export const addNewUser = ({ user, token }: { user: UserRequest; token: string }) => {
+  return axiosInstance.post(apiRoute.user.addNewUser, user, {
     headers: {
       Authorization: token,
     },
   })
 }
 
-export const updateUser = ({ user, token }: { user: UserResponseSuccess; token: string }) => {
-  const { id, password, ...body } = user
-  return axiosInstance.put(apiRoute.user.updateUser, body, {
+export const updateUser = ({
+  id,
+  user,
+  token,
+}: {
+  id: string
+  user: UserRequest
+  token: string
+}) => {
+  return axiosInstance.put(apiRoute.user.updateUser, user, {
     headers: {
       Authorization: token,
     },

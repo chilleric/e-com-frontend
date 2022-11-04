@@ -45,14 +45,20 @@ export const UserManagement = () => {
         </Container>
       ) : (
         <>
+          <Text showIn="xs" h2>
+            User Management
+          </Text>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text h1>Create User</Text>
+            <Text hideIn="xs" h1>
+              User Management
+            </Text>
             <Button
               onClick={() => {
                 router.push('/user/create')
               }}
+              size="sm"
             >
-              Save
+              Create User
             </Button>
           </div>
           <CustomTable<UserResponseSuccess>

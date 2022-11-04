@@ -16,8 +16,6 @@ export interface SignUpRequest {
   password: string
   firstName: string
   lastName: string
-  gender: number
-  dob: string
   phone: string
   email: string
   address: string

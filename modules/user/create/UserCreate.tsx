@@ -3,7 +3,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
 import { addNewUser } from '@/services'
 import { UserDetailFailure, UserResponseSuccess } from '@/types'
-import { Button, Container, Text } from '@nextui-org/react'
+import { Button, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -42,7 +42,10 @@ export const UserCreate = () => {
   }
 
   return (
-    <Container css={{ marginTop: 18, marginBottom: 80 }}>
+    <div style={{ marginTop: 18, marginBottom: 80 }}>
+      <Text h2 showIn="xs">
+        Create User
+      </Text>
       <div
         style={{
           display: 'flex',
@@ -50,13 +53,21 @@ export const UserCreate = () => {
           alignItems: 'center',
         }}
       >
-        <Text h1>Create User</Text>
-        <div style={{ display: 'flex', gap: 10 }}>
+        <Text h1 hideIn="xs">
+          Create User
+        </Text>
+        <div
+          style={{
+            display: 'flex',
+            gap: 10,
+          }}
+        >
           <Button
             color="success"
             onClick={() => {
               createResult.setLetCall(true)
             }}
+            size="sm"
           >
             Save
           </Button>
@@ -65,6 +76,7 @@ export const UserCreate = () => {
             onClick={() => {
               router.push('/user/management')
             }}
+            size="sm"
           >
             Cancel
           </Button>
@@ -76,6 +88,6 @@ export const UserCreate = () => {
         onchangeUserState={onchangeUserState}
         errorState={createResult.error?.result}
       />
-    </Container>
+    </div>
   )
 }

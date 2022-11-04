@@ -9,8 +9,6 @@ const initialState: AuthenticationStoreTypes = {
     password: '',
     firstName: '',
     lastName: '',
-    gender: 0,
-    dob: '',
     phone: '',
     email: '',
     address: '',
@@ -32,7 +30,7 @@ const AuthenticationSlice = createSlice({
       state.signUpRequest = initialState.signUpRequest
     },
     reset: (state) => {
-      state = initialState
+      Object.assign(state, initialState)
     },
   },
 })

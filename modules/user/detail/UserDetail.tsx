@@ -31,6 +31,7 @@ export const UserDetail = () => {
   const updateResult = useApiCall<UserResponseSuccess, UserDetailFailure>({
     callApi: () =>
       updateUser({
+        id: UserState.id,
         user: UserState,
         token: generateToken({
           userId: cookies.userId,
@@ -93,6 +94,9 @@ export const UserDetail = () => {
 
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
+      <Text h2 showIn="xs">
+        {type === 'read' ? 'User Detail' : 'Update Detail'}
+      </Text>
       <div
         style={{
           display: 'flex',
@@ -100,7 +104,9 @@ export const UserDetail = () => {
           alignItems: 'center',
         }}
       >
-        <Text h1>{type === 'read' ? 'User Detail' : 'Update Detail'}</Text>
+        <Text h1 hideIn="xs">
+          {type === 'read' ? 'User Detail' : 'Update Detail'}
+        </Text>
         <div style={{ display: 'flex', gap: 10 }}>
           {type === 'read' ? (
             <>
@@ -108,11 +114,12 @@ export const UserDetail = () => {
                 onClick={() => {
                   setType('update')
                 }}
+                size="sm"
               >
                 Edit
               </Button>
               <Dropdown isBordered>
-                <Dropdown.Button color={UserState.deleted === 0 ? 'success' : 'warning'}>
+                <Dropdown.Button size="sm" color={UserState.deleted === 0 ? 'success' : 'warning'}>
                   {statusList.find((item) => item.value === UserState.deleted)?.label}
                 </Dropdown.Button>
                 <Dropdown.Menu
@@ -143,6 +150,7 @@ export const UserDetail = () => {
                 onClick={() => {
                   updateResult.setLetCall(true)
                 }}
+                size="sm"
               >
                 Save
               </Button>
@@ -152,6 +160,7 @@ export const UserDetail = () => {
                   if (viewResult?.data?.result) setUserState(viewResult.data.result)
                   setType('read')
                 }}
+                size="sm"
               >
                 Cancel
               </Button>
