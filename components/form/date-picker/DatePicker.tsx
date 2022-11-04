@@ -1,4 +1,4 @@
-import { Input, InputProps, Text, useTheme } from '@nextui-org/react'
+import { Input, InputProps, useTheme } from '@nextui-org/react'
 import { useEffect, useRef, useState } from 'react'
 import { DayModal, getDayString, MonthModal, YearModal } from './inventory'
 

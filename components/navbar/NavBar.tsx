@@ -1,11 +1,11 @@
 import { Avatar, Dropdown, Navbar, Switch, useTheme } from '@nextui-org/react'
+import { useTheme as useNextTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
+import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { NavBarItems } from './NavBarConstant'
 import { RenderItemDesktop } from './RenderItemDesktop'
 import { RenderItemMobile } from './RenderItemMobile'
-import { useTheme as useNextTheme } from 'next-themes'
-import { MdLightMode, MdDarkMode } from 'react-icons/md'
 
 export const NavBar = () => {
   const router = useRouter()

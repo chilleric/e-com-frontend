@@ -31,6 +31,16 @@ export const DayModal = ({
     setListDay(getListDay(month, year))
   }, [month, year])
 
+  const getColor = (item: number) => {
+    if (day === item) {
+      return theme?.colors.blue400.value
+    }
+    if (hoverItem === item) {
+      return theme?.colors.blue200.value
+    }
+    return ''
+  }
+
   return (
     <>
       <div
@@ -110,12 +120,7 @@ export const DayModal = ({
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor:
-                item === day
-                  ? theme?.colors.blue400.value
-                  : hoverItem === item
-                  ? theme?.colors.blue200.value
-                  : '',
+              backgroundColor: getColor(item),
             }}
             onMouseMove={() => setHoverItem(item)}
             onMouseOut={() => setHoverItem(-1)}
@@ -124,6 +129,7 @@ export const DayModal = ({
               setType('')
               onChange(getDayString(item, month, year))
             }}
+            onBlur={() => {}}
             key={item}
           >
             {item}

@@ -9,17 +9,16 @@ export const encodeBase64Url = (data: string) => {
 export const decodeBase64 = (data: string) => {
   return Buffer.from(data, 'base64').toString('ascii')
 }
+const jwt = require('jsonwebtoken')
 
 export const generateToken = (content: { userId: string; deviceId: string }) => {
-  var jwt = require('jsonwebtoken')
-
   const contentJwt = {
     ...content,
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000 + 60 * 60),
   }
 
-  var token = jwt.sign(contentJwt, process.env.NEXT_PUBLIC_SECRET_JWT_KEY || '', {
+  const token = jwt.sign(contentJwt, process.env.NEXT_PUBLIC_SECRET_JWT_KEY || '', {
     algorithm: 'HS512',
   })
 

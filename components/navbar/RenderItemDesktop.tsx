@@ -8,29 +8,27 @@ export const RenderItemDesktop = ({ item }: { item: NavBarItemType }) => {
   return (
     <>
       {item && item.children && item.children.length > 0 ? (
-        <>
-          <Dropdown isBordered>
-            <Navbar.Item isActive={router.asPath.includes(item.path)}>
-              <Dropdown.Button
-                ripple={false}
-                auto
-                light
-                css={{
-                  px: 0,
-                  dflex: 'center',
-                  svg: { pe: 'none' },
-                }}
-              >
-                {item.label}
-              </Dropdown.Button>
-            </Navbar.Item>
-            <Dropdown.Menu variant="light" onAction={(key) => router.push(key.toString())}>
-              {item.children.map((itemChild) => (
-                <Dropdown.Item key={itemChild.path}>{itemChild.label}</Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </>
+        <Dropdown isBordered>
+          <Navbar.Item isActive={router.asPath.includes(item.path)}>
+            <Dropdown.Button
+              ripple={false}
+              auto
+              light
+              css={{
+                px: 0,
+                dflex: 'center',
+                svg: { pe: 'none' },
+              }}
+            >
+              {item.label}
+            </Dropdown.Button>
+          </Navbar.Item>
+          <Dropdown.Menu variant="light" onAction={(key) => router.push(key.toString())}>
+            {item.children.map((itemChild) => (
+              <Dropdown.Item key={itemChild.path}>{itemChild.label}</Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
       ) : (
         <Navbar.Link
           isActive={router.asPath === item.path}

@@ -1,18 +1,29 @@
 import { Divider, Text, useTheme } from '@nextui-org/react'
 import { useState } from 'react'
-import { getListYear } from './DatePicker.inventory'
+import { getListMonth } from './DatePicker.inventory'
 
-interface IYearModal {
-  year: number
-  yearRange: number
-  setYear: Function
-  setYearRange: Function
+interface IMonthModal {
+  month: number
+  setMonth: Function
   setType: Function
+  year: number
+  setYear: Function
 }
 
-export const YearModal = ({ year, setYear, setYearRange, yearRange, setType }: IYearModal) => {
+export const MonthModal = ({ setMonth, month, setType, setYear, year }: IMonthModal) => {
   const { theme } = useTheme()
   const [hoverItem, setHoverItem] = useState(-1)
+
+  const getColor = (item: number) => {
+    if (month === item) {
+      return theme?.colors.blue400.value
+    }
+    if (hoverItem === item) {
+      return theme?.colors.blue200.value
+    }
+    return ''
+  }
+
   return (
     <>
       <div
@@ -27,18 +38,23 @@ export const YearModal = ({ year, setYear, setYearRange, yearRange, setType }: I
         <Text
           css={{ cursor: 'pointer' }}
           onClick={() => {
-            setYearRange(yearRange - 10)
+            setYear(year - 1)
           }}
         >
           {'<<'}
         </Text>
-        <Text>
-          {yearRange} - {yearRange + 9}
+        <Text
+          css={{ cursor: 'pointer' }}
+          onClick={() => {
+            setType('year')
+          }}
+        >
+          {year}
         </Text>
         <Text
           css={{ cursor: 'pointer' }}
           onClick={() => {
-            setYearRange(yearRange + 10)
+            setYear(year + 1)
           }}
         >
           {'>>'}
@@ -54,8 +70,7 @@ export const YearModal = ({ year, setYear, setYearRange, yearRange, setType }: I
           padding: 10,
         }}
       >
-        <div />
-        {getListYear(yearRange).map((item) => (
+        {getListMonth().map((item) => (
           <div
             style={{
               width: '100%',
@@ -64,25 +79,20 @@ export const YearModal = ({ year, setYear, setYearRange, yearRange, setType }: I
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor:
-                item === year
-                  ? theme?.colors.blue400.value
-                  : hoverItem === item
-                  ? theme?.colors.blue200.value
-                  : '',
+              backgroundColor: getColor(item),
             }}
             onMouseMove={() => setHoverItem(item)}
             onMouseOut={() => setHoverItem(-1)}
             onMouseDown={() => {
-              setYear(item)
-              setType('month')
+              setMonth(item)
+              setType('day')
             }}
+            onBlur={() => {}}
             key={item}
           >
             {item}
           </div>
         ))}
-        <div />
       </div>
     </>
   )

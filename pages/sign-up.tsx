@@ -5,7 +5,7 @@ import { Modal } from '@nextui-org/react'
 const SignUpPage = () => {
   return (
     <LoginLayout>
-      <Modal open={true} preventClose>
+      <Modal open preventClose>
         <SignUpForm />
       </Modal>
     </LoginLayout>

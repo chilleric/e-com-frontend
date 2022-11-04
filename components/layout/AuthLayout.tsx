@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify'
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
-  const [cookies, setCookie, removeCookie] = useCookies([DEVICE_ID, USER_ID])
+  const [cookies] = useCookies([DEVICE_ID, USER_ID])
 
   const dispatch = useDispatch()
 

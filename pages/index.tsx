@@ -18,7 +18,7 @@ const Home: NextPage = () => {
         listActions={ltstACtionExample}
         selectionMode="multiple"
       >
-        <></>
+        <>{null}</>
       </CustomTable>
     </DefaultLayout>
   )

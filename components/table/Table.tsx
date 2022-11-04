@@ -1,7 +1,7 @@
 import { ActionType, HeaderTableType } from '@/types'
 import { Col, Row, Table, TableProps, Tooltip } from '@nextui-org/react'
 import { useRouter } from 'next/router'
-import React, { useId } from 'react'
+import React from 'react'
 import { AiOutlineEdit, AiOutlineEye } from 'react-icons/ai'
 
 interface ICustomTable<T> {

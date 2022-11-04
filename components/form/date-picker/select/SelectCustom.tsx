@@ -1,4 +1,3 @@
-import { inputStylesUser } from '@/modules/user/inventory'
 import { Input, InputProps, useTheme } from '@nextui-org/react'
 import { useRef, useState } from 'react'
 
@@ -30,6 +29,16 @@ export const SelectCustom = ({
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const getColor = (item: { value: string | number; label: string }) => {
+    if (value === item.value) {
+      return theme?.colors.blue400.value
+    }
+    if (hoverItem === item.value) {
+      return theme?.colors.blue200.value
+    }
+    return ''
   }
 
   return (
@@ -66,18 +75,14 @@ export const SelectCustom = ({
                 justifyContent: 'left',
                 alignItems: 'center',
                 cursor: 'pointer',
-                backgroundColor:
-                  value === item.value
-                    ? theme?.colors.blue400.value
-                    : hoverItem === item.value
-                    ? theme?.colors.blue200.value
-                    : '',
+                backgroundColor: getColor(item),
               }}
               onMouseMove={() => setHoverItem(item.value)}
               onMouseOut={() => setHoverItem('')}
               onMouseDown={() => {
                 onChange(item.value)
               }}
+              onBlur={() => {}}
               key={item.value}
             >
               {item.label}

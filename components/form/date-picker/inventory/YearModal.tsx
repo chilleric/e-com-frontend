@@ -1,18 +1,28 @@
 import { Divider, Text, useTheme } from '@nextui-org/react'
 import { useState } from 'react'
-import { getListMonth } from './DatePicker.inventory'
+import { getListYear } from './DatePicker.inventory'
 
-interface IMonthModal {
-  month: number
-  setMonth: Function
-  setType: Function
+interface IYearModal {
   year: number
+  yearRange: number
   setYear: Function
+  setYearRange: Function
+  setType: Function
 }
 
-export const MonthModal = ({ setMonth, month, setType, setYear, year }: IMonthModal) => {
+export const YearModal = ({ year, setYear, setYearRange, yearRange, setType }: IYearModal) => {
   const { theme } = useTheme()
   const [hoverItem, setHoverItem] = useState(-1)
+
+  const getColor = (item: number) => {
+    if (year === item) {
+      return theme?.colors.blue400.value
+    }
+    if (hoverItem === item) {
+      return theme?.colors.blue200.value
+    }
+    return ''
+  }
 
   return (
     <>
@@ -28,23 +38,18 @@ export const MonthModal = ({ setMonth, month, setType, setYear, year }: IMonthMo
         <Text
           css={{ cursor: 'pointer' }}
           onClick={() => {
-            setYear(year - 1)
+            setYearRange(yearRange - 10)
           }}
         >
           {'<<'}
         </Text>
-        <Text
-          css={{ cursor: 'pointer' }}
-          onClick={() => {
-            setType('year')
-          }}
-        >
-          {year}
+        <Text>
+          {yearRange} - {yearRange + 9}
         </Text>
         <Text
           css={{ cursor: 'pointer' }}
           onClick={() => {
-            setYear(year + 1)
+            setYearRange(yearRange + 10)
           }}
         >
           {'>>'}
@@ -60,7 +65,8 @@ export const MonthModal = ({ setMonth, month, setType, setYear, year }: IMonthMo
           padding: 10,
         }}
       >
-        {getListMonth().map((item) => (
+        <div />
+        {getListYear(yearRange).map((item) => (
           <div
             style={{
               width: '100%',
@@ -69,24 +75,21 @@ export const MonthModal = ({ setMonth, month, setType, setYear, year }: IMonthMo
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor:
-                item === month
-                  ? theme?.colors.blue400.value
-                  : hoverItem === item
-                  ? theme?.colors.blue200.value
-                  : '',
+              backgroundColor: getColor(item),
             }}
             onMouseMove={() => setHoverItem(item)}
             onMouseOut={() => setHoverItem(-1)}
             onMouseDown={() => {
-              setMonth(item)
-              setType('day')
+              setYear(item)
+              setType('month')
             }}
+            onBlur={() => {}}
             key={item}
           >
             {item}
           </div>
         ))}
+        <div />
       </div>
     </>
   )
