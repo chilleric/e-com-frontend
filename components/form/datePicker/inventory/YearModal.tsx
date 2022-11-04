@@ -1,5 +1,6 @@
-import { Divider, Text } from "@nextui-org/react";
-import { getListYear } from "./datePicker.inventory";
+import { Divider, Text, useTheme } from "@nextui-org/react";
+import { useState } from "react";
+import { getListYear } from "./DatePicker.inventory";
 
 interface IYearModal {
     year: number;
@@ -16,6 +17,8 @@ export const YearModal = ({
     yearRange,
     setType
 }: IYearModal) => {
+    const { theme } = useTheme();
+    const [hoverItem, setHoverItem] = useState(-1);
     return (
         <>
             <div
@@ -27,11 +30,25 @@ export const YearModal = ({
                     alignItems: "center"
                 }}
             >
-                <Text>prev</Text>
-                <Text>
-                    {yearRange} - {yearRange + 10}
+                <Text
+                    css={{ cursor: "pointer" }}
+                    onClick={() => {
+                        setYearRange(yearRange - 10);
+                    }}
+                >
+                    {"<<"}
                 </Text>
-                <Text>prev</Text>
+                <Text>
+                    {yearRange} - {yearRange + 9}
+                </Text>
+                <Text
+                    css={{ cursor: "pointer" }}
+                    onClick={() => {
+                        setYearRange(yearRange + 10);
+                    }}
+                >
+                    {">>"}
+                </Text>
             </div>
 
             <Divider />
@@ -43,33 +60,25 @@ export const YearModal = ({
                     padding: 10
                 }}
             >
-                <div
-                    style={{
-                        width: "100%",
-                        height: 40,
-                        cursor: "pointer",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                    onMouseDown={() => {
-                        setYear(yearRange - 1);
-                    }}
-                    key={yearRange - 1}
-                >
-                    {yearRange - 1}
-                </div>
+                <div />
                 {getListYear(yearRange).map((item) => (
                     <div
                         style={{
                             width: "100%",
                             height: 40,
-                            paddingLeft: 10,
                             cursor: "pointer",
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center"
+                            alignItems: "center",
+                            backgroundColor:
+                                item === year
+                                    ? theme?.colors.blue400.value
+                                    : hoverItem === item
+                                    ? theme?.colors.blue200.value
+                                    : ""
                         }}
+                        onMouseMove={() => setHoverItem(item)}
+                        onMouseOut={() => setHoverItem(-1)}
                         onMouseDown={() => {
                             setYear(item);
                             setType("month");
@@ -79,23 +88,7 @@ export const YearModal = ({
                         {item}
                     </div>
                 ))}
-                <div
-                    style={{
-                        width: "100%",
-                        height: 40,
-                        paddingLeft: 10,
-                        cursor: "pointer",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                    onMouseDown={() => {
-                        setYear(yearRange + 11);
-                    }}
-                    key={yearRange + 11}
-                >
-                    {yearRange + 11}
-                </div>
+                <div />
             </div>
         </>
     );

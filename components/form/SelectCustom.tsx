@@ -1,5 +1,5 @@
 import { inputStylesUser } from "@/modules/user/inventory";
-import { CSS, Input, useTheme } from "@nextui-org/react";
+import { Input, InputProps, useTheme } from "@nextui-org/react";
 import { useRef, useState } from "react";
 
 interface ISelectCustom {
@@ -7,7 +7,7 @@ interface ISelectCustom {
     onChange: Function;
     label: string;
     disabled?: boolean;
-    cssButon?: CSS;
+    buttonProps: Partial<InputProps>;
     options: { value: string | number; label: string }[];
 }
 
@@ -16,12 +16,13 @@ export const SelectCustom = ({
     onChange,
     label,
     disabled,
-    cssButon,
-    options
+    options,
+    buttonProps
 }: ISelectCustom) => {
     const [open, setOpen] = useState(false);
     const { theme } = useTheme();
     const divRef = useRef<HTMLDivElement>(null);
+    const [hoverItem, setHoverItem] = useState<string | number>("");
 
     const handleOpen = () => {
         setOpen(true);
@@ -34,45 +35,52 @@ export const SelectCustom = ({
     return (
         <div ref={divRef} style={{ width: "100%", position: "relative" }}>
             <Input
-                css={{ ...cssButon, width: "100%" }}
+                css={{ width: "100%" }}
                 value={options.find((item) => item.value === value)?.label}
                 label={label}
-                readOnly={disabled}
+                readOnly
                 onFocus={handleOpen}
                 onBlur={handleClose}
-                {...inputStylesUser({})}
+                {...buttonProps}
             />
-            {open && (
+            {!disabled && open && (
                 <div
                     style={{
                         position: "absolute",
                         top: divRef?.current?.clientHeight,
                         left: 0,
-                        right: 0,
-                        backgroundColor: theme?.colors.white.value,
+                        width: 375,
+                        backgroundColor: theme?.colors.accents2.value,
                         boxShadow: theme?.shadows.lg.value,
-                        zIndex: 10,
+                        zIndex: 101,
                         borderRadius: 10
                     }}
                 >
-                    {options.map(({ value, label }) => (
+                    {options.map((item) => (
                         <div
                             style={{
-                                width: "100%",
+                                width: "100",
                                 height: 40,
                                 paddingLeft: 10,
                                 display: "flex",
                                 justifyContent: "left",
                                 alignItems: "center",
-                                cursor: "pointer"
+                                cursor: "pointer",
+                                backgroundColor:
+                                    value === item.value
+                                        ? theme?.colors.blue400.value
+                                        : hoverItem === item.value
+                                        ? theme?.colors.blue200.value
+                                        : ""
                             }}
+                            onMouseMove={() => setHoverItem(item.value)}
+                            onMouseOut={() => setHoverItem("")}
                             onMouseDown={() => {
-                                console.log(value);
-                                onChange(value);
+                                onChange(item.value);
                             }}
-                            key={value}
+                            key={item.value}
                         >
-                            {label}
+                            {item.label}
                         </div>
                     ))}
                 </div>

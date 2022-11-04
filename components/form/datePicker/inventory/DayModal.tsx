@@ -1,5 +1,6 @@
-import { Divider, Text, theme } from "@nextui-org/react";
-import { getListDay } from "./datePicker.inventory";
+import { Divider, Text, useTheme } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { getDayString, getListDay } from "./DatePicker.inventory";
 
 interface IDayModal {
     month: number;
@@ -9,6 +10,7 @@ interface IDayModal {
     setYear: Function;
     day: number;
     setDay: Function;
+    onChange: Function;
 }
 
 export const DayModal = ({
@@ -18,8 +20,17 @@ export const DayModal = ({
     setYear,
     year,
     day,
-    setDay
+    setDay,
+    onChange
 }: IDayModal) => {
+    const [listDay, setListDay] = useState<number[]>(getListDay(month, year));
+    const { theme } = useTheme();
+    const [hoverItem, setHoverItem] = useState(-1);
+
+    useEffect(() => {
+        setListDay(getListDay(month, year));
+    }, [month, year]);
+
     return (
         <>
             <div
@@ -32,20 +43,23 @@ export const DayModal = ({
                 }}
             >
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
-                        setYear((prev: number) => prev - 1);
+                        setYear(year - 1);
                     }}
                 >
-                    prevprev
+                    {"<<"}
                 </Text>
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
-                        setMonth((prev: number) => prev - 1);
+                        setMonth(month - 1);
                     }}
                 >
-                    prev
+                    {"<"}
                 </Text>
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
                         setType("month");
                     }}
@@ -53,6 +67,7 @@ export const DayModal = ({
                     {month}
                 </Text>
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
                         setType("year");
                     }}
@@ -60,18 +75,20 @@ export const DayModal = ({
                     {year}
                 </Text>
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
-                        setMonth((prev: number) => prev + 1);
+                        setMonth(month + 1);
                     }}
                 >
-                    next
+                    {">"}
                 </Text>
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
-                        setYear((prev: number) => prev + 1);
+                        setYear(year + 1);
                     }}
                 >
-                    nextnext
+                    {">>"}
                 </Text>
             </div>
 
@@ -80,26 +97,32 @@ export const DayModal = ({
             <div
                 style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                    gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
                     padding: 10
                 }}
             >
-                {getListDay(month, year).map((item) => (
+                {listDay.map((item) => (
                     <div
                         style={{
                             width: "100%",
                             height: 40,
-                            paddingLeft: 10,
                             cursor: "pointer",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
                             backgroundColor:
-                                item === day ? theme.colors.blue300.value : ""
+                                item === day
+                                    ? theme?.colors.blue400.value
+                                    : hoverItem === item
+                                    ? theme?.colors.blue200.value
+                                    : ""
                         }}
+                        onMouseMove={() => setHoverItem(item)}
+                        onMouseOut={() => setHoverItem(-1)}
                         onMouseDown={() => {
                             setDay(item);
                             setType("");
+                            onChange(getDayString(item, month, year));
                         }}
                         key={item}
                     >

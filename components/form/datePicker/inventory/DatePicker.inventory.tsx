@@ -1,3 +1,4 @@
+import { formatDate } from "@/lib";
 import dayjs from "dayjs";
 
 export const getListYear = (year: number) => {
@@ -15,14 +16,17 @@ export const getListMonth = () => {
 };
 
 export const getListDay = (month: number, year: number) => {
-    const days = dayjs(
-        1 + "-" + month + "-" + year,
-        "MM-DD-YYYY"
-    ).daysInMonth();
+    const days = new Date(year, month, 0).getDate();
 
     const listDay = new Array(days).fill(null).map((value, index) => {
         return index + 1;
     });
 
     return listDay;
+};
+
+export const getDayString = (day: number, month: number, year: number) => {
+    const getday = day >= 10 ? day : "0" + day;
+    const getMonth = month >= 10 ? month : "0" + month;
+    return year + "-" + getMonth + "-" + getday;
 };

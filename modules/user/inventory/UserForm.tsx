@@ -1,15 +1,7 @@
 import { DatePicker, SelectCustom } from "@/components";
 import { genderList } from "@/lib";
 import { UserDetailFailure, UserResponseSuccess } from "@/types";
-import {
-    Container,
-    Grid,
-    Input,
-    Switch,
-    Text,
-    useTheme
-} from "@nextui-org/react";
-import dayjs from "dayjs";
+import { Container, Grid, Input, Switch, Text } from "@nextui-org/react";
 import { inputStylesUser } from "./User.inventory";
 
 interface IUserForm {
@@ -105,6 +97,9 @@ export const UserForm = ({
                                 dob: event
                             });
                         }}
+                        buttonProps={inputStylesUser({
+                            error: errorState?.dob
+                        })}
                     />
                 </Grid>
                 <Grid xs={6}>
@@ -118,6 +113,9 @@ export const UserForm = ({
                         label="gender"
                         disabled={type === "read" ? true : false}
                         options={genderList}
+                        buttonProps={inputStylesUser({
+                            error: errorState?.gender
+                        })}
                     />
                 </Grid>
                 <Grid xs={6}>

@@ -1,12 +1,17 @@
-import { Avatar, Dropdown, Navbar } from "@nextui-org/react";
+import { Avatar, Dropdown, Navbar, Switch, useTheme } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 import { NavBarItems } from "./NavBarConstant";
 import { RenderItemDesktop } from "./RenderItemDesktop";
 import { RenderItemMobile } from "./RenderItemMobile";
+import { useTheme as useNextTheme } from "next-themes";
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 
 export const NavBar = () => {
     const router = useRouter();
+
+    const { isDark } = useTheme();
+    const { setTheme } = useNextTheme();
 
     return (
         <Navbar isBordered variant="floating" css={{ zIndex: 1000 }}>
@@ -40,6 +45,14 @@ export const NavBar = () => {
                         <RenderItemDesktop item={item} />
                     </Fragment>
                 ))}
+                <Switch
+                    checked={!isDark}
+                    onChange={() => {
+                        setTheme(isDark ? "light" : "dark");
+                    }}
+                    iconOn={<MdLightMode />}
+                    iconOff={<MdDarkMode />}
+                />
             </Navbar.Content>
             <Navbar.Collapse showIn="xs">
                 {NavBarItems.map((item) => (

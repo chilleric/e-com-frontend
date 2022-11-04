@@ -19,3 +19,5 @@ export const statusList = [
         label: "Deactive"
     }
 ];
+
+export const formatDate = "yyyy-MM-dd";

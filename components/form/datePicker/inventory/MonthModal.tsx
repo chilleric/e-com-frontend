@@ -1,5 +1,6 @@
-import { Divider, Text } from "@nextui-org/react";
-import { getListMonth } from "./datePicker.inventory";
+import { Divider, Text, useTheme } from "@nextui-org/react";
+import { useState } from "react";
+import { getListMonth } from "./DatePicker.inventory";
 
 interface IMonthModal {
     month: number;
@@ -16,6 +17,9 @@ export const MonthModal = ({
     setYear,
     year
 }: IMonthModal) => {
+    const { theme } = useTheme();
+    const [hoverItem, setHoverItem] = useState(-1);
+
     return (
         <>
             <div
@@ -28,13 +32,15 @@ export const MonthModal = ({
                 }}
             >
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
-                        setYear((prev: number) => prev - 1);
+                        setYear(year - 1);
                     }}
                 >
-                    prev
+                    {"<<"}
                 </Text>
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
                         setType("year");
                     }}
@@ -42,11 +48,12 @@ export const MonthModal = ({
                     {year}
                 </Text>
                 <Text
+                    css={{ cursor: "pointer" }}
                     onClick={() => {
-                        setYear((prev: number) => prev + 1);
+                        setYear(year + 1);
                     }}
                 >
-                    prev
+                    {">>"}
                 </Text>
             </div>
 
@@ -64,12 +71,19 @@ export const MonthModal = ({
                         style={{
                             width: "100%",
                             height: 40,
-                            paddingLeft: 10,
                             cursor: "pointer",
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center"
+                            alignItems: "center",
+                            backgroundColor:
+                                item === month
+                                    ? theme?.colors.blue400.value
+                                    : hoverItem === item
+                                    ? theme?.colors.blue200.value
+                                    : ""
                         }}
+                        onMouseMove={() => setHoverItem(item)}
+                        onMouseOut={() => setHoverItem(-1)}
                         onMouseDown={() => {
                             setMonth(item);
                             setType("day");
