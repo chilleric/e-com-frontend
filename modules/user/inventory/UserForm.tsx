@@ -8,7 +8,7 @@ interface IUserForm {
   user: UserResponseSuccess
   type: 'read' | 'create' | 'update'
   onchangeUserState: Function
-  errorState?: UserDetailFailure
+  errorState?: Partial<UserDetailFailure>
 }
 
 export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserForm) => {
