@@ -33,13 +33,13 @@ export const inputStylesUser = ({ error }: { error?: string }) => {
 }
 
 export const initUserRequest: UserRequest = {
-  username: 'a',
-  gender: 1,
-  dob: 'a',
-  address: 'a',
-  firstName: 'a',
-  lastName: 'a',
-  email: 'a',
-  phone: 'a',
-  deleted: 1,
+  username: '',
+  gender: 0,
+  dob: '',
+  address: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  deleted: 0,
 }

@@ -1,17 +1,45 @@
-import { Avatar, Dropdown, Navbar, Switch, useTheme } from '@nextui-org/react'
-import { useTheme as useNextTheme } from 'next-themes'
+import { DEVICE_ID, USER_ID } from '@/constants/auth'
+import { useApiCall } from '@/hooks'
+import { generateToken } from '@/lib'
+import { GeneralSettingsSelector, toggleTheme } from '@/redux'
+import { logout } from '@/services'
+import { Avatar, Dropdown, Navbar, Switch } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
+import { useCookies } from 'react-cookie'
 import { MdDarkMode, MdLightMode } from 'react-icons/md'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import { NavBarItems } from './NavBarConstant'
 import { RenderItemDesktop } from './RenderItemDesktop'
 import { RenderItemMobile } from './RenderItemMobile'
 
 export const NavBar = () => {
+  const [cookies, , removeCookie] = useCookies([DEVICE_ID, USER_ID])
+
   const router = useRouter()
 
-  const { isDark } = useTheme()
-  const { setTheme } = useNextTheme()
+  const { darkTheme } = useSelector(GeneralSettingsSelector)
+  const dispatch = useDispatch()
+
+  const logoutResult = useApiCall({
+    callApi: () =>
+      logout(
+        cookies.deviceId,
+        generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })
+      ),
+    handleError(status, message) {
+      if (status) {
+        toast.error(message)
+      }
+    },
+    handleSuccess(message) {
+      toast.success(message)
+      removeCookie('deviceId')
+      removeCookie('userId')
+      router.push('/login')
+    },
+  })
 
   return (
     <Navbar isBordered variant="sticky" css={{ zIndex: 1000 }}>
@@ -23,9 +51,9 @@ export const NavBar = () => {
           </Fragment>
         ))}
         <Switch
-          checked={!isDark}
+          checked={darkTheme}
           onChange={() => {
-            setTheme(isDark ? 'light' : 'dark')
+            dispatch(toggleTheme())
           }}
           iconOn={<MdLightMode />}
           iconOff={<MdDarkMode />}
@@ -51,9 +79,19 @@ export const NavBar = () => {
               />
             </Navbar.Item>
           </Dropdown.Trigger>
-          <Dropdown.Menu variant="light" onAction={(key) => router.push(key.toString())}>
-            <Dropdown.Item>Setting</Dropdown.Item>
-            <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Menu variant="light">
+            <Dropdown.Item>
+              <div onClick={() => router.push('/settings')}>Settings</div>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <div
+                onClick={() => {
+                  logoutResult.setLetCall(true)
+                }}
+              >
+                Sign out
+              </div>
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Navbar.Content>

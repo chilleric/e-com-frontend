@@ -1,31 +1,26 @@
 import { useApiCall } from '@/hooks'
 import { encodeBase64 } from '@/lib'
-import { authenticationSelector } from '@/redux'
+import { authenticationSelector, toggleTheme } from '@/redux'
 import { singUp } from '@/services'
 import { SignUpFailure } from '@/types'
-import { Button, Loading, Modal, Row, Text, useTheme } from '@nextui-org/react'
-import { useTheme as useNextTheme } from 'next-themes'
+import { Button, Loading, Modal, Row, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { SignUpStepSwitch } from './SignStepSwitch'
 
 export const SignUpForm = () => {
-  const { setTheme } = useNextTheme()
-  const { isDark } = useTheme()
   const [step, setStep] = useState<number>(1)
 
   const { signUpRequest } = useSelector(authenticationSelector)
 
   const router = useRouter()
 
+  const disptach = useDispatch()
+
   const handleChangeTheme = () => {
-    if (isDark) {
-      setTheme('light')
-    } else {
-      setTheme('dark')
-    }
+    disptach(toggleTheme())
   }
 
   const { error, loading, setLetCall } = useApiCall<String, SignUpFailure>({

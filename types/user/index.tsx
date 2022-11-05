@@ -41,3 +41,5 @@ export interface UserRequest {
   phone: string
   deleted: number
 }
+
+export type UserRequestFailure = Record<keyof UserRequest, string>

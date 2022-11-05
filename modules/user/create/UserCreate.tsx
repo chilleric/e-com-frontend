@@ -1,14 +1,14 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
-import { generateToken } from '@/lib'
+import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { addNewUser } from '@/services'
-import { UserDetailFailure, UserResponseSuccess } from '@/types'
+import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
 import { Button, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { DefaultUser, UserForm } from '../inventory'
+import { DefaultUser, initUserRequest, UserForm } from '../inventory'
 
 export const UserCreate = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
@@ -16,10 +16,10 @@ export const UserCreate = () => {
 
   const [UserState, setUserState] = useState<UserResponseSuccess>(DefaultUser)
 
-  const createResult = useApiCall<UserResponseSuccess, UserDetailFailure>({
+  const createResult = useApiCall<UserRequest, UserRequestFailure>({
     callApi: () =>
       addNewUser({
-        user: UserState,
+        user: lostOddProps<UserRequest>(initUserRequest, UserState),
         token: generateToken({
           userId: cookies.userId,
           deviceId: cookies.deviceId,
@@ -83,10 +83,10 @@ export const UserCreate = () => {
         </div>
       </div>
       <UserForm
-        type="create"
         user={UserState}
         onchangeUserState={onchangeUserState}
         errorState={createResult.error?.result}
+        editAble={getListEditAble(initUserRequest)}
       />
     </div>
   )

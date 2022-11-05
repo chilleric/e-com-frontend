@@ -10,5 +10,12 @@ export const apiRoute = {
     login: '/auth/login',
     signUp: '/auth/register',
     verifySignUp: '/auth/verify-email',
+    logout: '/auth/logout',
+  },
+  settings: {
+    updatePassword: 'settings/update-password',
+    updateGeneralSettings: 'settings/update-general-settings',
+    updateAccountSettings: 'settings/update-account-settings',
+    getGeneralSettings: 'settings/get-general-settings',
   },
 }

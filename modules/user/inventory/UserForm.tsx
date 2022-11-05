@@ -6,12 +6,12 @@ import { inputStylesUser } from './User.inventory'
 
 interface IUserForm {
   user: UserResponseSuccess
-  type: 'read' | 'create' | 'update'
   onchangeUserState: Function
-  errorState?: UserDetailFailure
+  errorState?: Partial<UserDetailFailure>
+  editAble?: Partial<Record<keyof UserResponseSuccess, boolean>>
 }
 
-export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserForm) => {
+export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUserForm) => {
   return (
     <Grid.Container gap={4} justify="center">
       <Grid xs={12} sm={4}>
@@ -26,9 +26,9 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.created}
           label="created"
-          readOnly
+          readOnly={!editAble?.created}
           {...inputStylesUser({
-            error: errorState?.email,
+            error: errorState?.created,
           })}
         />
       </Grid>
@@ -37,9 +37,9 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.modified}
           label="modified"
-          readOnly
+          readOnly={!editAble?.modified}
           {...inputStylesUser({
-            error: errorState?.email,
+            error: errorState?.modified,
           })}
         />
       </Grid>
@@ -48,7 +48,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.username}
           label="username"
-          readOnly={type !== 'create'}
+          readOnly={!editAble?.username}
           onChange={(event) => {
             onchangeUserState({
               username: event.currentTarget.value,
@@ -62,7 +62,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.address}
           label="address"
-          readOnly={type === 'read'}
+          readOnly={!editAble?.address}
           onChange={(event) => {
             onchangeUserState({
               address: event.currentTarget.value,
@@ -76,7 +76,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.firstName}
           label="first name"
-          readOnly={type === 'read'}
+          readOnly={!editAble?.firstName}
           onChange={(event) => {
             onchangeUserState({
               firstName: event.currentTarget.value,
@@ -90,7 +90,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.lastName}
           label="last name"
-          readOnly={type === 'read'}
+          readOnly={!editAble?.lastName}
           onChange={(event) => {
             onchangeUserState({
               lastName: event.currentTarget.value,
@@ -111,7 +111,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           buttonProps={inputStylesUser({
             error: errorState?.dob,
           })}
-          disable={type === 'read'}
+          disable={!editAble?.dob}
         />
       </Grid>
       <Grid md={4}>
@@ -123,7 +123,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
             })
           }}
           label="gender"
-          disabled={type === 'read'}
+          disabled={!editAble?.gender}
           options={genderList}
           buttonProps={inputStylesUser({
             error: errorState?.gender,
@@ -135,7 +135,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.phone}
           label="phone"
-          readOnly={type === 'read'}
+          readOnly={!editAble?.phone}
           onChange={(event) => {
             onchangeUserState({
               phone: event.currentTarget.value,
@@ -149,7 +149,7 @@ export const UserForm = ({ user, onchangeUserState, type, errorState }: IUserFor
           css={{ width: '100%' }}
           value={user.email}
           label="email"
-          readOnly={type === 'read'}
+          readOnly={!editAble?.email}
           onChange={(event) => {
             onchangeUserState({
               email: event.currentTarget.value,
