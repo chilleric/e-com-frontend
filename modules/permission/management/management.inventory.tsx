@@ -35,7 +35,7 @@ export const listActions: ActionType[] = [
     content: 'Details',
     icon: <AiOutlineEye size={20} fill="#979797" />,
     func: (id: string, router: NextRouter) => {
-      router.push(`/user/${id}`)
+      router.push(`/permission/${id}`)
     },
   },
 ]

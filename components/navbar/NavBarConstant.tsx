@@ -21,9 +21,4 @@ export const NavBarItems: NavBarItemType[] = [
       { label: 'Create Permission', path: '/permission/create' },
     ],
   },
-  {
-    label: 'Permisstion',
-    path: '/permisstion',
-    children: [{ label: 'Permisstion Management', path: '/permission/management' }],
-  },
 ]

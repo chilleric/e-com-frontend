@@ -84,14 +84,25 @@ export const PermissionDetail = () => {
         </Text>
         <div style={{ display: 'flex', gap: 10 }}>
           {type === 'read' ? (
-            <Button
-              onClick={() => {
-                setType('update')
-              }}
-              size="sm"
-            >
-              Edit
-            </Button>
+            <>
+              <Button
+                onClick={() => {
+                  setType('update')
+                }}
+                size="sm"
+              >
+                Edit
+              </Button>
+              <Button
+                color="warning"
+                onClick={() => {
+                  router.push('/permission/management')
+                }}
+                size="sm"
+              >
+                Cancel
+              </Button>
+            </>
           ) : (
             <>
               <Button
