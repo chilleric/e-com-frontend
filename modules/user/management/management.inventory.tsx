@@ -3,7 +3,7 @@ import { ActionType, HeaderTableType } from '@/types'
 import { NextRouter } from 'next/router'
 import { AiOutlineEye } from 'react-icons/ai'
 
-export const header: HeaderTableType[] = [
+export const headerUserTable: HeaderTableType[] = [
   {
     key: 'actions',
     name: '',

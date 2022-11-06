@@ -1,9 +1,11 @@
 import { apiRoute } from '@/constants/apiRoutes'
 import axiosInstance from '@/lib/axios/request'
-import { PermissionRequest } from '@/types'
+import { QueryParams } from '@/types/common'
+import { PermissionRequest } from '@/types/permission'
 
-export const getListPermission = (token: string) => {
+export const getListPermission = (token: string, params?: QueryParams) => {
   return axiosInstance.get(apiRoute.permissions.getListPermission, {
+    params,
     headers: {
       Authorization: token,
     },

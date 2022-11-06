@@ -24,3 +24,5 @@ export interface PermissionListResponse {
   pageSize: number
   totalRows: number
 }
+
+export type PermissionRequestFailure = Record<keyof PermissionRequest, string>
