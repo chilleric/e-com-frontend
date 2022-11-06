@@ -13,14 +13,14 @@ export const UpdatePassword = () => {
 
   const [oldPasswordState, setOldPassword] = useState<string>('')
   const [newPasswordState, setNewPassword] = useState<string>('')
-  const [confirmPasswordState, setConfirmPasswordword] = useState<string>('')
+  const [confirmPasswordState, setConfirmPasswordState] = useState<string>('')
 
   const updateResult = useApiCall<string, UpdatePasswordPayload>({
     callApi: () =>
       updatePassword(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }), {
         oldPassword: encodeBase64(oldPasswordState),
         newPassword: encodeBase64(newPasswordState),
-        confirmPassword: encodeBase64(confirmPasswordState),
+        confirmNewPassword: encodeBase64(confirmPasswordState),
       }),
     handleError: (status, message) => {
       if (status !== 400) {
@@ -31,7 +31,7 @@ export const UpdatePassword = () => {
       toast.success(message)
       setOldPassword('')
       setNewPassword('')
-      setConfirmPasswordword('')
+      setConfirmPasswordState('')
     },
   })
 
@@ -78,7 +78,7 @@ export const UpdatePassword = () => {
             onFocus={handleReset}
             value={confirmPasswordState}
             onChange={(e) => {
-              setConfirmPasswordword(e.currentTarget.value)
+              setConfirmPasswordState(e.currentTarget.value)
             }}
           />
         </Grid>
@@ -87,7 +87,7 @@ export const UpdatePassword = () => {
       <Container>
         <Button
           style={{ marginTop: 20 }}
-          color="success"
+          color="default"
           onClick={() => {
             setLetCall(true)
           }}

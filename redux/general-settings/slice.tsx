@@ -10,7 +10,7 @@ const GeneralSettingsSlice = createSlice({
   initialState,
   reducers: {
     setGeneralSettings: (state, action: PayloadAction<GeneralSettingsResponseSuccess>) => {
-      state = action.payload
+      Object.assign(state, action.payload)
     },
     toggleTheme: (state) => {
       state.darkTheme = !state.darkTheme

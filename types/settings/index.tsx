@@ -8,12 +8,6 @@ export type UpdatePasswordPayload = {
   confirmNewPassword: string
 }
 
-export interface UpdatePasswordRequest {
-  oldPassword: string
-  newPassword: string
-  confirmPassword: string
-}
-
 export interface UpdateAccountRequest {
   username: string
   gender: number

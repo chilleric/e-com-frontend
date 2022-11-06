@@ -3,7 +3,7 @@ import axiosInstance from '@/lib/axios/request'
 import {
   GeneralSettingsResponseSuccess,
   UpdateAccountRequest,
-  UpdatePasswordRequest,
+  UpdatePasswordPayload,
 } from '@/types'
 
 export const getGeneralSettings = (token: string) => {
@@ -15,7 +15,7 @@ export const getGeneralSettings = (token: string) => {
 }
 
 export const updateGeneralSettings = (token: string, request: GeneralSettingsResponseSuccess) => {
-  return axiosInstance.put(apiRoute.settings.getGeneralSettings, request, {
+  return axiosInstance.put(apiRoute.settings.updateGeneralSettings, request, {
     headers: {
       Authorization: token,
     },
@@ -30,7 +30,7 @@ export const updateAccountSettings = (token: string, request: UpdateAccountReque
   })
 }
 
-export const updatePassword = (token: string, request: UpdatePasswordRequest) => {
+export const updatePassword = (token: string, request: UpdatePasswordPayload) => {
   return axiosInstance.put(apiRoute.settings.updatePassword, request, {
     headers: {
       Authorization: token,

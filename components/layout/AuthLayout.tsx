@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { resetSignUpRequest, GeneralSettingsSelector } from '@/redux'
+import { GeneralSettingsSelector, resetSignUpRequest } from '@/redux'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
@@ -40,7 +40,12 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <ToastContainer theme={darkTheme ? 'dark' : 'light'} style={{ zIndex: 1000000 }} />
+      <ToastContainer
+        autoClose={2000}
+        position="top-center"
+        theme={darkTheme ? 'dark' : 'light'}
+        style={{ zIndex: 1000000 }}
+      />
       <Modal403 />
       {children}
     </>

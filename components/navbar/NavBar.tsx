@@ -1,14 +1,11 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
-import { GeneralSettingsSelector, toggleTheme } from '@/redux'
 import { logout } from '@/services'
-import { Avatar, Dropdown, Navbar, Switch } from '@nextui-org/react'
+import { Avatar, Dropdown, Navbar } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { useCookies } from 'react-cookie'
-import { MdDarkMode, MdLightMode } from 'react-icons/md'
-import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { NavBarItems } from './NavBarConstant'
 import { RenderItemDesktop } from './RenderItemDesktop'
@@ -18,9 +15,6 @@ export const NavBar = () => {
   const [cookies, , removeCookie] = useCookies([DEVICE_ID, USER_ID])
 
   const router = useRouter()
-
-  const { darkTheme } = useSelector(GeneralSettingsSelector)
-  const dispatch = useDispatch()
 
   const logoutResult = useApiCall({
     callApi: () =>
@@ -50,14 +44,6 @@ export const NavBar = () => {
             <RenderItemDesktop item={item} />
           </Fragment>
         ))}
-        <Switch
-          checked={darkTheme}
-          onChange={() => {
-            dispatch(toggleTheme())
-          }}
-          iconOn={<MdLightMode />}
-          iconOff={<MdDarkMode />}
-        />
       </Navbar.Content>
       <Navbar.Collapse showIn="xs">
         {NavBarItems.map((item) => (

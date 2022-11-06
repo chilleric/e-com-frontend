@@ -1,13 +1,13 @@
 import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
+import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
+import { GeneralSettingsResponseSuccess, UpdateGeneralFailure } from '@/types'
 import { Container, Switch, Text } from '@nextui-org/react'
 import { useCookies } from 'react-cookie'
-import { toast } from 'react-toastify'
 import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux'
-import { GeneralSettingsResponseSuccess, UpdateGeneralFailure } from '@/types'
+import { toast } from 'react-toastify'
 
 export const GeneralSettings = () => {
   const [cookie] = useCookies()
@@ -61,8 +61,8 @@ export const GeneralSettings = () => {
             dispatch(toggleTheme())
             updateResult.setLetCall(true)
           }}
-          iconOn={<MdLightMode />}
-          iconOff={<MdDarkMode />}
+          iconOn={<MdDarkMode />}
+          iconOff={<MdLightMode />}
         />
       </Container>
     </div>

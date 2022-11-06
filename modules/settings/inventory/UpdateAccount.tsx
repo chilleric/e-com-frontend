@@ -10,7 +10,7 @@ import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
 import { initUpdateAccountRequest } from './settings.inventory'
 
-export const UpdateAcount = () => {
+export const UpdateAccount = () => {
   const [cookies] = useCookies()
 
   const [userState, setUserState] = useState<UserResponseSuccess>(DefaultUser)
@@ -81,7 +81,7 @@ export const UpdateAcount = () => {
       <Container>
         <Button
           style={{ marginTop: 20 }}
-          color="success"
+          color="default"
           onClick={() => {
             updateResult.setLetCall(true)
           }}
