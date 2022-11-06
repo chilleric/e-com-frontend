@@ -1,9 +1,11 @@
 import { apiRoute } from '@/constants/apiRoutes'
 import axiosInstance from '@/lib/axios/request'
 import { UserRequest } from '@/types'
+import { QueryParams } from '@/types/common'
 
-export const getListUser = (token: string) => {
+export const getListUser = (token: string, params?: QueryParams) => {
   return axiosInstance.get(apiRoute.user.getListUser, {
+    params,
     headers: {
       Authorization: token,
     },

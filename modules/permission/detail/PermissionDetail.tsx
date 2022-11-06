@@ -46,7 +46,7 @@ export const PermissionDetail = () => {
         lostOddProps<PermissionRequest>(PermissionRequestDefault, permissionState)
       ),
     handleError(status, message) {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
     },

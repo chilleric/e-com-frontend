@@ -1,13 +1,13 @@
 import { CustomTable } from '@/components'
 import { useApiCall } from '@/hooks'
-import { generateToken } from '@/lib'
+import { generateToken, getTotalPage } from '@/lib'
 import {
   headerUserTable,
   listFunctionParseValue,
 } from '@/modules/user/management/management.inventory'
 import { getListUser } from '@/services'
 import { UserListSuccess, UserResponseSuccess } from '@/types'
-import { Text } from '@nextui-org/react'
+import { Container, Loading, Pagination, Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
@@ -23,13 +23,16 @@ export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTa
 
   const [userResponse, setUseResponse] = useState<UserListSuccess>()
 
+  const [page, setPage] = useState<number>(1)
+
   const userResult = useApiCall<UserListSuccess, String>({
     callApi: () =>
       getListUser(
         generateToken({
           userId: cookies.userId,
           deviceId: cookies.deviceId,
-        })
+        }),
+        { page: page.toString() }
       ),
     handleError(status, message) {
       if (status) {
@@ -43,21 +46,33 @@ export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTa
 
   useEffect(() => {
     userResult.setLetCall(true)
-  }, [])
+  }, [page])
 
   return (
     <div>
       <Text h4>Select User</Text>
-      <CustomTable<UserResponseSuccess>
-        header={headerUserTable}
-        body={userResponse?.data ?? []}
-        selectionMode={editAble ? 'multiple' : 'none'}
-        listFunctionParseValue={listFunctionParseValue}
-        handleChangeSelection={setListUser}
-        selectedKeys={listUser}
-      >
-        <>{null}</>
-      </CustomTable>
+      {userResult.loading ? (
+        <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+          <Loading />
+        </Container>
+      ) : (
+        <CustomTable<UserResponseSuccess>
+          header={headerUserTable}
+          body={userResponse?.data ?? []}
+          selectionMode={editAble ? 'multiple' : 'none'}
+          listFunctionParseValue={listFunctionParseValue}
+          handleChangeSelection={setListUser}
+          selectedKeys={listUser}
+        >
+          <>{null}</>
+        </CustomTable>
+      )}
+      <Pagination
+        shadow
+        color="default"
+        total={getTotalPage(userResult?.data?.result.totalRows || 0, 10)}
+        onChange={(number) => setPage(number)}
+      />
     </div>
   )
 }

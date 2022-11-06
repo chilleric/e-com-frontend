@@ -24,7 +24,7 @@ export const PermissionCreate = () => {
         permissionState
       ),
     handleError(status, message) {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
     },

@@ -1,18 +1,20 @@
 import { CustomTable } from '@/components/table'
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
-import { generateToken } from '@/lib'
+import { generateToken, getTotalPage } from '@/lib'
 import { getListUser } from '@/services'
 import { UserListSuccess, UserResponseSuccess } from '@/types'
-import { Button, Container, Loading, Text } from '@nextui-org/react'
+import { Button, Container, Loading, Pagination, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
 import { headerUserTable, listActions, listFunctionParseValue } from './management.inventory'
 
 export const UserManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
+
+  const [page, setPage] = useState<number>(1)
 
   const router = useRouter()
 
@@ -22,7 +24,8 @@ export const UserManagement = () => {
         generateToken({
           userId: cookies.userId,
           deviceId: cookies.deviceId,
-        })
+        }),
+        { page: page.toString() }
       ),
     handleError(status, message) {
       if (status) {
@@ -35,7 +38,7 @@ export const UserManagement = () => {
 
   useEffect(() => {
     setLetCall(true)
-  }, [])
+  }, [page])
 
   return (
     <>
@@ -70,6 +73,12 @@ export const UserManagement = () => {
           >
             <>{null}</>
           </CustomTable>
+          <Pagination
+            shadow
+            color="default"
+            total={getTotalPage(data?.result.totalRows || 0, 10)}
+            onChange={(number) => setPage(number)}
+          />
         </>
       )}
     </>

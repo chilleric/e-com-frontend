@@ -1,18 +1,20 @@
 import { CustomTable } from '@/components'
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
-import { generateToken } from '@/lib'
+import { generateToken, getTotalPage } from '@/lib'
 import { getListPermission } from '@/services'
 import { PermissionListResponse, PermissionResponse } from '@/types'
-import { Button, Container, Loading, Text } from '@nextui-org/react'
+import { Button, Container, Loading, Pagination, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
 import { header, listActions, listFunctionParseValue } from './management.inventory'
 
 export const PermissionManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
+
+  const [page, setPage] = useState<number>(1)
 
   const router = useRouter()
 
@@ -22,7 +24,8 @@ export const PermissionManagement = () => {
         generateToken({
           userId: cookies.userId,
           deviceId: cookies.deviceId,
-        })
+        }),
+        { page: page.toString() }
       ),
     handleError(status, message) {
       if (status) {
@@ -70,6 +73,12 @@ export const PermissionManagement = () => {
           >
             <>{null}</>
           </CustomTable>
+          <Pagination
+            shadow
+            color="default"
+            total={getTotalPage(data?.result.totalRows || 0, 10)}
+            onChange={(number) => setPage(number)}
+          />
         </>
       )}
     </>
