@@ -142,6 +142,15 @@ export const UserDetail = () => {
                     ))}
                 </Dropdown.Menu>
               </Dropdown>
+              <Button
+                color="warning"
+                onClick={() => {
+                  router.push('/user/management')
+                }}
+                size="sm"
+              >
+                Cancel
+              </Button>
             </>
           ) : (
             <>

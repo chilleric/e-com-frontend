@@ -18,4 +18,14 @@ export const apiRoute = {
     updateAccountSettings: 'settings/update-account-settings',
     getGeneralSettings: 'settings/get-general-settings',
   },
+  permissions: {
+    updatePermission: 'permission/update-permission',
+    deletePermission: 'permission/delete-permission',
+    addPermission: 'permission/add-new-permission',
+    getListPermission: '/permission/get-list-permissions',
+  },
+  feature: {
+    getFeatureList: 'feature/get-list-feature',
+    changeStatusFeature: 'feature/change-status',
+  },
 }

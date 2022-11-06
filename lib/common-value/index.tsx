@@ -33,4 +33,15 @@ export const statusListBoolean: OptionsType<boolean>[] = [
   },
 ]
 
+export const accessStatus: OptionsType<number>[] = [
+  {
+    value: 0,
+    label: 'Access',
+  },
+  {
+    value: 1,
+    label: 'Denied',
+  },
+]
+
 export const formatDate = 'yyyy-MM-dd'
