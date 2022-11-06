@@ -1,9 +1,9 @@
 import { CustomTable } from '@/components'
 import { useApiCall } from '@/hooks'
-import { generateToken } from '@/lib'
+import { generateToken, getTotalPage } from '@/lib'
 import { getListFeature } from '@/services/feature.service'
 import { FeatureListResponse, FeatureResponse } from '@/types'
-import { Text } from '@nextui-org/react'
+import { Container, Loading, Pagination, Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
@@ -22,14 +22,19 @@ export const FeatureTablePermission = ({
 }: IUserTablePermission) => {
   const [cookies] = useCookies()
 
-  const [featureResponse, setFeatureesponse] = useState<FeatureListResponse>()
+  const [page, setPage] = useState<number>(1)
+
+  const [featureResponse, setFeatureResponse] = useState<FeatureListResponse>()
   const featureResult = useApiCall<FeatureListResponse, String>({
     callApi: () =>
       getListFeature(
         generateToken({
           userId: cookies.userId,
           deviceId: cookies.deviceId,
-        })
+        }),
+        {
+          page: page.toString(),
+        }
       ),
     handleError(status, message) {
       if (status) {
@@ -37,27 +42,39 @@ export const FeatureTablePermission = ({
       }
     },
     handleSuccess(message, data) {
-      setFeatureesponse(data)
+      setFeatureResponse(data)
     },
   })
 
   useEffect(() => {
     featureResult.setLetCall(true)
-  }, [])
+  }, [page])
 
   return (
     <div>
       <Text h4>Select feature</Text>
-      <CustomTable<FeatureResponse>
-        header={headerFeatureTable}
-        body={featureResponse?.data ?? []}
-        selectionMode={editAble ? 'multiple' : 'none'}
-        listFunctionParseValue={{}}
-        handleChangeSelection={setListFeature}
-        selectedKeys={listFeature}
-      >
-        <>{null}</>
-      </CustomTable>
+      {featureResult.loading ? (
+        <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+          <Loading />
+        </Container>
+      ) : (
+        <CustomTable<FeatureResponse>
+          header={headerFeatureTable}
+          body={featureResponse?.data ?? []}
+          selectionMode={editAble ? 'multiple' : 'none'}
+          listFunctionParseValue={{}}
+          handleChangeSelection={setListFeature}
+          selectedKeys={listFeature}
+        >
+          <>{null}</>
+        </CustomTable>
+      )}
+      <Pagination
+        shadow
+        color="default"
+        total={getTotalPage(featureResult?.data?.result.totalRows || 0, 10)}
+        onChange={(number) => setPage(number)}
+      />
     </div>
   )
 }

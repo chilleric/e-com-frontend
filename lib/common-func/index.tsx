@@ -47,3 +47,8 @@ export const getListEditAble = <T extends {}>(target: T) => {
   })
   return listReturn
 }
+
+export const getTotalPage = (totalRows: number, pageSize: number) => {
+  if (totalRows <= pageSize) return 1
+  return Math.round(totalRows / pageSize)
+}
