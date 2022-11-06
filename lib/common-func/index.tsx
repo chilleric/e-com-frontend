@@ -30,3 +30,20 @@ export const generateToken = (content: { userId: string; deviceId: string }) => 
 export const convertValueToLabel = <T,>(value: T, list: OptionsType<T>[]) => {
   return list.find((item) => item.value === value)?.label ?? ''
 }
+
+export const lostOddProps = <T extends {}>(target: T, source: T) => {
+  Object.keys(target).forEach((key) => {
+    if (source[key as keyof T]) {
+      target[key as keyof T] = source[key as keyof T]
+    }
+  })
+  return target
+}
+
+export const getListEditAble = <T extends {}>(target: T) => {
+  let listReturn: Partial<Record<keyof T, boolean>> = {}
+  Object.keys(target).forEach((key) => {
+    listReturn = { ...listReturn, [key as keyof T]: true }
+  })
+  return listReturn
+}

@@ -32,6 +32,12 @@ export const DatePicker = ({ value, label, onChange, buttonProps, disable }: IDa
     if (year - yearRange > 10) setYearRange(year - (year % 10))
   }, [year])
 
+  useEffect(() => {
+    if (!value) {
+      onChange(getDayString(day, month, year))
+    }
+  }, [value])
+
   const obj = {
     year: (
       <YearModal

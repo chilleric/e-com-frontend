@@ -14,7 +14,7 @@ export const useApiCall = <T, E>({
 }: {
   callApi: () => Promise<AxiosResponse<any, any>>
   handleError?: (status: number, message: string) => void
-  handleSuccess?: (message: string) => void
+  handleSuccess?: (message: string, data: T) => void
 }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [data, setData] = useState<CommonResponseType<T>>()
@@ -35,7 +35,7 @@ export const useApiCall = <T, E>({
         setData(response.data)
         setError(undefined)
         if (handleSuccess) {
-          handleSuccess(response.data.message)
+          handleSuccess(response.data.message, response.data.result)
         }
       } else {
         const { statusCode } = response.data

@@ -1,9 +1,9 @@
-import { convertValueToLabel, genderList } from '@/lib'
+import { convertValueToLabel, genderList, statusList, statusListBoolean } from '@/lib'
 import { ActionType, HeaderTableType } from '@/types'
 import { NextRouter } from 'next/router'
 import { AiOutlineEye } from 'react-icons/ai'
 
-export const header: HeaderTableType[] = [
+export const headerUserTable: HeaderTableType[] = [
   {
     key: 'actions',
     name: '',
@@ -33,20 +33,16 @@ export const header: HeaderTableType[] = [
     name: 'Phone',
   },
   {
-    key: 'create',
+    key: 'created',
     name: 'Sign up date',
   },
   {
-    key: 'verify',
+    key: 'verified',
     name: 'Verify status',
   },
   {
-    key: 'verify2FA',
-    name: 'Two factor verify status',
-  },
-  {
     key: 'deleted',
-    name: 'Delete status',
+    name: 'Active status',
   },
 ]
 
@@ -63,5 +59,11 @@ export const listActions: ActionType[] = [
 export const listFunctionParseValue = {
   gender: (value: number) => {
     return convertValueToLabel(value, genderList)
+  },
+  verified: (value: boolean) => {
+    return convertValueToLabel(value, statusListBoolean)
+  },
+  deleted: (value: number) => {
+    return convertValueToLabel(value, statusList)
   },
 }

@@ -2,20 +2,21 @@ import { ActionType, HeaderTableType } from '@/types'
 import { Col, Row, Table, TableProps, Tooltip } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { AiOutlineEdit, AiOutlineEye } from 'react-icons/ai'
 
 interface ICustomTable<T> {
   header: HeaderTableType[]
   body: T[]
   listActions?: ActionType[]
   listFunctionParseValue: Partial<Record<keyof T, Function>>
+  handleChangeSelection?: Function
 }
 
-export function CustomTable<T extends {}>({
+export function CustomTable<T extends { id: string }>({
   header,
   body,
   listActions,
   listFunctionParseValue,
+  handleChangeSelection,
   ...props
 }: ICustomTable<T> & TableProps) {
   const router = useRouter()
@@ -28,47 +29,22 @@ export function CustomTable<T extends {}>({
       case 'actions':
         return (
           <Row justify="center" align="center">
-            {listActions ? (
-              listActions.map((action) => (
-                <Col key={action.content} css={{ d: 'flex' }}>
-                  <Tooltip content={action.content}>
-                    <div
-                      onClick={(e) => {
-                        action.func(data['id' as keyof T], router)
-                        e.stopPropagation()
-                      }}
-                    >
-                      {action.icon}
-                    </div>
-                  </Tooltip>
-                </Col>
-              ))
-            ) : (
-              <>
-                <Col css={{ d: 'flex' }}>
-                  <Tooltip content="Edit user">
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation()
-                      }}
-                    >
-                      <AiOutlineEdit size={20} fill="#979797" />
-                    </div>
-                  </Tooltip>
-                </Col>
-                <Col css={{ d: 'flex' }}>
-                  <Tooltip content="Details">
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation()
-                      }}
-                    >
-                      <AiOutlineEye size={20} fill="#979797" />
-                    </div>
-                  </Tooltip>
-                </Col>
-              </>
-            )}
+            {listActions
+              ? listActions.map((action) => (
+                  <Col key={action.content} css={{ d: 'flex' }}>
+                    <Tooltip content={action.content}>
+                      <div
+                        onClick={(e) => {
+                          action.func(data['id' as keyof T], router)
+                          e.stopPropagation()
+                        }}
+                      >
+                        {action.icon}
+                      </div>
+                    </Tooltip>
+                  </Col>
+                ))
+              : null}
           </Row>
         )
       default:
@@ -76,8 +52,22 @@ export function CustomTable<T extends {}>({
     }
   }
 
+  const handleChange = (keys: 'all' | Set<React.Key>) => {
+    if (handleChangeSelection) {
+      if (keys === 'all') {
+        handleChangeSelection(body.map((item) => item?.id ?? ''))
+      } else {
+        handleChangeSelection(Array.from(keys))
+      }
+    }
+  }
+
   return (
-    <Table aria-label="Example table with dynamic content" {...props}>
+    <Table
+      aria-label="Example table with dynamic content"
+      onSelectionChange={handleChange}
+      {...props}
+    >
       <Table.Header columns={header}>
         {(column) => <Table.Column key={column.key}>{column.name}</Table.Column>}
       </Table.Header>

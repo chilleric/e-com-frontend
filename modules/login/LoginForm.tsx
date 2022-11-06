@@ -1,30 +1,27 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
 import { encodeBase64 } from '@/lib'
+import { toggleTheme } from '@/redux'
 import { login } from '@/services'
 import { LoginResponseFailure, LoginResponseSuccess } from '@/types'
-import { Button, FormElement, Input, Loading, Modal, Row, Text, useTheme } from '@nextui-org/react'
-import { useTheme as useNextTheme } from 'next-themes'
+import { Button, FormElement, Input, Loading, Modal, Row, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { inputStyles } from './login.inventory'
 
 export const LoginForm = () => {
-  const { setTheme } = useNextTheme()
-  const { isDark } = useTheme()
   const emailRef = useRef<FormElement>(null)
   const passwordRef = useRef<FormElement>(null)
   const router = useRouter()
   const [, setCookie] = useCookies([DEVICE_ID, USER_ID])
 
+  const dispatch = useDispatch()
+
   const handleChangeTheme = () => {
-    if (isDark) {
-      setTheme('light')
-    } else {
-      setTheme('dark')
-    }
+    dispatch(toggleTheme())
   }
 
   const result = useApiCall<LoginResponseSuccess, LoginResponseFailure>({

@@ -1,14 +1,14 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
-import { generateToken, statusList } from '@/lib'
+import { generateToken, getListEditAble, lostOddProps, statusList } from '@/lib'
 import { changeStatusUser, getDetailUser, updateUser } from '@/services'
-import { UserDetailFailure, UserResponseSuccess } from '@/types'
+import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
 import { Button, Container, Dropdown, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { DefaultUser, UserForm } from '../inventory'
+import { DefaultUser, initUserRequest, UserForm } from '../inventory'
 
 export const UserDetail = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
@@ -26,13 +26,17 @@ export const UserDetail = () => {
           deviceId: cookies.deviceId,
         }),
       }),
+    handleSuccess: (message, data) => {
+      toast.success(message)
+      setUserState(data)
+    },
   })
 
-  const updateResult = useApiCall<UserResponseSuccess, UserDetailFailure>({
+  const updateResult = useApiCall<UserRequest, UserRequestFailure>({
     callApi: () =>
       updateUser({
         id: UserState.id,
-        user: UserState,
+        user: lostOddProps<UserRequest>(initUserRequest, UserState),
         token: generateToken({
           userId: cookies.userId,
           deviceId: cookies.deviceId,
@@ -75,10 +79,6 @@ export const UserDetail = () => {
       viewResult.setLetCall(true)
     }
   }, [router])
-
-  useEffect(() => {
-    if (viewResult.data) setUserState(viewResult.data.result)
-  }, [viewResult.data])
 
   if (viewResult.loading)
     return (
@@ -142,6 +142,15 @@ export const UserDetail = () => {
                     ))}
                 </Dropdown.Menu>
               </Dropdown>
+              <Button
+                color="warning"
+                onClick={() => {
+                  router.push('/user/management')
+                }}
+                size="sm"
+              >
+                Cancel
+              </Button>
             </>
           ) : (
             <>
@@ -169,10 +178,10 @@ export const UserDetail = () => {
         </div>
       </div>
       <UserForm
-        type={type}
         user={UserState}
         onchangeUserState={onchangeUserState}
         errorState={updateResult?.error?.result}
+        editAble={type === 'update' ? getListEditAble(initUserRequest) : {}}
       />
     </div>
   )

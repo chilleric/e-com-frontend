@@ -18,7 +18,29 @@ export const statusList: OptionsType<number>[] = [
   },
   {
     value: 1,
-    label: 'Deactive',
+    label: 'Deactivated',
+  },
+]
+
+export const statusListBoolean: OptionsType<boolean>[] = [
+  {
+    value: true,
+    label: 'Active',
+  },
+  {
+    value: false,
+    label: 'Deactivated',
+  },
+]
+
+export const accessStatus: OptionsType<number>[] = [
+  {
+    value: 0,
+    label: 'Access',
+  },
+  {
+    value: 1,
+    label: 'Denied',
   },
 ]
 

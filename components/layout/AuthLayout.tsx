@@ -1,10 +1,9 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { resetSignUpRequest } from '@/redux'
-import { useTheme } from '@nextui-org/react'
+import { GeneralSettingsSelector, resetSignUpRequest } from '@/redux'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import { Modal403 } from '../modals'
 
@@ -14,7 +13,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   const dispatch = useDispatch()
 
-  const { isDark } = useTheme()
+  const { darkTheme } = useSelector(GeneralSettingsSelector)
 
   useEffect(() => {
     if (
@@ -41,7 +40,12 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <ToastContainer theme={isDark ? 'dark' : 'light'} style={{ zIndex: 1000000 }} />
+      <ToastContainer
+        autoClose={2000}
+        position="top-center"
+        theme={darkTheme ? 'dark' : 'light'}
+        style={{ zIndex: 1000000 }}
+      />
       <Modal403 />
       {children}
     </>
