@@ -20,10 +20,13 @@ export const addPermission = (token: string, request: PermissionRequest) => {
   })
 }
 
-export const updatePermission = (token: string, request: PermissionRequest) => {
+export const updatePermission = (id: string, token: string, request: PermissionRequest) => {
   return axiosInstance.put(apiRoute.permissions.updatePermission, request, {
     headers: {
       Authorization: token,
+    },
+    params: {
+      id,
     },
   })
 }

@@ -2,7 +2,7 @@ import { CustomTable } from '@/components'
 import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
 import { getListFeature } from '@/services/feature.service'
-import { FeatureListSuccess, FeatureResponseSuccess } from '@/types'
+import { FeatureListResponse, FeatureResponse } from '@/types'
 import { Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -22,8 +22,8 @@ export const FeatureTablePermission = ({
 }: IUserTablePermission) => {
   const [cookies] = useCookies()
 
-  const [featureResponse, setFeatureesponse] = useState<FeatureListSuccess>()
-  const featureResult = useApiCall<FeatureListSuccess, String>({
+  const [featureResponse, setFeatureesponse] = useState<FeatureListResponse>()
+  const featureResult = useApiCall<FeatureListResponse, String>({
     callApi: () =>
       getListFeature(
         generateToken({
@@ -48,7 +48,7 @@ export const FeatureTablePermission = ({
   return (
     <div>
       <Text h4>Select feature</Text>
-      <CustomTable<FeatureResponseSuccess>
+      <CustomTable<FeatureResponse>
         header={headerFeatureTable}
         body={featureResponse?.data ?? []}
         selectionMode={editAble ? 'multiple' : 'none'}

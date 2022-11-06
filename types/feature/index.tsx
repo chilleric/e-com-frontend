@@ -1,5 +1,5 @@
 export interface FeatureResponse {
-  get_id: string
+  id: string
   name: string
   path: string
   deleted: number

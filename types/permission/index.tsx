@@ -1,11 +1,8 @@
-import { FeatureResponse } from '../feature'
-import { UserResponseSuccess } from '../user'
-
 export interface PermissionResponse {
-  get_id: string
+  id: string
   name: string
-  features: FeatureResponse[]
-  users: UserResponseSuccess[]
+  featureId: string[]
+  userId: string[]
   created: string
   modified: string
   skipAccessability: number

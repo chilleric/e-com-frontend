@@ -1,6 +1,6 @@
 import { useApiCall } from '@/hooks'
 import { generateToken, getListEditAble } from '@/lib'
-import { addNewPermission } from '@/services/permission.service'
+import { addPermission } from '@/services/permission.service'
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
 import { Button, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
@@ -19,7 +19,7 @@ export const PermissionCreate = () => {
 
   const createResult = useApiCall<PermissionRequest, PermissionRequestFailure>({
     callApi: () =>
-      addNewPermission(
+      addPermission(
         generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }),
         permissionState
       ),

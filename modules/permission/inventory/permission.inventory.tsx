@@ -1,4 +1,4 @@
-import { HeaderTableType, PermissionRequest, PermissionResponseSuccess } from '@/types'
+import { HeaderTableType, PermissionRequest, PermissionResponse } from '@/types'
 import { InputProps } from '@nextui-org/react'
 
 export const headerFeatureTable: HeaderTableType[] = [
@@ -43,7 +43,7 @@ export const inputStylesPermission = ({ error }: { error?: string }) => {
   }
 }
 
-export const PermissionResponseDefault: PermissionResponseSuccess = {
+export const PermissionResponseDefault: PermissionResponse = {
   id: '',
   name: '',
   featureId: [],

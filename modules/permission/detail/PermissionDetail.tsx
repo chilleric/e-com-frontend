@@ -2,10 +2,10 @@ import { useApiCall } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { getListPermission, updatePermission } from '@/services/permission.service'
 import {
-  PermissionListSuccess,
+  PermissionListResponse,
   PermissionRequest,
   PermissionRequestFailure,
-  PermissionResponseSuccess,
+  PermissionResponse,
 } from '@/types/permission'
 import { Button, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
@@ -21,9 +21,9 @@ export const PermissionDetail = () => {
 
   const [type, setType] = useState<'read' | 'update'>('read')
   const [permissionState, setPermissionState] =
-    useState<PermissionResponseSuccess>(PermissionResponseDefault)
+    useState<PermissionResponse>(PermissionResponseDefault)
 
-  const viewResult = useApiCall<PermissionListSuccess, string>({
+  const viewResult = useApiCall<PermissionListResponse, string>({
     callApi: () =>
       getListPermission(
         generateToken({
