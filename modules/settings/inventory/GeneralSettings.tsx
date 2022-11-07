@@ -3,7 +3,7 @@ import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
 import { GeneralSettingsResponseSuccess, UpdateGeneralFailure } from '@/types'
-import { Container, Switch, Text } from '@nextui-org/react'
+import { Container, Loading, Switch, Text } from '@nextui-org/react'
 import { useCookies } from 'react-cookie'
 import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,7 +23,7 @@ export const GeneralSettings = () => {
       dispatch(setGeneralSettings(data))
     },
     handleError: (status, message) => {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
     },
@@ -39,7 +39,7 @@ export const GeneralSettings = () => {
       toast.success(message)
     },
     handleError: (status, message) => {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
       if (status !== 401 && status !== 403) {
@@ -48,7 +48,11 @@ export const GeneralSettings = () => {
     },
   })
 
-  return (
+  return viewResult.loading ? (
+    <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+      <Loading />
+    </Container>
+  ) : (
     <div>
       <Text h3>General Setting</Text>
       <hr style={{ margin: '10px 0' }} />

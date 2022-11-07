@@ -23,7 +23,7 @@ export const UpdatePassword = () => {
         confirmNewPassword: encodeBase64(confirmPasswordState),
       }),
     handleError: (status, message) => {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
     },

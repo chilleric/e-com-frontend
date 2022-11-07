@@ -34,6 +34,11 @@ export const LoginForm = () => {
       toast.success(message)
       router.push('/')
     },
+    handleError(status, message) {
+      if (status) {
+        toast.error(message)
+      }
+    },
   })
 
   const { error, data, loading, setLetCall, handleReset } = result

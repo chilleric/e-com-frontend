@@ -4,7 +4,7 @@ import { DefaultUser, UserForm } from '@/modules/user/inventory'
 import { getDetailUser } from '@/services'
 import { updateAccountSettings } from '@/services/settings.service'
 import { UpdateAccountFailure, UpdateAccountRequest, UserResponseSuccess } from '@/types'
-import { Button, Container, Text } from '@nextui-org/react'
+import { Button, Container, Loading, Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
@@ -25,11 +25,10 @@ export const UpdateAccount = () => {
         }),
       }),
     handleSuccess: (message, data) => {
-      toast.success(message)
       setUserState(data)
     },
     handleError: (status, message) => {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
     },
@@ -45,7 +44,7 @@ export const UpdateAccount = () => {
         lostOddProps<UpdateAccountRequest>(initUpdateAccountRequest, userState)
       ),
     handleError(status, message) {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
       if (status !== 401 && status !== 403) {
@@ -66,7 +65,11 @@ export const UpdateAccount = () => {
     setUserState({ ...newUserState, ...newUpdate })
   }
 
-  return (
+  return viewResult.loading ? (
+    <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+      <Loading />
+    </Container>
+  ) : (
     <div>
       <Text h3>Account Information</Text>
       <hr style={{ margin: '10px 0' }} />

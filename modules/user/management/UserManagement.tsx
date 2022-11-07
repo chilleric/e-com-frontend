@@ -4,7 +4,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListUser } from '@/services'
 import { UserListSuccess, UserResponseSuccess } from '@/types'
-import { Button, Container, Loading, Pagination, Text } from '@nextui-org/react'
+import { Button, Pagination, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -42,44 +42,39 @@ export const UserManagement = () => {
 
   return (
     <>
-      {loading ? (
-        <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
-          <Loading />
-        </Container>
-      ) : (
-        <>
-          <Text showIn="xs" h2>
-            User Management
-          </Text>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text hideIn="xs" h1>
-              User Management
-            </Text>
-            <Button
-              onClick={() => {
-                router.push('/user/create')
-              }}
-              size="sm"
-            >
-              Create User
-            </Button>
-          </div>
-          <CustomTable<UserResponseSuccess>
-            header={headerUserTable}
-            body={data ? data.result.data : []}
-            listActions={listActions}
-            selectionMode="single"
-            listFunctionParseValue={listFunctionParseValue}
-          >
-            <>{null}</>
-          </CustomTable>
-          <Pagination
-            shadow
-            color="default"
-            total={getTotalPage(data?.result.totalRows || 0, 10)}
-            onChange={(number) => setPage(number)}
-          />
-        </>
+      <Text showIn="xs" h2>
+        User Management
+      </Text>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Text hideIn="xs" h1>
+          User Management
+        </Text>
+        <Button
+          onClick={() => {
+            router.push('/user/create')
+          }}
+          size="sm"
+        >
+          Create User
+        </Button>
+      </div>
+      <CustomTable<UserResponseSuccess>
+        header={headerUserTable}
+        body={data ? data.result.data : []}
+        listActions={listActions}
+        selectionMode="single"
+        listFunctionParseValue={listFunctionParseValue}
+        loading={loading}
+      >
+        <>{null}</>
+      </CustomTable>
+      {!loading && (
+        <Pagination
+          shadow
+          color="default"
+          total={getTotalPage(data?.result.totalRows || 0, 10)}
+          onChange={(number) => setPage(number)}
+        />
       )}
     </>
   )
