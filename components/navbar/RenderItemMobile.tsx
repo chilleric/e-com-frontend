@@ -1,6 +1,5 @@
 import { NavBarItemType } from '@/types'
 import { Navbar } from '@nextui-org/react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export const RenderItemMobile = ({ item, level }: { item: NavBarItemType; level: number }) => {
@@ -14,7 +13,9 @@ export const RenderItemMobile = ({ item, level }: { item: NavBarItemType; level:
         key={item.path}
         css={{ marginLeft: level * 20 }}
       >
-        <Link href={item.path}>{item.label}</Link>
+        <div style={{ cursor: 'pointer' }} onClick={() => router.push(item.path)}>
+          {item.label}
+        </div>
       </Navbar.CollapseItem>
       {item &&
         item.children &&
