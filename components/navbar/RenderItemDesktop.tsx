@@ -30,14 +30,11 @@ export const RenderItemDesktop = ({ item }: { item: NavBarItemType }) => {
           </Dropdown.Menu>
         </Dropdown>
       ) : (
-        <Navbar.Link
-          isActive={router.asPath === item.path}
-          activeColor="primary"
-          key={item.path}
-          href={item.path}
-        >
-          {item.label}
-        </Navbar.Link>
+        <Navbar.Item isActive={router.asPath === item.path} activeColor="primary" key={item.path}>
+          <div style={{ cursor: 'pointer' }} onClick={() => router.push(item.path)}>
+            {item.label}
+          </div>
+        </Navbar.Item>
       )}
     </>
   )
