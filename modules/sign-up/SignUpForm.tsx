@@ -1,6 +1,7 @@
 import { useApiCall } from '@/hooks'
 import { encodeBase64 } from '@/lib'
-import { authenticationSelector, toggleTheme } from '@/redux'
+import { authenticationSelector } from '@/redux/authentication'
+import { toggleTheme } from '@/redux/general-settings'
 import { singUp } from '@/services'
 import { SignUpFailure } from '@/types'
 import { Button, Loading, Modal, Row, Text } from '@nextui-org/react'
@@ -17,10 +18,10 @@ export const SignUpForm = () => {
 
   const router = useRouter()
 
-  const disptach = useDispatch()
+  const dispatch = useDispatch()
 
   const handleChangeTheme = () => {
-    disptach(toggleTheme())
+    dispatch(toggleTheme())
   }
 
   const { error, loading, setLetCall } = useApiCall<String, SignUpFailure>({

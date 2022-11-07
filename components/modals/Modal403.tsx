@@ -1,4 +1,4 @@
-import { authenticationSelector, setIsForbidden } from '@/redux'
+import { authenticationSelector, setIsForbidden } from '@/redux/authentication'
 import { Button, Modal, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'

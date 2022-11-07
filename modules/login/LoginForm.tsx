@@ -1,7 +1,7 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
 import { encodeBase64 } from '@/lib'
-import { toggleTheme } from '@/redux'
+import { toggleTheme } from '@/redux/general-settings'
 import { login } from '@/services'
 import { LoginResponseFailure, LoginResponseSuccess } from '@/types'
 import { Button, FormElement, Input, Loading, Modal, Row, Text } from '@nextui-org/react'

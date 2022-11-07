@@ -1,6 +1,6 @@
 import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
-import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux'
+import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux/general-settings'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
 import { GeneralSettingsResponseSuccess, UpdateGeneralFailure } from '@/types'
 import { Container, Loading, Switch, Text } from '@nextui-org/react'

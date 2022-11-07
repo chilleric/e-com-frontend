@@ -1,6 +1,7 @@
 import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
-import { GeneralSettingsSelector, setGeneralSettings } from '@/redux'
+import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
+import { setLoading } from '@/redux/share-store'
 import { getGeneralSettings } from '@/services/settings.service'
 import { DarkTheme, LightTheme } from '@/styles/themes'
 import { GeneralSettingsResponseSuccess } from '@/types'
@@ -8,6 +9,8 @@ import { NextUIProvider } from '@nextui-org/react'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { BackDropModal } from '../modals'
 
 export const NextUiProviderTheme = ({ children }: { children: React.ReactNode }) => {
   const [cookies] = useCookies()
@@ -19,6 +22,14 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
   const result = useApiCall<GeneralSettingsResponseSuccess, string>({
     callApi: () =>
       getGeneralSettings(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })),
+    handleError(status, message) {
+      if (status) {
+        toast.error(message)
+      }
+    },
+    handleSuccess(message, data) {
+      dispatch(setGeneralSettings(data))
+    },
   })
 
   useEffect(() => {
@@ -28,10 +39,12 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
   }, [cookies.deviceId, cookies.userId])
 
   useEffect(() => {
-    if (result.data) {
-      dispatch(setGeneralSettings(result.data.result))
-    }
-  }, [result.data])
+    dispatch(setLoading(result.loading))
+  }, [result.loading])
 
-  return <NextUIProvider theme={darkTheme ? DarkTheme : LightTheme}>{children}</NextUIProvider>
+  return (
+    <NextUIProvider theme={darkTheme ? DarkTheme : LightTheme}>
+      {children} <BackDropModal />
+    </NextUIProvider>
+  )
 }

@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { setIsForbidden } from '@/redux'
+import { setIsForbidden } from '@/redux/authentication'
 import { CommonResponseType } from '@/types'
 import { AxiosResponse } from 'axios'
 import { useRouter } from 'next/router'

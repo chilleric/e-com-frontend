@@ -1,5 +1,6 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { GeneralSettingsSelector, resetSignUpRequest } from '@/redux'
+import { resetSignUpRequest } from '@/redux/authentication'
+import { GeneralSettingsSelector } from '@/redux/general-settings'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
