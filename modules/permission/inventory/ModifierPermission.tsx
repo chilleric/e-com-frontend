@@ -45,10 +45,11 @@ export const ModifierPermission = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
             <Text>Skip Accessability</Text>
             <Switch
+              disabled={!editAble?.skipAccessability}
               checked={permissionState.skipAccessability === 0}
               onChange={() => {
                 handleChangeState({
-                  skipAccessability: permissionState.skipAccessability === 1 ? 1 : 0,
+                  skipAccessability: permissionState.skipAccessability === 1 ? 0 : 1,
                 })
               }}
             />
