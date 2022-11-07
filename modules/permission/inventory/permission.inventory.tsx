@@ -26,7 +26,7 @@ export const headerFeatureTable: HeaderTableType[] = [
 
 export const PermissionRequestDefault: PermissionRequest = {
   name: '',
-  skipAccessability: 0,
+  skipAccessability: 1,
   featureId: [],
   userId: [],
 }

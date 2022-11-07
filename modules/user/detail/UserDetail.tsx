@@ -27,8 +27,12 @@ export const UserDetail = () => {
         }),
       }),
     handleSuccess: (message, data) => {
-      toast.success(message)
       setUserState(data)
+    },
+    handleError(status, message) {
+      if (status) {
+        toast.error(message)
+      }
     },
   })
 
@@ -43,7 +47,7 @@ export const UserDetail = () => {
         }),
       }),
     handleError(status, message) {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
     },
@@ -64,7 +68,7 @@ export const UserDetail = () => {
       })
     },
     handleError: (status, message) => {
-      if (status !== 400) {
+      if (status) {
         toast.error(message)
       }
     },
@@ -168,6 +172,7 @@ export const UserDetail = () => {
                 onClick={() => {
                   if (viewResult?.data?.result) setUserState(viewResult.data.result)
                   setType('read')
+                  updateResult.handleReset()
                 }}
                 size="sm"
               >

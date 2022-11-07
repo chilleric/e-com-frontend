@@ -1,5 +1,5 @@
 import { useApiCall } from '@/hooks'
-import { authenticationSelector } from '@/redux'
+import { authenticationSelector } from '@/redux/authentication'
 import { resendVerifySignUp, verifySignUp } from '@/services'
 import { Button, FormElement, Input, Loading, Row, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'

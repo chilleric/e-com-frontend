@@ -33,7 +33,6 @@ export const PermissionDetail = () => {
         { _id: router?.query?.id?.toString() ?? '1' }
       ),
     handleSuccess: (message, data) => {
-      toast.success(message)
       setPermissionState(data.data[0])
     },
   })
@@ -118,6 +117,7 @@ export const PermissionDetail = () => {
                 color="warning"
                 onClick={() => {
                   if (viewResult?.data?.result) setPermissionState(viewResult.data.result.data[0])
+                  UpdateResult.handleReset()
                   setType('read')
                 }}
                 size="sm"

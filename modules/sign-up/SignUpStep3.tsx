@@ -1,4 +1,4 @@
-import { authenticationSelector, setSignUpRequest } from '@/redux'
+import { authenticationSelector, setSignUpRequest } from '@/redux/authentication'
 import { CommonResponseType, SignUpFailure } from '@/types'
 import { Input, Text } from '@nextui-org/react'
 import { useDispatch, useSelector } from 'react-redux'

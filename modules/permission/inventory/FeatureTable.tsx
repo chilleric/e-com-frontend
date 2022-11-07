@@ -3,7 +3,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListFeature } from '@/services/feature.service'
 import { FeatureListResponse, FeatureResponse } from '@/types'
-import { Container, Loading, Pagination, Text } from '@nextui-org/react'
+import { Pagination, Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
@@ -53,28 +53,25 @@ export const FeatureTablePermission = ({
   return (
     <div>
       <Text h4>Select feature</Text>
-      {featureResult.loading ? (
-        <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
-          <Loading />
-        </Container>
-      ) : (
-        <CustomTable<FeatureResponse>
-          header={headerFeatureTable}
-          body={featureResponse?.data ?? []}
-          selectionMode={editAble ? 'multiple' : 'none'}
-          listFunctionParseValue={{}}
-          handleChangeSelection={setListFeature}
-          selectedKeys={listFeature}
-        >
-          <>{null}</>
-        </CustomTable>
+      <CustomTable<FeatureResponse>
+        header={headerFeatureTable}
+        body={featureResponse?.data ?? []}
+        selectionMode={editAble ? 'multiple' : 'none'}
+        listFunctionParseValue={{}}
+        handleChangeSelection={setListFeature}
+        selectedKeys={listFeature}
+        loading={featureResult.loading}
+      >
+        <>{null}</>
+      </CustomTable>
+      {!featureResult.loading && (
+        <Pagination
+          shadow
+          color="default"
+          total={getTotalPage(featureResult?.data?.result.totalRows || 0, 10)}
+          onChange={(number) => setPage(number)}
+        />
       )}
-      <Pagination
-        shadow
-        color="default"
-        total={getTotalPage(featureResult?.data?.result.totalRows || 0, 10)}
-        onChange={(number) => setPage(number)}
-      />
     </div>
   )
 }

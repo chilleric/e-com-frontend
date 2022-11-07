@@ -1,5 +1,5 @@
 import { ActionType, HeaderTableType } from '@/types'
-import { Col, Row, Table, TableProps, Tooltip } from '@nextui-org/react'
+import { Col, Container, Loading, Row, Table, TableProps, Tooltip } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -9,6 +9,7 @@ interface ICustomTable<T> {
   listActions?: ActionType[]
   listFunctionParseValue: Partial<Record<keyof T, Function>>
   handleChangeSelection?: Function
+  loading?: boolean
 }
 
 export function CustomTable<T extends { id: string }>({
@@ -17,6 +18,7 @@ export function CustomTable<T extends { id: string }>({
   listActions,
   listFunctionParseValue,
   handleChangeSelection,
+  loading,
   ...props
 }: ICustomTable<T> & TableProps) {
   const router = useRouter()
@@ -62,7 +64,11 @@ export function CustomTable<T extends { id: string }>({
     }
   }
 
-  return (
+  return loading ? (
+    <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+      <Loading />
+    </Container>
+  ) : (
     <Table
       aria-label="Example table with dynamic content"
       onSelectionChange={handleChange}
