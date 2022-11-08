@@ -3,7 +3,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { addNewUser } from '@/services'
 import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
-import { Button, Text } from '@nextui-org/react'
+import { Button, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -67,15 +67,17 @@ export const UserCreate = () => {
             onClick={() => {
               createResult.setLetCall(true)
             }}
+            disabled={createResult.loading}
             size="sm"
           >
-            Save
+            {createResult.loading ? <Loading /> : <>Save</>}
           </Button>
           <Button
             color="warning"
             onClick={() => {
               router.push('/user/management')
             }}
+            disabled={createResult.loading}
             size="sm"
           >
             Cancel

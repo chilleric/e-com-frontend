@@ -89,8 +89,9 @@ export const UpdateAccount = () => {
             updateResult.setLetCall(true)
           }}
           size="md"
+          disabled={viewResult.loading || updateResult.loading}
         >
-          Update Information
+          {updateResult.loading ? <Loading /> : <>Update Information</>}
         </Button>
       </Container>
     </div>

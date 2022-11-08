@@ -1,5 +1,5 @@
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
-import { Container, Grid, Input, Switch, Text } from '@nextui-org/react'
+import { Grid, Input, Switch, Text } from '@nextui-org/react'
 import { FeatureTablePermission } from './FeatureTable'
 import { inputStylesPermission } from './permission.inventory'
 import { UserTablePermission } from './UserTable'
@@ -26,8 +26,8 @@ export const ModifierPermission = ({
 
   return (
     <>
-      <Grid.Container gap={10}>
-        <Grid md={6} xs={12}>
+      <Grid.Container css={{ gap: 10 }}>
+        <Grid md={4} xs={12}>
           <Input
             css={{ width: '100%' }}
             value={permissionState.name}
@@ -56,7 +56,7 @@ export const ModifierPermission = ({
           </div>
         </Grid>
       </Grid.Container>
-      <Container css={{ display: 'flex', flexDirection: 'column', gap: 80 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 80 }}>
         <UserTablePermission
           editAble={editAble?.userId}
           listUser={permissionState.userId}
@@ -67,7 +67,7 @@ export const ModifierPermission = ({
           listFeature={permissionState.featureId}
           setListFeature={setListFeature}
         />
-      </Container>
+      </div>
     </>
   )
 }

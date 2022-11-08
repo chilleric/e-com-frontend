@@ -7,7 +7,7 @@ import {
   PermissionRequestFailure,
   PermissionResponse,
 } from '@/types/permission'
-import { Button, Text } from '@nextui-org/react'
+import { Button, Grid, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -37,7 +37,7 @@ export const PermissionDetail = () => {
     },
   })
 
-  const UpdateResult = useApiCall<PermissionRequest, PermissionRequestFailure>({
+  const updateResult = useApiCall<PermissionRequest, PermissionRequestFailure>({
     callApi: () =>
       updatePermission(
         router?.query?.id?.toString() ?? '1',
@@ -81,58 +81,71 @@ export const PermissionDetail = () => {
         <Text h1 hideIn="xs">
           {type === 'read' ? 'Permission Detail' : 'Update Detail'}
         </Text>
-        <div style={{ display: 'flex', gap: 10 }}>
-          {type === 'read' ? (
-            <>
-              <Button
-                onClick={() => {
-                  setType('update')
-                }}
-                size="sm"
-              >
-                Edit
-              </Button>
-              <Button
-                color="warning"
-                onClick={() => {
-                  router.push('/permission/management')
-                }}
-                size="sm"
-              >
-                Cancel
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                color="success"
-                onClick={() => {
-                  UpdateResult.setLetCall(true)
-                }}
-                size="sm"
-              >
-                Save
-              </Button>
-              <Button
-                color="warning"
-                onClick={() => {
-                  if (viewResult?.data?.result) setPermissionState(viewResult.data.result.data[0])
-                  UpdateResult.handleReset()
-                  setType('read')
-                }}
-                size="sm"
-              >
-                Cancel
-              </Button>
-            </>
-          )}
+        <div>
+          <Grid.Container css={{ gap: 20 }}>
+            {type === 'read' ? (
+              <>
+                <Grid>
+                  <Button
+                    onClick={() => {
+                      setType('update')
+                    }}
+                    size="sm"
+                  >
+                    Edit
+                  </Button>
+                </Grid>
+                <Grid>
+                  <Button
+                    color="warning"
+                    onClick={() => {
+                      router.push('/permission/management')
+                    }}
+                    size="sm"
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
+              </>
+            ) : (
+              <>
+                <Grid>
+                  <Button
+                    color="success"
+                    onClick={() => {
+                      updateResult.setLetCall(true)
+                    }}
+                    size="sm"
+                    disabled={updateResult.loading}
+                  >
+                    {updateResult.loading ? <Loading /> : <>Save</>}
+                  </Button>
+                </Grid>
+                <Grid>
+                  <Button
+                    color="warning"
+                    onClick={() => {
+                      if (viewResult?.data?.result)
+                        setPermissionState(viewResult.data.result.data[0])
+                      updateResult.handleReset()
+                      setType('read')
+                    }}
+                    size="sm"
+                    disabled={updateResult.loading}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
+              </>
+            )}
+          </Grid.Container>
         </div>
       </div>
       <ModifierPermission
         editAble={type === 'read' ? {} : getListEditAble(PermissionRequestDefault)}
         permissionState={permissionState}
         handleChangeState={handleChangeState}
-        errorState={UpdateResult?.error?.result}
+        errorState={updateResult?.error?.result}
       />
     </div>
   )

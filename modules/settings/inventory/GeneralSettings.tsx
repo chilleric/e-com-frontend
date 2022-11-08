@@ -67,6 +67,7 @@ export const GeneralSettings = () => {
           }}
           iconOn={<MdDarkMode />}
           iconOff={<MdLightMode />}
+          disabled={updateResult.loading || viewResult.loading}
         />
       </Container>
     </div>

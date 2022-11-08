@@ -3,7 +3,7 @@ import { encodeBase64, generateToken } from '@/lib'
 import { inputStylesUser } from '@/modules/user/inventory'
 import { updatePassword } from '@/services/settings.service'
 import { UpdatePasswordPayload } from '@/types'
-import { Button, Container, Grid, Input, Text } from '@nextui-org/react'
+import { Button, Container, Grid, Input, Loading, Text } from '@nextui-org/react'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
@@ -42,8 +42,8 @@ export const UpdatePassword = () => {
       <Text h3>Change Password</Text>
       <hr style={{ margin: '10px 0' }} />
 
-      <Grid.Container gap={4} justify="center">
-        <Grid md={4}>
+      <Grid.Container css={{ gap: 16 }} justify="center">
+        <Grid xs={12} sm={4}>
           <Input
             css={{ width: '100%' }}
             {...inputStylesUser({ error: error?.result?.oldPassword })}
@@ -56,7 +56,7 @@ export const UpdatePassword = () => {
             }}
           />
         </Grid>
-        <Grid md={4}>
+        <Grid xs={12} sm={4}>
           <Input
             css={{ width: '100%' }}
             {...inputStylesUser({ error: error?.result?.newPassword })}
@@ -69,7 +69,7 @@ export const UpdatePassword = () => {
             }}
           />
         </Grid>
-        <Grid md={4}>
+        <Grid xs={12} sm={4}>
           <Input
             css={{ width: '100%' }}
             {...inputStylesUser({ error: error?.result?.confirmNewPassword })}
@@ -92,8 +92,9 @@ export const UpdatePassword = () => {
             setLetCall(true)
           }}
           size="md"
+          disabled={updateResult.loading}
         >
-          Update Password
+          {updateResult.loading ? <Loading /> : <>Update Password</>}
         </Button>
       </Container>
     </div>

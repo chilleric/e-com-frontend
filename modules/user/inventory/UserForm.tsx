@@ -13,7 +13,7 @@ interface IUserForm {
 
 export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUserForm) => {
   return (
-    <Grid.Container gap={4} justify="center">
+    <Grid.Container css={{ gap: 16 }} justify="center">
       <Grid xs={12} sm={4}>
         <Card css={{ $$cardColor: user.verified ? '$colors$success' : '$colors$primary' }}>
           <Card.Body>
@@ -21,7 +21,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           </Card.Body>
         </Card>
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.created}
@@ -32,7 +32,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.modified}
@@ -43,7 +43,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.username}
@@ -57,7 +57,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           {...inputStylesUser({ error: errorState?.username })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.address}
@@ -71,7 +71,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           {...inputStylesUser({ error: errorState?.address })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.firstName}
@@ -85,7 +85,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           {...inputStylesUser({ error: errorState?.firstName })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.lastName}
@@ -99,7 +99,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           {...inputStylesUser({ error: errorState?.lastName })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <DatePicker
           value={user.dob}
           label="date of birth"
@@ -114,7 +114,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           disable={!editAble?.dob}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <SelectCustom
           value={user.gender}
           onChange={(value: number) => {
@@ -130,7 +130,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.phone}
@@ -144,7 +144,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           {...inputStylesUser({ error: errorState?.phone })}
         />
       </Grid>
-      <Grid md={4}>
+      <Grid xs={12} sm={4}>
         <Input
           css={{ width: '100%' }}
           value={user.email}

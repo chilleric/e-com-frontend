@@ -13,7 +13,6 @@ import { RenderItemMobile } from './RenderItemMobile'
 
 export const NavBar = () => {
   const [cookies, , removeCookie] = useCookies([DEVICE_ID, USER_ID])
-
   const router = useRouter()
 
   const logoutResult = useApiCall({
@@ -36,7 +35,7 @@ export const NavBar = () => {
   })
 
   return (
-    <Navbar isBordered variant="sticky" css={{ zIndex: 1000 }}>
+    <Navbar variant="sticky" css={{ zIndex: 1000 }}>
       <Navbar.Toggle showIn="xs" />
       <Navbar.Content hideIn="xs" enableCursorHighlight variant="underline">
         {NavBarItems.map((item) => (

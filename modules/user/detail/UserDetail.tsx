@@ -122,7 +122,7 @@ export const UserDetail = () => {
               >
                 Edit
               </Button>
-              <Dropdown isBordered>
+              <Dropdown isDisabled={changeStatus.loading} isBordered>
                 <Dropdown.Button size="sm" color={UserState.deleted === 0 ? 'success' : 'warning'}>
                   {statusList.find((item) => item.value === UserState.deleted)?.label}
                 </Dropdown.Button>
@@ -164,8 +164,9 @@ export const UserDetail = () => {
                   updateResult.setLetCall(true)
                 }}
                 size="sm"
+                disabled={updateResult.loading}
               >
-                Save
+                {updateResult.loading ? <Loading /> : <>Save</>}
               </Button>
               <Button
                 color="warning"
@@ -175,6 +176,7 @@ export const UserDetail = () => {
                   updateResult.handleReset()
                 }}
                 size="sm"
+                disabled={updateResult.loading}
               >
                 Cancel
               </Button>
