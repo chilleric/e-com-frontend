@@ -43,7 +43,7 @@ export const UserCreate = () => {
 
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
-      <Text h2 showIn="xs">
+      <Text h2 showIn="sm">
         Create User
       </Text>
       <div
@@ -51,9 +51,10 @@ export const UserCreate = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          marginBottom: 10,
         }}
       >
-        <Text h1 hideIn="xs">
+        <Text h1 hideIn="sm">
           Create User
         </Text>
         <div
@@ -84,12 +85,14 @@ export const UserCreate = () => {
           </Button>
         </div>
       </div>
-      <UserForm
-        user={UserState}
-        onchangeUserState={onchangeUserState}
-        errorState={createResult.error?.result}
-        editAble={getListEditAble(initUserRequest)}
-      />
+      <div style={{ paddingTop: 40 }}>
+        <UserForm
+          user={UserState}
+          onchangeUserState={onchangeUserState}
+          errorState={createResult.error?.result}
+          editAble={getListEditAble(initUserRequest)}
+        />
+      </div>
     </div>
   )
 }

@@ -41,7 +41,7 @@ export const PermissionCreate = () => {
 
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
-      <Text h2 showIn="xs">
+      <Text h2 showIn="sm">
         Create Permission
       </Text>
       <div
@@ -49,9 +49,10 @@ export const PermissionCreate = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          marginBottom: 10,
         }}
       >
-        <Text h1 hideIn="xs">
+        <Text h1 hideIn="sm">
           Create Permission
         </Text>
         <div

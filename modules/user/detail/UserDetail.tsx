@@ -98,7 +98,7 @@ export const UserDetail = () => {
 
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
-      <Text h2 showIn="xs">
+      <Text h2 showIn="sm">
         {type === 'read' ? 'User Detail' : 'Update Detail'}
       </Text>
       <div
@@ -106,9 +106,10 @@ export const UserDetail = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          marginBottom: 10,
         }}
       >
-        <Text h1 hideIn="xs">
+        <Text h1 hideIn="sm">
           {type === 'read' ? 'User Detail' : 'Update Detail'}
         </Text>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -184,12 +185,14 @@ export const UserDetail = () => {
           )}
         </div>
       </div>
-      <UserForm
-        user={UserState}
-        onchangeUserState={onchangeUserState}
-        errorState={updateResult?.error?.result}
-        editAble={type === 'update' ? getListEditAble(initUserRequest) : {}}
-      />
+      <div style={{ paddingTop: 20 }}>
+        <UserForm
+          user={UserState}
+          onchangeUserState={onchangeUserState}
+          errorState={updateResult?.error?.result}
+          editAble={type === 'update' ? getListEditAble(initUserRequest) : {}}
+        />
+      </div>
     </div>
   )
 }

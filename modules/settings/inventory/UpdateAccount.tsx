@@ -81,19 +81,17 @@ export const UpdateAccount = () => {
         editAble={getListEditAble(initUpdateAccountRequest)}
       />
 
-      <Container>
-        <Button
-          style={{ marginTop: 20 }}
-          color="default"
-          onClick={() => {
-            updateResult.setLetCall(true)
-          }}
-          size="md"
-          disabled={viewResult.loading || updateResult.loading}
-        >
-          {updateResult.loading ? <Loading /> : <>Update Information</>}
-        </Button>
-      </Container>
+      <Button
+        style={{ marginTop: 20 }}
+        color="default"
+        onClick={() => {
+          updateResult.setLetCall(true)
+        }}
+        size="md"
+        disabled={viewResult.loading || updateResult.loading}
+      >
+        {updateResult.loading ? <Loading /> : <>Update Information</>}
+      </Button>
     </div>
   )
 }

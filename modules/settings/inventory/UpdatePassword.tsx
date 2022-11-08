@@ -1,15 +1,17 @@
 import { useApiCall } from '@/hooks'
+import { useResponsive } from '@/hooks/useResponsive'
 import { encodeBase64, generateToken } from '@/lib'
 import { inputStylesUser } from '@/modules/user/inventory'
 import { updatePassword } from '@/services/settings.service'
 import { UpdatePasswordPayload } from '@/types'
-import { Button, Container, Grid, Input, Loading, Text } from '@nextui-org/react'
+import { Button, Input, Loading, Text } from '@nextui-org/react'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
 
 export const UpdatePassword = () => {
   const [cookies] = useCookies()
+  const breakPoint = useResponsive()
 
   const [oldPasswordState, setOldPassword] = useState<string>('')
   const [newPasswordState, setNewPassword] = useState<string>('')
@@ -42,61 +44,53 @@ export const UpdatePassword = () => {
       <Text h3>Change Password</Text>
       <hr style={{ margin: '10px 0' }} />
 
-      <Grid.Container css={{ gap: 16 }} justify="center">
-        <Grid xs={12} sm={4}>
-          <Input
-            css={{ width: '100%' }}
-            {...inputStylesUser({ error: error?.result?.oldPassword })}
-            type="password"
-            label="Old password"
-            onFocus={handleReset}
-            value={oldPasswordState}
-            onChange={(e) => {
-              setOldPassword(e.currentTarget.value)
-            }}
-          />
-        </Grid>
-        <Grid xs={12} sm={4}>
-          <Input
-            css={{ width: '100%' }}
-            {...inputStylesUser({ error: error?.result?.newPassword })}
-            type="password"
-            label="New password"
-            onFocus={handleReset}
-            value={newPasswordState}
-            onChange={(e) => {
-              setNewPassword(e.currentTarget.value)
-            }}
-          />
-        </Grid>
-        <Grid xs={12} sm={4}>
-          <Input
-            css={{ width: '100%' }}
-            {...inputStylesUser({ error: error?.result?.confirmNewPassword })}
-            type="password"
-            label="Confirm new password"
-            onFocus={handleReset}
-            value={confirmPasswordState}
-            onChange={(e) => {
-              setConfirmPasswordState(e.currentTarget.value)
-            }}
-          />
-        </Grid>
-      </Grid.Container>
-
-      <Container>
-        <Button
-          style={{ marginTop: 20 }}
-          color="default"
-          onClick={() => {
-            setLetCall(true)
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <Input
+          css={{ width: breakPoint < 2 ? '100%' : '40%' }}
+          {...inputStylesUser({ error: error?.result?.oldPassword })}
+          type="password"
+          label="Old password"
+          onFocus={handleReset}
+          value={oldPasswordState}
+          onChange={(e) => {
+            setOldPassword(e.currentTarget.value)
           }}
-          size="md"
-          disabled={updateResult.loading}
-        >
-          {updateResult.loading ? <Loading /> : <>Update Password</>}
-        </Button>
-      </Container>
+        />
+        <Input
+          css={{ width: breakPoint < 2 ? '100%' : '40%' }}
+          {...inputStylesUser({ error: error?.result?.newPassword })}
+          type="password"
+          label="New password"
+          onFocus={handleReset}
+          value={newPasswordState}
+          onChange={(e) => {
+            setNewPassword(e.currentTarget.value)
+          }}
+        />
+        <Input
+          css={{ width: breakPoint < 2 ? '100%' : '40%' }}
+          {...inputStylesUser({ error: error?.result?.confirmNewPassword })}
+          type="password"
+          label="Confirm new password"
+          onFocus={handleReset}
+          value={confirmPasswordState}
+          onChange={(e) => {
+            setConfirmPasswordState(e.currentTarget.value)
+          }}
+        />
+      </div>
+
+      <Button
+        style={{ marginTop: 20 }}
+        color="default"
+        onClick={() => {
+          setLetCall(true)
+        }}
+        size="md"
+        disabled={updateResult.loading}
+      >
+        {updateResult.loading ? <Loading /> : <>Update Password</>}
+      </Button>
     </div>
   )
 }

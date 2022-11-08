@@ -1,7 +1,8 @@
 import { DatePicker, SelectCustom } from '@/components'
+import { useResponsive } from '@/hooks/useResponsive'
 import { genderList } from '@/lib'
 import { UserDetailFailure, UserResponseSuccess } from '@/types'
-import { Card, Grid, Input, Text } from '@nextui-org/react'
+import { Card, Input, Text } from '@nextui-org/react'
 import { inputStylesUser } from './User.inventory'
 
 interface IUserForm {
@@ -12,16 +13,24 @@ interface IUserForm {
 }
 
 export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUserForm) => {
+  const breakPoint = useResponsive()
+
   return (
-    <Grid.Container css={{ gap: 16 }} justify="center">
-      <Grid xs={12} sm={4}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${breakPoint}, minmax(0, 1fr))`,
+        gap: 16,
+      }}
+    >
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Card css={{ $$cardColor: user.verified ? '$colors$success' : '$colors$primary' }}>
           <Card.Body>
             <Text>{'Verified'.toUpperCase()}</Text>
           </Card.Body>
         </Card>
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.created}
@@ -31,8 +40,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
             error: errorState?.created,
           })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.modified}
@@ -42,8 +51,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
             error: errorState?.modified,
           })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.username}
@@ -56,8 +65,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           }}
           {...inputStylesUser({ error: errorState?.username })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.address}
@@ -70,8 +79,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           }}
           {...inputStylesUser({ error: errorState?.address })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.firstName}
@@ -84,8 +93,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           }}
           {...inputStylesUser({ error: errorState?.firstName })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.lastName}
@@ -98,8 +107,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           }}
           {...inputStylesUser({ error: errorState?.lastName })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <DatePicker
           value={user.dob}
           label="date of birth"
@@ -113,8 +122,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           })}
           disable={!editAble?.dob}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <SelectCustom
           value={user.gender}
           onChange={(value: number) => {
@@ -129,8 +138,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
             error: errorState?.gender,
           })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.phone}
@@ -143,8 +152,8 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           }}
           {...inputStylesUser({ error: errorState?.phone })}
         />
-      </Grid>
-      <Grid xs={12} sm={4}>
+      </div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.email}
@@ -157,7 +166,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           }}
           {...inputStylesUser({ error: errorState?.email })}
         />
-      </Grid>
-    </Grid.Container>
+      </div>
+    </div>
   )
 }
