@@ -74,6 +74,8 @@ export const PermissionManagement = () => {
           color="default"
           total={getTotalPage(data?.result.totalRows || 0, 10)}
           onChange={(number) => setPage(number)}
+          page={page}
+          css={{ marginTop: 20 }}
         />
       )}
     </>

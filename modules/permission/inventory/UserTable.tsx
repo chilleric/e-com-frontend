@@ -68,6 +68,8 @@ export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTa
           color="default"
           total={getTotalPage(userResult?.data?.result.totalRows || 0, 10)}
           onChange={(number) => setPage(number)}
+          page={page}
+          css={{ marginTop: 20 }}
         />
       )}
     </div>

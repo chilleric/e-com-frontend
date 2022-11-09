@@ -15,6 +15,8 @@ export const useResponsive = () => {
       setBreakPoint(3)
     }
 
+    getWidth()
+
     window.addEventListener('resize', getWidth)
 
     return () => {
