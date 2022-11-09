@@ -2,7 +2,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken, getListEditAble } from '@/lib'
 import { addPermission } from '@/services/permission.service'
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
-import { Button, Text } from '@nextui-org/react'
+import { Button, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -41,7 +41,7 @@ export const PermissionCreate = () => {
 
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
-      <Text h2 showIn="xs">
+      <Text h2 showIn="sm">
         Create Permission
       </Text>
       <div
@@ -49,9 +49,10 @@ export const PermissionCreate = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          marginBottom: 10,
         }}
       >
-        <Text h1 hideIn="xs">
+        <Text h1 hideIn="sm">
           Create Permission
         </Text>
         <div
@@ -66,8 +67,9 @@ export const PermissionCreate = () => {
               createResult.setLetCall(true)
             }}
             size="sm"
+            disabled={createResult.loading}
           >
-            Save
+            {createResult.loading ? <Loading /> : <>Save</>}
           </Button>
           <Button
             color="warning"
@@ -75,6 +77,7 @@ export const PermissionCreate = () => {
               router.push('/permission/management')
             }}
             size="sm"
+            disabled={createResult.loading}
           >
             Cancel
           </Button>

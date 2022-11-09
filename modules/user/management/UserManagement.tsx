@@ -42,11 +42,11 @@ export const UserManagement = () => {
 
   return (
     <>
-      <Text showIn="xs" h2>
+      <Text showIn="sm" h2>
         User Management
       </Text>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Text hideIn="xs" h1>
+        <Text hideIn="sm" h1>
           User Management
         </Text>
         <Button

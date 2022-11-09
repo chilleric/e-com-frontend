@@ -3,7 +3,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { addNewUser } from '@/services'
 import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
-import { Button, Text } from '@nextui-org/react'
+import { Button, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -43,7 +43,7 @@ export const UserCreate = () => {
 
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
-      <Text h2 showIn="xs">
+      <Text h2 showIn="sm">
         Create User
       </Text>
       <div
@@ -51,9 +51,10 @@ export const UserCreate = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          marginBottom: 10,
         }}
       >
-        <Text h1 hideIn="xs">
+        <Text h1 hideIn="sm">
           Create User
         </Text>
         <div
@@ -67,27 +68,31 @@ export const UserCreate = () => {
             onClick={() => {
               createResult.setLetCall(true)
             }}
+            disabled={createResult.loading}
             size="sm"
           >
-            Save
+            {createResult.loading ? <Loading /> : <>Save</>}
           </Button>
           <Button
             color="warning"
             onClick={() => {
               router.push('/user/management')
             }}
+            disabled={createResult.loading}
             size="sm"
           >
             Cancel
           </Button>
         </div>
       </div>
-      <UserForm
-        user={UserState}
-        onchangeUserState={onchangeUserState}
-        errorState={createResult.error?.result}
-        editAble={getListEditAble(initUserRequest)}
-      />
+      <div style={{ paddingTop: 40 }}>
+        <UserForm
+          user={UserState}
+          onchangeUserState={onchangeUserState}
+          errorState={createResult.error?.result}
+          editAble={getListEditAble(initUserRequest)}
+        />
+      </div>
     </div>
   )
 }

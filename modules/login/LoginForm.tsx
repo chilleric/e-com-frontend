@@ -81,7 +81,7 @@ export const LoginForm = () => {
           onFocus={handleReset}
         />
         <Row justify="flex-end">
-          <Button auto light>
+          <Button disabled={loading} auto light>
             Forgot password?
           </Button>
         </Row>
@@ -90,7 +90,7 @@ export const LoginForm = () => {
         <Button auto flat onClick={handleChangeTheme}>
           Change theme
         </Button>
-        <Button auto onClick={handleSignUp}>
+        <Button disabled={loading} auto onClick={handleSignUp}>
           Sign up
         </Button>
         <Button disabled={loading} auto onClick={handleLogin}>

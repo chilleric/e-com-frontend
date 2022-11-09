@@ -42,11 +42,11 @@ export const PermissionManagement = () => {
 
   return (
     <>
-      <Text showIn="xs" h2>
+      <Text showIn="sm" h2>
         Permission Management
       </Text>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Text hideIn="xs" h1>
+        <Text hideIn="sm" h1>
           Permission Management
         </Text>
         <Button

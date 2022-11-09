@@ -1,5 +1,6 @@
+import { useResponsive } from '@/hooks/useResponsive'
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
-import { Container, Grid, Input, Switch, Text } from '@nextui-org/react'
+import { Input, Switch, Text } from '@nextui-org/react'
 import { FeatureTablePermission } from './FeatureTable'
 import { inputStylesPermission } from './permission.inventory'
 import { UserTablePermission } from './UserTable'
@@ -17,6 +18,8 @@ export const ModifierPermission = ({
   editAble,
   errorState,
 }: IModifierPermission) => {
+  const breakPoint = useResponsive()
+
   const setListUser = (listUser: string[]) => {
     handleChangeState({ userId: listUser })
   }
@@ -25,9 +28,15 @@ export const ModifierPermission = ({
   }
 
   return (
-    <>
-      <Grid.Container gap={10}>
-        <Grid md={6} xs={12}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${breakPoint > 1 ? 2 : 1}, minmax(0, 1fr))`,
+          gap: 40,
+        }}
+      >
+        <div style={{ gridColumn: 'span 1 / span 1' }}>
           <Input
             css={{ width: '100%' }}
             value={permissionState.name}
@@ -40,9 +49,16 @@ export const ModifierPermission = ({
             }}
             {...inputStylesPermission({ error: errorState?.name })}
           />
-        </Grid>
-        <Grid md={6} xs={12}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
+        </div>
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 40,
+              gridColumn: 'span 1 / span 1',
+            }}
+          >
             <Text>Skip Accessability</Text>
             <Switch
               disabled={!editAble?.skipAccessability}
@@ -54,9 +70,9 @@ export const ModifierPermission = ({
               }}
             />
           </div>
-        </Grid>
-      </Grid.Container>
-      <Container css={{ display: 'flex', flexDirection: 'column', gap: 80 }}>
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 80 }}>
         <UserTablePermission
           editAble={editAble?.userId}
           listUser={permissionState.userId}
@@ -67,7 +83,7 @@ export const ModifierPermission = ({
           listFeature={permissionState.featureId}
           setListFeature={setListFeature}
         />
-      </Container>
-    </>
+      </div>
+    </div>
   )
 }

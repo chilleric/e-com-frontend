@@ -57,18 +57,17 @@ export const GeneralSettings = () => {
       <Text h3>General Setting</Text>
       <hr style={{ margin: '10px 0' }} />
 
-      <Container>
-        <Text h5>Dark mode</Text>
-        <Switch
-          checked={GeneralSettings.darkTheme}
-          onChange={() => {
-            dispatch(toggleTheme())
-            updateResult.setLetCall(true)
-          }}
-          iconOn={<MdDarkMode />}
-          iconOff={<MdLightMode />}
-        />
-      </Container>
+      <Text h5>Dark mode</Text>
+      <Switch
+        checked={GeneralSettings.darkTheme}
+        onChange={() => {
+          dispatch(toggleTheme())
+          updateResult.setLetCall(true)
+        }}
+        iconOn={<MdDarkMode />}
+        iconOff={<MdLightMode />}
+        disabled={updateResult.loading || viewResult.loading}
+      />
     </div>
   )
 }
