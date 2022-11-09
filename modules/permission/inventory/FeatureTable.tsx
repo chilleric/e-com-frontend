@@ -67,9 +67,10 @@ export const FeatureTablePermission = ({
       {!featureResult.loading && (
         <Pagination
           shadow
-          color="default"
           total={getTotalPage(featureResult?.data?.result.totalRows || 0, 10)}
           onChange={(number) => setPage(number)}
+          page={page}
+          css={{ marginTop: 20 }}
         />
       )}
     </div>
