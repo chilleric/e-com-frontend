@@ -112,77 +112,83 @@ export const UserDetail = () => {
         <Text h1 hideIn="sm">
           {type === 'read' ? 'User Detail' : 'Update Detail'}
         </Text>
-        <div style={{ display: 'flex', gap: 10 }}>
-          {type === 'read' ? (
-            <>
-              <Button
-                onClick={() => {
-                  setType('update')
-                }}
-                size="sm"
-              >
-                Edit
-              </Button>
-              <Dropdown isDisabled={changeStatus.loading} isBordered>
-                <Dropdown.Button size="sm" color={UserState.deleted === 0 ? 'success' : 'warning'}>
-                  {statusList.find((item) => item.value === UserState.deleted)?.label}
-                </Dropdown.Button>
-                <Dropdown.Menu
-                  disallowEmptySelection
-                  selectedKeys={new Set([UserState.deleted.toString()])}
-                  selectionMode="single"
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <Dropdown isDisabled={changeStatus.loading} isBordered>
+            <Dropdown.Button
+              size="sm"
+              color={UserState.deleted === 0 ? 'success' : 'warning'}
+              css={{ width: 144 }}
+            >
+              {statusList.find((item) => item.value === UserState.deleted)?.label}
+            </Dropdown.Button>
+            <Dropdown.Menu
+              disallowEmptySelection
+              selectedKeys={new Set([UserState.deleted.toString()])}
+              selectionMode="single"
+            >
+              {statusList
+                .filter((item) => item.value !== UserState.deleted)
+                .map((item) => (
+                  <Dropdown.Item key={item.value}>
+                    <div
+                      onClick={() => {
+                        changeStatus.setLetCall(true)
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                  </Dropdown.Item>
+                ))}
+            </Dropdown.Menu>
+          </Dropdown>
+          <div style={{ display: 'flex', gap: 10 }}>
+            {type === 'read' ? (
+              <>
+                <Button
+                  onClick={() => {
+                    setType('update')
+                  }}
+                  size="sm"
                 >
-                  {statusList
-                    .filter((item) => item.value !== UserState.deleted)
-                    .map((item) => (
-                      <Dropdown.Item key={item.value}>
-                        <div
-                          onClick={() => {
-                            changeStatus.setLetCall(true)
-                          }}
-                        >
-                          {item.label}
-                        </div>
-                      </Dropdown.Item>
-                    ))}
-                </Dropdown.Menu>
-              </Dropdown>
-              <Button
-                color="warning"
-                onClick={() => {
-                  router.push('/user/management')
-                }}
-                size="sm"
-              >
-                Cancel
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                color="success"
-                onClick={() => {
-                  updateResult.setLetCall(true)
-                }}
-                size="sm"
-                disabled={updateResult.loading}
-              >
-                {updateResult.loading ? <Loading /> : <>Save</>}
-              </Button>
-              <Button
-                color="warning"
-                onClick={() => {
-                  if (viewResult?.data?.result) setUserState(viewResult.data.result)
-                  setType('read')
-                  updateResult.handleReset()
-                }}
-                size="sm"
-                disabled={updateResult.loading}
-              >
-                Cancel
-              </Button>
-            </>
-          )}
+                  Edit
+                </Button>
+                <Button
+                  color="warning"
+                  onClick={() => {
+                    router.push('/user/management')
+                  }}
+                  size="sm"
+                >
+                  Cancel
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  color="success"
+                  onClick={() => {
+                    updateResult.setLetCall(true)
+                  }}
+                  size="sm"
+                  disabled={updateResult.loading}
+                >
+                  {updateResult.loading ? <Loading /> : <>Save</>}
+                </Button>
+                <Button
+                  color="warning"
+                  onClick={() => {
+                    if (viewResult?.data?.result) setUserState(viewResult.data.result)
+                    setType('read')
+                    updateResult.handleReset()
+                  }}
+                  size="sm"
+                  disabled={updateResult.loading}
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
       <div style={{ paddingTop: 20 }}>
