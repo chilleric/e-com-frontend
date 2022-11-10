@@ -28,4 +28,8 @@ export const apiRoute = {
     getFeatureList: 'feature/get-list-feature',
     changeStatusFeature: 'feature/change-status',
   },
+  message: {
+    toChatRoom: 'message/to-chat-room',
+    outChatRoom: 'message/out-chat-room',
+  },
 }
