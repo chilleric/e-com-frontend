@@ -3,6 +3,7 @@ import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
 import { logout } from '@/services'
 import { Avatar, Dropdown, Navbar } from '@nextui-org/react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { useCookies } from 'react-cookie'
@@ -52,6 +53,7 @@ export const NavBar = () => {
         ))}
       </Navbar.Collapse>
       <Navbar.Content>
+        <Link href="/chat">chat</Link>
         <Dropdown isBordered>
           <Dropdown.Trigger>
             <Navbar.Item>
