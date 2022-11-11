@@ -50,10 +50,16 @@ a {
 /* Handle */
 .custom-scroolbar::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: #BCBCBC;
+  background: #bcbcbc;
 }
 
 /* Handle on hover */
 .custom-scroolbar::-webkit-scrollbar-thumb:hover {
-  background: #BCBCBC;
+  background: #bcbcbc;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }

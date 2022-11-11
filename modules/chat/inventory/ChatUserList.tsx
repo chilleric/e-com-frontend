@@ -22,7 +22,7 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
   const userList = [
     { id: '1', name: 'John', avt: '' },
     { id: '2', name: 'Tu Nguyen Van', avt: '' },
-    { id: '3', name: 'Mark', avt: '' },
+    { id: '3', name: 'Tran Viet Hai Linh Linh Linh Linh Linh', avt: '' },
     { id: '4', name: 'Mark', avt: '' },
     { id: '5', name: 'Mark', avt: '' },
     { id: '6', name: 'Mark', avt: '' },
@@ -40,7 +40,7 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
   return (
     <div
       style={{
-        width: breakPoint === 1 ? '100% ' : '500px',
+        width: breakPoint === 1 ? '100% ' : 375,
         minWidth: 375,
         borderRight: breakPoint !== 1 ? '2px solid' : '',
         borderColor: theme?.colors.accents3.value,
@@ -57,7 +57,7 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
           gap: 20,
           overflowX: 'scroll',
           marginBottom: 10,
-          height: 180,
+          height: breakPoint === 1 ? 100 : 150,
         }}
       >
         {userList.map((user) => {
@@ -80,7 +80,7 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
                   bordered
                   as="button"
                   color="primary"
-                  css={{ size: breakPoint === 1 ? 50 : 100 }}
+                  css={{ size: breakPoint === 1 ? 50 : 80 }}
                   src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                 />
                 <div
@@ -97,7 +97,16 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
                   }}
                 />
               </div>
-              <div style={{ width: 100, textAlign: 'center' }}>{user.name}</div>
+              <div
+                className="line-clamp-2"
+                style={{
+                  width: 100,
+                  textAlign: 'center',
+                  overflow: 'hidden',
+                }}
+              >
+                {user.name}
+              </div>
             </div>
           )
         })}
@@ -108,7 +117,7 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
           display: 'flex',
           flexDirection: 'column',
           overflow: 'auto',
-          height: 'calc(100%-180px)',
+          height: `calc(100% - ${breakPoint === 1 ? '100px' : '150px'})`,
         }}
       >
         {userList.map((user) => {
@@ -139,7 +148,7 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
                   as="button"
                   color="primary"
                   src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                  css={{ size: breakPoint === 1 ? 50 : 100 }}
+                  css={{ size: breakPoint === 1 ? 50 : 80 }}
                 />
                 <div
                   style={{
