@@ -1,18 +1,13 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
-import { logout } from '@/services'
-import { Avatar, Dropdown, Navbar } from '@nextui-org/react'
-import Link from 'next/link'
+import { getOutChatRoom, logout } from '@/services'
+import { Avatar, Button, Dropdown, Navbar } from '@nextui-org/react'
 import { useRouter } from 'next/router'
-import { Fragment } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { NavBarItems } from './NavBarConstant'
-import { RenderItemDesktop } from './RenderItemDesktop'
-import { RenderItemMobile } from './RenderItemMobile'
 
-export const NavBar = () => {
+export const NavBarChat = () => {
   const [cookies, , removeCookie] = useCookies([DEVICE_ID, USER_ID])
   const router = useRouter()
 
@@ -35,25 +30,28 @@ export const NavBar = () => {
     },
   })
 
+  const outChatRoom = useApiCall({
+    callApi: () =>
+      getOutChatRoom(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })),
+    handleSuccess(message) {
+      if (message) {
+        router.push('/')
+      }
+    },
+  })
+
   return (
     <Navbar variant="sticky" css={{ zIndex: 1000 }}>
-      <Navbar.Toggle showIn="xs" />
-      <Navbar.Content hideIn="xs" enableCursorHighlight variant="underline">
-        {NavBarItems.map((item) => (
-          <Fragment key={item.path}>
-            <RenderItemDesktop item={item} />
-          </Fragment>
-        ))}
-      </Navbar.Content>
-      <Navbar.Collapse showIn="xs">
-        {NavBarItems.map((item) => (
-          <Fragment key={item.path}>
-            <RenderItemMobile level={0} item={item} />
-          </Fragment>
-        ))}
-      </Navbar.Collapse>
       <Navbar.Content>
-        <Link href="/chat">chat</Link>
+        <Button
+          onClick={() => {
+            outChatRoom.setLetCall(true)
+          }}
+        >
+          Back to Dashboard
+        </Button>
+      </Navbar.Content>
+      <Navbar.Content>
         <Dropdown isBordered>
           <Dropdown.Trigger>
             <Navbar.Item>
@@ -68,11 +66,19 @@ export const NavBar = () => {
           </Dropdown.Trigger>
           <Dropdown.Menu variant="light">
             <Dropdown.Item>
-              <div onClick={() => router.push('/settings')}>Settings</div>
+              <div
+                onClick={() => {
+                  router.push('/settings')
+                  outChatRoom.setLetCall(true)
+                }}
+              >
+                Settings
+              </div>
             </Dropdown.Item>
             <Dropdown.Item>
               <div
                 onClick={() => {
+                  outChatRoom.setLetCall(true)
                   logoutResult.setLetCall(true)
                 }}
               >

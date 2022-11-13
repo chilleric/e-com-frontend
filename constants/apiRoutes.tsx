@@ -28,4 +28,13 @@ export const apiRoute = {
     getFeatureList: 'feature/get-list-feature',
     changeStatusFeature: 'feature/change-status',
   },
+  message: {
+    toChatRoom: 'message/to-chat-room',
+    outChatRoom: 'message/out-chat-room',
+    sendMessage: 'message/send-message',
+    onlineUser: 'message/online-users',
+    getLastMessage: 'message/get-last-messages',
+    getOldMessage: 'message/get-old-messages',
+    getChatRooms: 'message/get-chat-room',
+  },
 }
