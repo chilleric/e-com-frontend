@@ -1,8 +1,11 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
+import { useApiCall } from '@/hooks'
+import { generateToken } from '@/lib'
 import { resetSignUpRequest } from '@/redux/authentication'
 import { GeneralSettingsSelector } from '@/redux/general-settings'
+import { getInChatRoom, getOutChatRoom } from '@/services'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
@@ -11,10 +14,26 @@ import { Modal403 } from '../modals'
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
+  const [chatStatus, setChatStatus] = useState<string>('out')
 
   const dispatch = useDispatch()
 
   const { darkTheme } = useSelector(GeneralSettingsSelector)
+
+  const outChatRoom = useApiCall({
+    callApi: () =>
+      getOutChatRoom(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })),
+    handleSuccess(message) {
+      if (message) {
+        router.push('/')
+      }
+    },
+  })
+
+  const inChatRoom = useApiCall({
+    callApi: () =>
+      getInChatRoom(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })),
+  })
 
   useEffect(() => {
     if (
@@ -25,6 +44,14 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     ) {
       if (!cookies.deviceId && !cookies.userId) {
         router.push('/login')
+      } else if (router.asPath.includes('chat')) {
+        if (chatStatus !== 'in') {
+          inChatRoom.setLetCall(true)
+          setChatStatus('in')
+        }
+      } else if (chatStatus !== 'out') {
+        outChatRoom.setLetCall(true)
+        setChatStatus('out')
       }
     }
     if (

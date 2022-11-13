@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { useCookies } from 'react-cookie'
+import { BsFillChatLeftDotsFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import { NavBarItems } from './NavBarConstant'
 import { RenderItemDesktop } from './RenderItemDesktop'
@@ -53,7 +54,11 @@ export const NavBar = () => {
         ))}
       </Navbar.Collapse>
       <Navbar.Content>
-        <Link href="/chat">chat</Link>
+        <Link href="/chat">
+          <div style={{ cursor: 'pointer' }}>
+            <BsFillChatLeftDotsFill />
+          </div>
+        </Link>
         <Dropdown isBordered>
           <Dropdown.Trigger>
             <Navbar.Item>
