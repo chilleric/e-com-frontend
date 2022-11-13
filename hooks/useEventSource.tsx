@@ -6,9 +6,11 @@ export const useEventSource = <T,>({
   eventName,
   handleConnected,
   handleError,
+  token,
 }: {
   eventUrl: string
   eventName: string
+  token: string
   handleConnected?: () => void
   handleError?: (error: any) => void
 }) => {
@@ -19,7 +21,7 @@ export const useEventSource = <T,>({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const url = new EventSource(`${serverUrl}${eventUrl}`, {
+      const url = new EventSource(`${serverUrl}/${eventUrl}?token=${token}`, {
         withCredentials: true,
       })
       setEvtSource(url)

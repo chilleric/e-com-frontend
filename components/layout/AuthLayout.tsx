@@ -1,8 +1,6 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
 import { resetSignUpRequest } from '@/redux/authentication'
 import { GeneralSettingsSelector } from '@/redux/general-settings'
-import { getInChatRoom, getOutChatRoom } from '@/services'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
@@ -18,14 +16,6 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { darkTheme } = useSelector(GeneralSettingsSelector)
 
-  const inChatRoom = useApiCall({
-    callApi: () => getInChatRoom(cookies.userId),
-  })
-
-  const outChatRoom = useApiCall({
-    callApi: () => getOutChatRoom(cookies.userId),
-  })
-
   useEffect(() => {
     if (
       router &&
@@ -35,10 +25,6 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     ) {
       if (!cookies.deviceId && !cookies.userId) {
         router.push('/login')
-      } else if (router.asPath.includes('chat')) {
-        inChatRoom.setLetCall(true)
-      } else {
-        outChatRoom.setLetCall(true)
       }
     }
     if (

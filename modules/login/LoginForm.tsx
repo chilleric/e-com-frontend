@@ -16,7 +16,7 @@ export const LoginForm = () => {
   const emailRef = useRef<FormElement>(null)
   const passwordRef = useRef<FormElement>(null)
   const router = useRouter()
-  const [, setCookie] = useCookies([DEVICE_ID, USER_ID])
+  const [cookies, setCookie] = useCookies([DEVICE_ID, USER_ID])
 
   const dispatch = useDispatch()
 
@@ -53,11 +53,22 @@ export const LoginForm = () => {
 
   useEffect(() => {
     if (data) {
-      setCookie(DEVICE_ID, data.result.deviceId, { path: '/' })
-      setCookie(USER_ID, data.result.userId, { path: '/' })
-      router.push('/')
+      setCookie(DEVICE_ID, data.result.deviceId, {
+        path: '/',
+        expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+      })
+      setCookie(USER_ID, data.result.userId, {
+        path: '/',
+        expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+      })
     }
   }, [data])
+
+  useEffect(() => {
+    if (cookies.deviceId && cookies.userId) {
+      router.push('/')
+    }
+  }, [cookies])
 
   return (
     <>

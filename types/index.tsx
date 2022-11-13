@@ -1,4 +1,5 @@
 export * from './auth'
+export * from './chat'
 export * from './feature'
 export * from './permission'
 export * from './redux'
