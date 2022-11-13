@@ -4,7 +4,7 @@ import { useApiCall, useEventSource, useResponsive } from '@/hooks'
 import { generateToken } from '@/lib'
 import { getChatRoom } from '@/services'
 import { ChatRoom, UserOnlineResponse } from '@/types'
-import { Avatar, useTheme } from '@nextui-org/react'
+import { Avatar, Loading, useTheme } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 
@@ -48,8 +48,6 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
       style={{
         width: breakPoint === 1 ? '100% ' : 375,
         minWidth: 375,
-        // borderRight: breakPoint !== 1 ? '2px solid' : '',
-        // borderColor: theme?.colors.accents1.value,
         paddingRight: 10,
         display: 'flex',
         flexDirection: 'column',
@@ -129,7 +127,12 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
           height: `calc(100% - ${breakPoint === 1 ? '100px' : '150px'})`,
         }}
       >
-        {getChatRooms.data &&
+        {getChatRooms.loading ? (
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Loading />
+          </div>
+        ) : (
+          getChatRooms.data &&
           getChatRooms.data?.result.map((user) => {
             return (
               <div
@@ -181,7 +184,8 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
                 <div>{user.receiverName}</div>
               </div>
             )
-          })}
+          })
+        )}
       </div>
     </div>
   )

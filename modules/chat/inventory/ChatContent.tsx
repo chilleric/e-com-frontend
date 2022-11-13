@@ -4,7 +4,7 @@ import { useApiCall, useEventSource, useResponsive, useScroll } from '@/hooks'
 import { generateToken } from '@/lib'
 import { getOldMessage, sendMessage } from '@/services'
 import { MessageResponse, MessageResponseList } from '@/types'
-import { Button, Input, useTheme } from '@nextui-org/react'
+import { Button, Input, Loading, useTheme } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
@@ -83,6 +83,53 @@ export const ChatContent = ({ setUserChoose, user }: IChatContent) => {
 
   if (!user.id) return null
 
+  const getContent = () => {
+    if (getOldMessages.loading)
+      return (
+        <div style={{ marginTop: 10, width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Loading />
+        </div>
+      )
+    return messages.length > 0 && messages[0].id !== '' ? (
+      messages
+        .filter((item) => rightMessages(item))
+        .sort((a, b) => {
+          const dateA = new Date(a.created).getTime()
+          const dateB = new Date(b.created).getTime()
+          return dateA - dateB
+        })
+        .map((chat, index) => {
+          return (
+            <div
+              key={index}
+              style={{
+                display: 'flex',
+                justifyContent: chat.sendId === cookie.userId ? 'right' : 'left',
+              }}
+            >
+              <div
+                style={{
+                  maxWidth: 'max-content',
+                  marginLeft: 20,
+                  padding: '10px 20px',
+                  borderRadius: 20,
+                  backgroundColor:
+                    chat.sendId !== cookie.userId
+                      ? theme?.colors.accents5.value
+                      : theme?.colors.blue500.value,
+                  fontSize: 20,
+                }}
+              >
+                {chat.context}
+              </div>
+            </div>
+          )
+        })
+    ) : (
+      <div style={{ width: '100%', textAlign: 'center' }}>No message</div>
+    )
+  }
+
   return (
     <div
       style={{
@@ -123,44 +170,7 @@ export const ChatContent = ({ setUserChoose, user }: IChatContent) => {
           overflow: 'auto',
         }}
       >
-        {messages.length > 0 && messages[0].id !== '' ? (
-          messages
-            .filter((item) => rightMessages(item))
-            .sort((a, b) => {
-              const dateA = new Date(a.created).getTime()
-              const dateB = new Date(b.created).getTime()
-              return dateA - dateB
-            })
-            .map((chat, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{
-                    display: 'flex',
-                    justifyContent: chat.sendId === cookie.userId ? 'right' : 'left',
-                  }}
-                >
-                  <div
-                    style={{
-                      maxWidth: 'max-content',
-                      marginLeft: 20,
-                      padding: '10px 20px',
-                      borderRadius: 20,
-                      backgroundColor:
-                        chat.sendId !== cookie.userId
-                          ? theme?.colors.accents5.value
-                          : theme?.colors.blue500.value,
-                      fontSize: 20,
-                    }}
-                  >
-                    {chat.context}
-                  </div>
-                </div>
-              )
-            })
-        ) : (
-          <div style={{ width: '100%', textAlign: 'center' }}>No message</div>
-        )}
+        {getContent()}
       </div>
       <Input
         css={{ fontSize: 20, width: '100%', padding: 5, height: '80px' }}

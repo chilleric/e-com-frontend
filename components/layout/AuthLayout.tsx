@@ -23,17 +23,26 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const outChatRoom = useApiCall({
     callApi: () =>
       getOutChatRoom(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })),
-    handleSuccess(message) {
-      if (message) {
-        router.push('/')
-      }
-    },
   })
 
   const inChatRoom = useApiCall({
     callApi: () =>
       getInChatRoom(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })),
   })
+
+  useEffect(() => {
+    const onClose = () => {
+      outChatRoom.setLetCall(true)
+    }
+
+    onClose()
+
+    window.addEventListener('beforeunload', onClose)
+
+    return () => {
+      window.removeEventListener('beforeunload', onClose)
+    }
+  }, [])
 
   useEffect(() => {
     if (
