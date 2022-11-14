@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useResponsive } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux/general-settings'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
@@ -14,6 +14,8 @@ export const GeneralSettings = () => {
 
   const GeneralSettings = useSelector(GeneralSettingsSelector)
   const dispatch = useDispatch()
+
+  const responsive = useResponsive()
 
   const viewResult = useApiCall<GeneralSettingsResponseSuccess, string>({
     callApi: () =>
@@ -66,7 +68,7 @@ export const GeneralSettings = () => {
         }}
         iconOn={<MdDarkMode />}
         iconOff={<MdLightMode />}
-        disabled={updateResult.loading || viewResult.loading}
+        disabled={updateResult.loading || viewResult.loading || responsive < 3}
       />
     </div>
   )

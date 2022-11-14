@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useGetDarkMode, useResponsive } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
 import { setLoading } from '@/redux/share-store'
@@ -17,6 +17,8 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
 
   const { darkTheme } = useSelector(GeneralSettingsSelector)
 
+  const responsive = useResponsive()
+
   const dispatch = useDispatch()
 
   const result = useApiCall<GeneralSettingsResponseSuccess, string>({
@@ -28,9 +30,19 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
       }
     },
     handleSuccess(message, data) {
-      dispatch(setGeneralSettings(data))
+      if (responsive === 3) {
+        dispatch(setGeneralSettings(data))
+      }
     },
   })
+
+  const isDark = useGetDarkMode()
+
+  useEffect(() => {
+    if (responsive < 3 && darkTheme !== isDark) {
+      dispatch(setGeneralSettings({ darkTheme: isDark }))
+    }
+  }, [isDark])
 
   useEffect(() => {
     if (cookies.deviceId && cookies.userId) {
