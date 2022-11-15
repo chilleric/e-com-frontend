@@ -55,7 +55,9 @@ export const ChatUserList = ({ userChooseId, setUserChoose }: IChatUserList) => 
         flexDirection: 'column',
       }}
     >
-      {event.evtData && <SlideBar userList={event.evtData} />}
+      {event.evtData && (
+        <SlideBar userList={event.evtData.filter((item) => item.id !== cookies.userId)} />
+      )}
       <div
         className="hide-scrollbar"
         style={{
