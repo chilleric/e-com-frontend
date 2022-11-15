@@ -21,4 +21,12 @@ export const NavBarItems: NavBarItemType[] = [
       { label: 'Create Permission', path: '/permission/create' },
     ],
   },
+  {
+    label: 'Language',
+    path: '/language',
+    children: [
+      { label: 'Language Management', path: '/language/management' },
+      { label: 'Create Language', path: '/language/create' },
+    ],
+  },
 ]
