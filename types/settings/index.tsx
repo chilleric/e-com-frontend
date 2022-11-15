@@ -1,5 +1,6 @@
 export type GeneralSettingsResponseSuccess = {
   darkTheme: boolean
+  languageKey: string
 }
 
 export type UpdatePasswordPayload = {

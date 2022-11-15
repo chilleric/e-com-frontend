@@ -37,4 +37,12 @@ export const apiRoute = {
     getOldMessage: 'message/get-old-messages',
     getChatRooms: 'message/get-chat-room',
   },
+  language: {
+    getLanguageSelectList: 'language/get-language-select-list',
+    getLanguageList: 'language/get-language-list',
+    getLanguageByKey: 'language/get-language-by-key',
+    getDefaultDictionary: 'language/get-default-dictionary',
+    addNewLanguage: 'language/add-new-language',
+    updateLanguage: 'language/update-language',
+  },
 }

@@ -1,13 +1,14 @@
 import { useApiCall, useResponsive } from '@/hooks'
 import { generateToken } from '@/lib'
-import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux/general-settings'
+import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
 import { GeneralSettingsResponseSuccess, UpdateGeneralFailure } from '@/types'
-import { Container, Loading, Switch, Text } from '@nextui-org/react'
+import { Container, Loading, Text } from '@nextui-org/react'
 import { useCookies } from 'react-cookie'
-import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { SettingTheme } from './general-setting.inventory'
+import { SettingLanguage } from './general-setting.inventory/SettingLanguage'
 
 export const GeneralSettings = () => {
   const [cookie] = useCookies()
@@ -59,17 +60,19 @@ export const GeneralSettings = () => {
       <Text h3>General Setting</Text>
       <hr style={{ margin: '10px 0' }} />
 
-      <Text h5>Dark mode</Text>
-      <Switch
-        checked={GeneralSettings.darkTheme}
-        onChange={() => {
-          dispatch(toggleTheme())
-          updateResult.setLetCall(true)
-        }}
-        iconOn={<MdDarkMode />}
-        iconOff={<MdLightMode />}
-        disabled={updateResult.loading || viewResult.loading || responsive < 3}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <SettingTheme
+          darkTheme={GeneralSettings.darkTheme}
+          setLetCallUpdate={updateResult.setLetCall}
+          disabled={updateResult.loading || responsive < 3}
+        />
+
+        <SettingLanguage
+          languageKey={GeneralSettings.languageKey}
+          setLetCallUpdate={updateResult.setLetCall}
+          disabled={updateResult.loading}
+        />
+      </div>
     </div>
   )
 }

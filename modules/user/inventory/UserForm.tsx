@@ -124,9 +124,9 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
-        <SelectCustom
+        <SelectCustom<number>
           value={user.gender}
-          onChange={(value: number) => {
+          onChange={(value) => {
             onchangeUserState({
               gender: value,
             })
@@ -134,9 +134,12 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           label="gender"
           disabled={!editAble?.gender}
           options={genderList}
-          buttonProps={inputStylesUser({
-            error: errorState?.gender,
-          })}
+          buttonProps={{
+            ...inputStylesUser({
+              error: errorState?.gender,
+            }),
+            width: '100%',
+          }}
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
