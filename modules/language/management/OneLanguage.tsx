@@ -11,9 +11,10 @@ import { LanguageTable } from '../inventory'
 interface IOneLanguage {
   language: LanguageResponseSuccess
   setLetCallList: Function
+  updateStoreLanguage: Function
 }
 
-export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
+export const OneLanguage = ({ language, setLetCallList, updateStoreLanguage }: IOneLanguage) => {
   const [cookies] = useCookies()
 
   const [editAble, setEditAble] = useState(false)
@@ -91,6 +92,7 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
       <LanguageTable
         dictionaryList={dictionaryList}
         edit={editAble}
+        updateStoreLanguage={updateStoreLanguage}
         handleChangeState={setDictionaryList}
         setLetCallList={setLetCallList}
       />

@@ -1,11 +1,14 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
-import { getLanguageList } from '@/services'
-import { LanguageListResponseSuccess } from '@/types'
+import { GeneralSettingsSelector } from '@/redux/general-settings'
+import { setLanguage } from '@/redux/share-store'
+import { getLanguageByKey, getLanguageList } from '@/services'
+import { LanguageListResponseSuccess, LanguageResponseSuccess } from '@/types'
 import { Collapse, Loading, Text } from '@nextui-org/react'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { DictionaryCreatePopup } from '../inventory/DictionaryCreatePopup'
 import { LanguageCreatePopup } from '../inventory/LanguageCreatePopup'
@@ -29,6 +32,30 @@ export const LanguageManagement = () => {
     },
   })
 
+  const dispatch = useDispatch()
+
+  const { languageKey } = useSelector(GeneralSettingsSelector)
+
+  const getLanguage = useApiCall<LanguageResponseSuccess, string>({
+    callApi: () =>
+      getLanguageByKey(
+        generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }),
+        languageKey
+      ),
+    handleError(status, message) {
+      if (status) {
+        toast.error(message)
+      }
+    },
+    handleSuccess(message, data) {
+      dispatch(setLanguage(data.dictionary))
+    },
+  })
+
+  const updateStoreLanguage = () => {
+    getLanguage.setLetCall(true)
+  }
+
   useEffect(() => {
     viewLanguageresult.setLetCall(true)
   }, [])
@@ -49,13 +76,17 @@ export const LanguageManagement = () => {
           }}
         >
           <DictionaryCreatePopup
+            updateStoreLanguage={updateStoreLanguage}
             setLetCallList={viewLanguageresult.setLetCall}
             listKeyOfDictionary={[
               'key',
               ...(viewLanguageresult.data?.result.data.map((language) => language.key) ?? []),
             ]}
           />
-          <LanguageCreatePopup setLetCallList={viewLanguageresult.setLetCall} />
+          <LanguageCreatePopup
+            updateStoreLanguage={updateStoreLanguage}
+            setLetCallList={viewLanguageresult.setLetCall}
+          />
         </div>
       </div>
 
@@ -67,7 +98,11 @@ export const LanguageManagement = () => {
         <Collapse.Group>
           {viewLanguageresult.data?.result.data.map((language) => (
             <Collapse title={language.language}>
-              <OneLanguage language={language} setLetCallList={viewLanguageresult.setLetCall} />
+              <OneLanguage
+                updateStoreLanguage={updateStoreLanguage}
+                language={language}
+                setLetCallList={viewLanguageresult.setLetCall}
+              />
             </Collapse>
           ))}
         </Collapse.Group>

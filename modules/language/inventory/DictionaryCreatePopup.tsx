@@ -1,24 +1,23 @@
 import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
-import { GeneralSettingsSelector } from '@/redux/general-settings'
-import { setLanguage } from '@/redux/share-store'
-import { addNewDictionary, getLanguageByKey } from '@/services'
-import { DictionaryKey, LanguageResponseSuccess } from '@/types'
+import { addNewDictionary } from '@/services'
+import { DictionaryKey } from '@/types'
 import { Button, Input, Modal, Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { inputStylesLanguage } from './Language.inventory'
 
 interface IDictionaryCreatePopup {
   listKeyOfDictionary: string[]
   setLetCallList: Function
+  updateStoreLanguage: Function
 }
 
 export const DictionaryCreatePopup = ({
   setLetCallList,
   listKeyOfDictionary,
+  updateStoreLanguage,
 }: IDictionaryCreatePopup) => {
   const [cookies] = useCookies()
 
@@ -26,29 +25,9 @@ export const DictionaryCreatePopup = ({
 
   const [open, setOpen] = useState(false)
 
-  const dispatch = useDispatch()
-
-  const { languageKey } = useSelector(GeneralSettingsSelector)
-
   const handleClose = () => {
     setOpen(false)
   }
-
-  const getLanguage = useApiCall<LanguageResponseSuccess, string>({
-    callApi: () =>
-      getLanguageByKey(
-        generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }),
-        languageKey
-      ),
-    handleError(status, message) {
-      if (status) {
-        toast.error(message)
-      }
-    },
-    handleSuccess(message, data) {
-      dispatch(setLanguage(data.dictionary))
-    },
-  })
 
   const createResult = useApiCall<DictionaryKey, Record<keyof DictionaryKey, string>>({
     callApi: () =>
@@ -60,7 +39,7 @@ export const DictionaryCreatePopup = ({
       toast.success(message)
       handleClose()
       setLetCallList(true)
-      getLanguage.setLetCall(true)
+      updateStoreLanguage()
     },
     handleError(message) {
       toast.error(message)
@@ -92,7 +71,7 @@ export const DictionaryCreatePopup = ({
         {labelButton}
       </Button>
       {open ? (
-        <Modal open={open} onClose={handleClose} blur>
+        <Modal open={open} onClose={handleClose} blur preventClose>
           <Modal.Header>
             <Text h2 id="modal-title">
               {labelButton}

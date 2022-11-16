@@ -11,11 +11,13 @@ import { toast } from 'react-toastify'
 interface IDeleteDictionaryPopup {
   dictionaryKey: string
   setLetCallList: Function
+  updateStoreLanguage: Function
 }
 
 export const DeleteDictionaryPopup = ({
   dictionaryKey,
   setLetCallList,
+  updateStoreLanguage,
 }: IDeleteDictionaryPopup) => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
   const [open, setOpen] = useState(false)
@@ -34,6 +36,7 @@ export const DeleteDictionaryPopup = ({
       toast.success(message)
       setOpen(false)
       setLetCallList(true)
+      updateStoreLanguage()
     },
     handleError(message) {
       toast.error(message)

@@ -10,9 +10,13 @@ import { inputStylesLanguage } from './Language.inventory'
 
 interface ILanguageCreatePopup {
   setLetCallList: Function
+  updateStoreLanguage: Function
 }
 
-export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) => {
+export const LanguageCreatePopup = ({
+  setLetCallList,
+  updateStoreLanguage,
+}: ILanguageCreatePopup) => {
   const [cookies] = useCookies()
 
   const [open, setOpen] = useState(false)
@@ -41,6 +45,7 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
       toast.success(message)
       handleClose()
       setLetCallList(true)
+      updateStoreLanguage()
     },
     handleError(status, message) {
       if (status) toast.error(message)
@@ -68,7 +73,7 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
         {labelButton}
       </Button>
       {open ? (
-        <Modal open={open} onClose={handleClose} blur>
+        <Modal open={open} onClose={handleClose} blur preventClose>
           <Modal.Header>
             <Text h2 id="modal-title">
               {labelButton}
