@@ -21,3 +21,8 @@ export interface LanguageRequest {
   key: string
   dictionary: DictionaryKey
 }
+
+export interface AddNewLanguageRequest {
+  language: string
+  key: string
+}

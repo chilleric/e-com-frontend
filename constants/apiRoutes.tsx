@@ -41,8 +41,9 @@ export const apiRoute = {
     getLanguageSelectList: 'language/get-language-select-list',
     getLanguageList: 'language/get-language-list',
     getLanguageByKey: 'language/get-language-by-key',
-    getDefaultDictionary: 'language/get-default-dictionary',
     addNewLanguage: 'language/add-new-language',
     updateLanguage: 'language/update-language',
+    addNewDictionary: 'language/add-new-dictionary',
+    deleteDictionaryKey: 'language/delete-dictionary-key',
   },
 }

@@ -3,17 +3,16 @@ import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
 import { getLanguageList } from '@/services'
 import { LanguageListResponseSuccess } from '@/types'
-import { Button, Collapse, Loading, Text } from '@nextui-org/react'
-import { useRouter } from 'next/router'
+import { Collapse, Loading, Text } from '@nextui-org/react'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
+import { DictionaryCreatePopup } from '../inventory/DictionaryCreatePopup'
+import { LanguageCreatePopup } from '../inventory/LanguageCreatePopup'
 import { OneLanguage } from './OneLanguage'
 
 export const LanguageManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
-
-  const router = useRouter()
 
   const viewLanguageresult = useApiCall<LanguageListResponseSuccess, String>({
     callApi: () =>
@@ -46,14 +45,21 @@ export const LanguageManagement = () => {
         <Text hideIn="sm" h1>
           Language Management
         </Text>
-        <Button
-          onClick={() => {
-            router.push('/language/create')
+        <div
+          style={{
+            display: 'flex',
+            gap: 10,
           }}
-          size="sm"
         >
-          Create New Language
-        </Button>
+          <DictionaryCreatePopup
+            setLetCallList={viewLanguageresult.setLetCall}
+            listKeyOfDictionary={[
+              'key',
+              ...(viewLanguageresult.data?.result.data.map((language) => language.key) ?? []),
+            ]}
+          />
+          <LanguageCreatePopup setLetCallList={viewLanguageresult.setLetCall} />
+        </div>
       </div>
 
       {viewLanguageresult.loading ? (

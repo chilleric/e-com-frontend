@@ -24,9 +24,6 @@ export const NavBarItems: NavBarItemType[] = [
   {
     label: 'Language',
     path: '/language',
-    children: [
-      { label: 'Language Management', path: '/language/management' },
-      { label: 'Create Language', path: '/language/create' },
-    ],
+    children: [{ label: 'Language Management', path: '/language/management' }],
   },
 ]

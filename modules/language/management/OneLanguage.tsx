@@ -1,7 +1,7 @@
 import { useApiCall } from '@/hooks'
 import { generateToken } from '@/lib'
 import { updateLanguage } from '@/services'
-import { LanguageRequest, LanguageResponseSuccess } from '@/types'
+import { DictionaryKey, LanguageRequest, LanguageResponseSuccess } from '@/types'
 import { Button, Loading } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -17,27 +17,17 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
   const [cookies] = useCookies()
 
   const [editAble, setEditAble] = useState(false)
-  const [languageState, setLanguageState] = useState<LanguageResponseSuccess>({
-    id: '',
-    key: '',
-    language: '',
-    dictionary: {},
-  })
-
-  const handleChangeState = (newUpdate: Partial<LanguageResponseSuccess>) => {
-    const newLanguageState = { ...languageState }
-    setLanguageState({ ...newLanguageState, ...newUpdate })
-  }
+  const [dictionaryList, setDictionaryList] = useState<DictionaryKey>({})
 
   const updateResult = useApiCall<LanguageRequest, Record<keyof LanguageRequest, string>>({
     callApi: () =>
       updateLanguage(
+        language.id,
         generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }),
-        languageState.id,
         {
-          key: languageState.key,
-          language: languageState.language,
-          dictionary: languageState.dictionary,
+          key: language.key,
+          language: language.language,
+          dictionary: dictionaryList,
         }
       ),
     handleSuccess(message) {
@@ -50,7 +40,7 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
   })
 
   useEffect(() => {
-    setLanguageState(language)
+    setDictionaryList(language.dictionary)
   }, [language])
 
   return (
@@ -92,7 +82,12 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
           </Button>
         )}
       </div>
-      <LanguageTable language={language} edit={editAble} handleChangeState={handleChangeState} />
+      <LanguageTable
+        dictionaryList={dictionaryList}
+        edit={editAble}
+        handleChangeState={setDictionaryList}
+        setLetCallList={setLetCallList}
+      />
     </>
   )
 }
