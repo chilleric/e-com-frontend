@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: ShareStoreTypes = {
   loading: false,
+  language: {},
 }
 
 const ShareStoreSlice = createSlice({
@@ -12,10 +13,13 @@ const ShareStoreSlice = createSlice({
     setLoading: (state, actions: PayloadAction<boolean>) => {
       state.loading = actions.payload
     },
+    setLanguage: (state, actions: PayloadAction<{ [key: string]: string }>) => {
+      state.language = actions.payload
+    },
     resetShareStore: () => initialState,
   },
 })
 
-export const { resetShareStore, setLoading } = ShareStoreSlice.actions
+export const { resetShareStore, setLoading, setLanguage } = ShareStoreSlice.actions
 
 export default ShareStoreSlice

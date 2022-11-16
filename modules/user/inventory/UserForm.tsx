@@ -1,6 +1,7 @@
 import { DatePicker, SelectCustom } from '@/components'
+import { useTranslation } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
-import { genderList } from '@/lib'
+import { GenderList } from '@/lib'
 import { UserDetailFailure, UserResponseSuccess } from '@/types'
 import { Card, Input, Text } from '@nextui-org/react'
 import { inputStylesUser } from './User.inventory'
@@ -15,6 +16,20 @@ interface IUserForm {
 export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUserForm) => {
   const breakPoint = useResponsive()
 
+  const usernameLabel = useTranslation('username')
+  const modifiedLabel = useTranslation('modified')
+  const createLabel = useTranslation('created')
+  const addressLabel = useTranslation('address')
+  const firstNameLabel = useTranslation('firstName')
+  const lastNameLabel = useTranslation('lastName')
+  const dobLabel = useTranslation('dob')
+  const genderLabel = useTranslation('gender')
+  const phoneLabel = useTranslation('phone')
+  const emailLabel = useTranslation('email')
+  const verifiedLabel = useTranslation('verified')
+
+  const genderList = GenderList()
+
   return (
     <div
       style={{
@@ -26,7 +41,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
       <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Card css={{ $$cardColor: user.verified ? '$colors$success' : '$colors$primary' }}>
           <Card.Body>
-            <Text>{'Verified'.toUpperCase()}</Text>
+            <Text>{verifiedLabel.toUpperCase()}</Text>
           </Card.Body>
         </Card>
       </div>
@@ -34,7 +49,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         <Input
           css={{ width: '100%' }}
           value={user.created}
-          label="created"
+          label={createLabel}
           readOnly={!editAble?.created}
           {...inputStylesUser({
             error: errorState?.created,
@@ -45,7 +60,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         <Input
           css={{ width: '100%' }}
           value={user.modified}
-          label="modified"
+          label={modifiedLabel}
           readOnly={!editAble?.modified}
           {...inputStylesUser({
             error: errorState?.modified,
@@ -56,7 +71,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         <Input
           css={{ width: '100%' }}
           value={user.username}
-          label="username"
+          label={usernameLabel}
           readOnly={!editAble?.username}
           onChange={(event) => {
             onchangeUserState({
@@ -70,7 +85,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         <Input
           css={{ width: '100%' }}
           value={user.address}
-          label="address"
+          label={addressLabel}
           readOnly={!editAble?.address}
           onChange={(event) => {
             onchangeUserState({
@@ -84,7 +99,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         <Input
           css={{ width: '100%' }}
           value={user.firstName}
-          label="first name"
+          label={firstNameLabel}
           readOnly={!editAble?.firstName}
           onChange={(event) => {
             onchangeUserState({
@@ -98,7 +113,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         <Input
           css={{ width: '100%' }}
           value={user.lastName}
-          label="last name"
+          label={lastNameLabel}
           readOnly={!editAble?.lastName}
           onChange={(event) => {
             onchangeUserState({
@@ -111,7 +126,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
       <div style={{ gridColumn: 'span 1 / span 1' }}>
         <DatePicker
           value={user.dob}
-          label="date of birth"
+          label={dobLabel}
           onChange={(event: string) => {
             onchangeUserState({
               dob: event,
@@ -124,26 +139,29 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
-        <SelectCustom
+        <SelectCustom<number>
           value={user.gender}
-          onChange={(value: number) => {
+          onChange={(value) => {
             onchangeUserState({
               gender: value,
             })
           }}
-          label="gender"
+          label={genderLabel}
           disabled={!editAble?.gender}
           options={genderList}
-          buttonProps={inputStylesUser({
-            error: errorState?.gender,
-          })}
+          buttonProps={{
+            ...inputStylesUser({
+              error: errorState?.gender,
+            }),
+            width: '100%',
+          }}
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
         <Input
           css={{ width: '100%' }}
           value={user.phone}
-          label="phone"
+          label={phoneLabel}
           readOnly={!editAble?.phone}
           onChange={(event) => {
             onchangeUserState({
@@ -157,7 +175,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
         <Input
           css={{ width: '100%' }}
           value={user.email}
-          label="email"
+          label={emailLabel}
           readOnly={!editAble?.email}
           onChange={(event) => {
             onchangeUserState({

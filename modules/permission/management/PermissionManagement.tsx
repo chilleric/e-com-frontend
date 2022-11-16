@@ -1,6 +1,6 @@
 import { CustomTable } from '@/components'
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListPermission } from '@/services'
 import { PermissionListResponse, PermissionResponse } from '@/types'
@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { header, listActions, listFunctionParseValue } from './management.inventory'
+import { Header, ListActions, listFunctionParseValue } from './management.inventory'
 
 export const PermissionManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
@@ -17,6 +17,10 @@ export const PermissionManagement = () => {
   const [page, setPage] = useState<number>(1)
 
   const router = useRouter()
+
+  const permissionManagementPascal = useTranslation('permissionManagementPascal')
+
+  const permissionCreatePascal = useTranslation('permissionCreatePascal')
 
   const result = useApiCall<PermissionListResponse, String>({
     callApi: () =>
@@ -40,14 +44,20 @@ export const PermissionManagement = () => {
     setLetCall(true)
   }, [])
 
+  const listFunctionParseValues = listFunctionParseValue()
+
+  const header = Header()
+
+  const listActions = ListActions()
+
   return (
     <>
       <Text showIn="sm" h2>
-        Permission Management
+        {permissionManagementPascal}
       </Text>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text hideIn="sm" h1>
-          Permission Management
+          {permissionManagementPascal}
         </Text>
         <Button
           onClick={() => {
@@ -55,7 +65,7 @@ export const PermissionManagement = () => {
           }}
           size="sm"
         >
-          Create Permission
+          {permissionCreatePascal}
         </Button>
       </div>
       <CustomTable<PermissionResponse>
@@ -63,7 +73,7 @@ export const PermissionManagement = () => {
         body={data ? data.result.data : []}
         listActions={listActions}
         selectionMode="single"
-        listFunctionParseValue={listFunctionParseValue}
+        listFunctionParseValue={listFunctionParseValues}
         loading={loading}
       >
         <>{null}</>

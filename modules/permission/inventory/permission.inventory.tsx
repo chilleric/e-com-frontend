@@ -1,28 +1,42 @@
+import { useTranslation } from '@/hooks'
+import { convertValueToLabel, StatusList } from '@/lib'
 import { HeaderTableType, PermissionRequest, PermissionResponse } from '@/types'
 import { InputProps } from '@nextui-org/react'
 
-export const headerFeatureTable: HeaderTableType[] = [
-  {
-    key: 'actions',
-    name: '',
-  },
-  {
-    key: 'id',
-    name: 'ID',
-  },
-  {
-    key: 'name',
-    name: 'Name',
-  },
-  {
-    key: 'path',
-    name: 'Path',
-  },
-  {
-    key: 'deleted',
-    name: 'Delete status',
-  },
-]
+export const HeaderFeatureTable = () => {
+  const path = useTranslation('path')
+  const activeStatus = useTranslation('activeStatus')
+  const nameFeature = useTranslation('nameFeature')
+
+  return [
+    {
+      key: 'actions',
+      name: '',
+    },
+    {
+      key: 'name',
+      name: nameFeature,
+    },
+    {
+      key: 'path',
+      name: path,
+    },
+    {
+      key: 'deleted',
+      name: activeStatus,
+    },
+  ] as HeaderTableType[]
+}
+
+export const listFunctionParseValue = () => {
+  const statusList = StatusList()
+
+  return {
+    deleted: (value: number) => {
+      return convertValueToLabel(value, statusList)
+    },
+  }
+}
 
 export const PermissionRequestDefault: PermissionRequest = {
   name: '',

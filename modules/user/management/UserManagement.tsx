@@ -1,6 +1,6 @@
 import { CustomTable } from '@/components/table'
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListUser } from '@/services'
 import { UserListSuccess, UserResponseSuccess } from '@/types'
@@ -9,12 +9,16 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { headerUserTable, listActions, listFunctionParseValue } from './management.inventory'
+import { HeaderUserTable, ListActions, listFunctionParseValue } from './management.inventory'
 
 export const UserManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
 
   const [page, setPage] = useState<number>(1)
+
+  const userManagementPascal = useTranslation('userManagementPascal')
+
+  const createUserPascal = useTranslation('createUserPascal')
 
   const router = useRouter()
 
@@ -40,14 +44,20 @@ export const UserManagement = () => {
     setLetCall(true)
   }, [page])
 
+  const listFunctionParseValues = listFunctionParseValue()
+
+  const headerUserTables = HeaderUserTable()
+
+  const listActions = ListActions()
+
   return (
     <>
       <Text showIn="sm" h2>
-        User Management
+        {userManagementPascal}
       </Text>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text hideIn="sm" h1>
-          User Management
+          {userManagementPascal}
         </Text>
         <Button
           onClick={() => {
@@ -55,15 +65,15 @@ export const UserManagement = () => {
           }}
           size="sm"
         >
-          Create User
+          {createUserPascal}
         </Button>
       </div>
       <CustomTable<UserResponseSuccess>
-        header={headerUserTable}
+        header={headerUserTables}
         body={data ? data.result.data : []}
         listActions={listActions}
         selectionMode="single"
-        listFunctionParseValue={listFunctionParseValue}
+        listFunctionParseValue={listFunctionParseValues}
         loading={loading}
       >
         <>{null}</>

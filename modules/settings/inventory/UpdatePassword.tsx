@@ -1,8 +1,8 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
 import { encodeBase64, generateToken } from '@/lib'
 import { inputStylesUser } from '@/modules/user/inventory'
-import { updatePassword } from '@/services/settings.service'
+import { updatePassword } from '@/services'
 import { UpdatePasswordPayload } from '@/types'
 import { Button, Input, Loading, Text } from '@nextui-org/react'
 import { useState } from 'react'
@@ -39,9 +39,19 @@ export const UpdatePassword = () => {
 
   const { error, handleReset, setLetCall } = updateResult
 
+  const changPassword = useTranslation('changePassword')
+
+  const oldPassword = useTranslation('oldPassword')
+
+  const newPassword = useTranslation('newPassword')
+
+  const confirmPassword = useTranslation('confirmPassword')
+
+  const updatePasswordLabel = useTranslation('updatePassword')
+
   return (
     <div>
-      <Text h3>Change Password</Text>
+      <Text h3>{changPassword}</Text>
       <hr style={{ margin: '10px 0' }} />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -49,7 +59,7 @@ export const UpdatePassword = () => {
           css={{ width: breakPoint < 2 ? '100%' : '40%' }}
           {...inputStylesUser({ error: error?.result?.oldPassword })}
           type="password"
-          label="Old password"
+          label={oldPassword}
           onFocus={handleReset}
           value={oldPasswordState}
           onChange={(e) => {
@@ -60,7 +70,7 @@ export const UpdatePassword = () => {
           css={{ width: breakPoint < 2 ? '100%' : '40%' }}
           {...inputStylesUser({ error: error?.result?.newPassword })}
           type="password"
-          label="New password"
+          label={newPassword}
           onFocus={handleReset}
           value={newPasswordState}
           onChange={(e) => {
@@ -71,7 +81,7 @@ export const UpdatePassword = () => {
           css={{ width: breakPoint < 2 ? '100%' : '40%' }}
           {...inputStylesUser({ error: error?.result?.confirmNewPassword })}
           type="password"
-          label="Confirm new password"
+          label={confirmPassword}
           onFocus={handleReset}
           value={confirmPasswordState}
           onChange={(e) => {
@@ -89,7 +99,7 @@ export const UpdatePassword = () => {
         size="md"
         disabled={updateResult.loading}
       >
-        {updateResult.loading ? <Loading /> : <>Update Password</>}
+        {updateResult.loading ? <Loading /> : <>{updatePasswordLabel}</>}
       </Button>
     </div>
   )

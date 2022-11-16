@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getListEditAble } from '@/lib'
 import { addPermission } from '@/services/permission.service'
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
@@ -39,10 +39,16 @@ export const PermissionCreate = () => {
     setPermissionState(newState)
   }
 
+  const cancelLabel = useTranslation('cancel')
+
+  const saveLabel = useTranslation('save')
+
+  const createPermission = useTranslation('permissionCreatePascal')
+
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
       <Text h2 showIn="sm">
-        Create Permission
+        {createPermission}
       </Text>
       <div
         style={{
@@ -53,7 +59,7 @@ export const PermissionCreate = () => {
         }}
       >
         <Text h1 hideIn="sm">
-          Create Permission
+          {createPermission}
         </Text>
         <div
           style={{
@@ -69,7 +75,7 @@ export const PermissionCreate = () => {
             size="sm"
             disabled={createResult.loading}
           >
-            {createResult.loading ? <Loading /> : <>Save</>}
+            {createResult.loading ? <Loading /> : <>{saveLabel}</>}
           </Button>
           <Button
             color="warning"
@@ -79,7 +85,7 @@ export const PermissionCreate = () => {
             size="sm"
             disabled={createResult.loading}
           >
-            Cancel
+            {cancelLabel}
           </Button>
         </div>
       </div>

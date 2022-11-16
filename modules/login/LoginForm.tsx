@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { encodeBase64 } from '@/lib'
 import { toggleTheme } from '@/redux/general-settings'
 import { login } from '@/services'
@@ -70,42 +70,49 @@ export const LoginForm = () => {
     }
   }, [cookies])
 
+  const usernameLabel = useTranslation('username')
+  const signIn = useTranslation('signIn')
+  const passwordLabel = useTranslation('password')
+  const signUp = useTranslation('signUp')
+  const changeTheme = useTranslation('changeTheme')
+  const forgotPassword = useTranslation('forgotPassword')
+
   return (
     <>
       <Modal.Header>
         <Text id="modal-title" size={18}>
-          Sign in
+          {signIn}
         </Text>
       </Modal.Header>
       <Modal.Body>
         <Input
           ref={emailRef}
           {...inputStyles({ error: error?.result?.username })}
-          labelLeft="username"
+          labelLeft={usernameLabel}
           onFocus={handleReset}
         />
         <Input
           ref={passwordRef}
           {...inputStyles({ error: error?.result?.password })}
           type="password"
-          labelLeft="password"
+          labelLeft={passwordLabel}
           onFocus={handleReset}
         />
         <Row justify="flex-end">
           <Button disabled={loading} auto light>
-            Forgot password?
+            {forgotPassword}?
           </Button>
         </Row>
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat onClick={handleChangeTheme}>
-          Change theme
+          {changeTheme}
         </Button>
         <Button disabled={loading} auto onClick={handleSignUp}>
-          Sign up
+          {signUp}
         </Button>
         <Button disabled={loading} auto onClick={handleLogin}>
-          {loading ? <Loading /> : <>Sign in</>}
+          {loading ? <Loading /> : <>{signIn}</>}
         </Button>
       </Modal.Footer>
     </>

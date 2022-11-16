@@ -1,2 +1,2 @@
-export * from './GeneralSettings'
+export * from './general-setting'
 export * from './UpdateAccount'

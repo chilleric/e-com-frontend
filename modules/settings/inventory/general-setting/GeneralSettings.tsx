@@ -1,19 +1,22 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useResponsive, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
-import { GeneralSettingsSelector, setGeneralSettings, toggleTheme } from '@/redux/general-settings'
+import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
 import { GeneralSettingsResponseSuccess, UpdateGeneralFailure } from '@/types'
-import { Container, Loading, Switch, Text } from '@nextui-org/react'
+import { Container, Loading, Text } from '@nextui-org/react'
 import { useCookies } from 'react-cookie'
-import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { SettingTheme } from './general-setting.inventory'
+import { SettingLanguage } from './general-setting.inventory/SettingLanguage'
 
 export const GeneralSettings = () => {
   const [cookie] = useCookies()
 
   const GeneralSettings = useSelector(GeneralSettingsSelector)
   const dispatch = useDispatch()
+
+  const responsive = useResponsive()
 
   const viewResult = useApiCall<GeneralSettingsResponseSuccess, string>({
     callApi: () =>
@@ -48,26 +51,30 @@ export const GeneralSettings = () => {
     },
   })
 
+  const generalSetting = useTranslation('generalSetting')
+
   return viewResult.loading ? (
     <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
       <Loading />
     </Container>
   ) : (
     <div>
-      <Text h3>General Setting</Text>
+      <Text h3>{generalSetting}</Text>
       <hr style={{ margin: '10px 0' }} />
 
-      <Text h5>Dark mode</Text>
-      <Switch
-        checked={GeneralSettings.darkTheme}
-        onChange={() => {
-          dispatch(toggleTheme())
-          updateResult.setLetCall(true)
-        }}
-        iconOn={<MdDarkMode />}
-        iconOff={<MdLightMode />}
-        disabled={updateResult.loading || viewResult.loading}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <SettingTheme
+          darkTheme={GeneralSettings.darkTheme}
+          setLetCallUpdate={updateResult.setLetCall}
+          disabled={updateResult.loading || responsive < 3}
+        />
+
+        <SettingLanguage
+          languageKey={GeneralSettings.languageKey}
+          setLetCallUpdate={updateResult.setLetCall}
+          disabled={updateResult.loading}
+        />
+      </div>
     </div>
   )
 }

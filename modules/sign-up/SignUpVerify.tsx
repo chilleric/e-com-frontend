@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { authenticationSelector } from '@/redux/authentication'
 import { resendVerifySignUp, verifySignUp } from '@/services'
 import { Button, FormElement, Input, Loading, Row, Text } from '@nextui-org/react'
@@ -48,21 +48,26 @@ export const SignUpVerify = () => {
     resultResend.setLetCall(true)
   }
 
+  const verifyAccount = useTranslation('verifyAccount')
+  const stepLabel = useTranslation('step')
+  const resend = useTranslation('resend')
+  const verify = useTranslation('verify')
+
   return (
     <>
       <Text size={18}>
-        Step 4:
+        {stepLabel} 4:
         <Text b css={{ marginLeft: 10 }}>
-          Verify your account!
+          {verifyAccount}!
         </Text>
       </Text>
       <Input ref={codeRef} {...inputStyles({})} labelLeft="Code" />
       <Row justify="flex-end">
         <Button auto light onClick={handleResend}>
-          Resend
+          {resend}
         </Button>
         <Button disabled={loading} auto onClick={handleVerify}>
-          {loading ? <Loading /> : <>Verify</>}
+          {loading ? <Loading /> : <>{verify}</>}
         </Button>
       </Row>
     </>

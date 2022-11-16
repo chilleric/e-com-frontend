@@ -1,27 +1,28 @@
+import { OptionsType } from '@/types'
 import { Input, InputProps, useTheme } from '@nextui-org/react'
 import { useRef, useState } from 'react'
 
-interface ISelectCustom {
-  value: string | number
-  onChange: Function
+interface ISelectCustom<T> {
+  value: T
+  onChange: (value: T) => void
   label?: string
   disabled?: boolean
   buttonProps: Partial<InputProps>
-  options: { value: string | number; label: string }[]
+  options: OptionsType<T>[]
 }
 
-export const SelectCustom = ({
+export const SelectCustom = <T,>({
   value,
   onChange,
   label,
   disabled,
   options,
   buttonProps,
-}: ISelectCustom) => {
+}: ISelectCustom<T>) => {
   const [open, setOpen] = useState(false)
   const { theme } = useTheme()
   const divRef = useRef<HTMLDivElement>(null)
-  const [hoverItem, setHoverItem] = useState<string | number>('')
+  const [hoverItem, setHoverItem] = useState<T>()
 
   const handleOpen = () => {
     setOpen(true)
@@ -31,7 +32,7 @@ export const SelectCustom = ({
     setOpen(false)
   }
 
-  const getColor = (item: { value: string | number; label: string }) => {
+  const getColor = (item: OptionsType<T>) => {
     if (value === item.value) {
       return theme?.colors.blue400.value
     }
@@ -44,7 +45,6 @@ export const SelectCustom = ({
   return (
     <div ref={divRef} style={{ width: '100%', position: 'relative' }}>
       <Input
-        css={{ width: '100%' }}
         value={options.find((item) => item.value === value)?.label}
         label={label}
         readOnly
@@ -78,12 +78,12 @@ export const SelectCustom = ({
                 backgroundColor: getColor(item),
               }}
               onMouseMove={() => setHoverItem(item.value)}
-              onMouseOut={() => setHoverItem('')}
+              onMouseOut={() => setHoverItem(undefined)}
               onMouseDown={() => {
                 onChange(item.value)
               }}
               onBlur={() => {}}
-              key={item.value}
+              key={item.value?.toString()}
             >
               {item.label}
             </div>

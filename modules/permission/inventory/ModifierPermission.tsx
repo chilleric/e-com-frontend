@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
 import { Input, Switch, Text } from '@nextui-org/react'
@@ -27,6 +28,10 @@ export const ModifierPermission = ({
     handleChangeState({ featureId: listFeature })
   }
 
+  const permissionName = useTranslation('permissionName')
+
+  const skipAccessability = useTranslation('skipAccessability')
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
       <div
@@ -40,7 +45,7 @@ export const ModifierPermission = ({
           <Input
             css={{ width: '100%' }}
             value={permissionState.name}
-            label="Permission Name"
+            label={permissionName}
             readOnly={!editAble?.name}
             onChange={(event) => {
               handleChangeState({
@@ -59,7 +64,7 @@ export const ModifierPermission = ({
               gridColumn: 'span 1 / span 1',
             }}
           >
-            <Text>Skip Accessability</Text>
+            <Text>{skipAccessability}</Text>
             <Switch
               disabled={!editAble?.skipAccessability}
               checked={permissionState.skipAccessability === 0}

@@ -1,5 +1,5 @@
 import { CustomTable } from '@/components'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListFeature } from '@/services/feature.service'
 import { FeatureListResponse, FeatureResponse } from '@/types'
@@ -7,7 +7,7 @@ import { Pagination, Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { headerFeatureTable } from './permission.inventory'
+import { HeaderFeatureTable, listFunctionParseValue } from './permission.inventory'
 
 interface IUserTablePermission {
   setListFeature: Function
@@ -50,14 +50,20 @@ export const FeatureTablePermission = ({
     featureResult.setLetCall(true)
   }, [page])
 
+  const selectFeature = useTranslation('selectFeature')
+
+  const headerFeatureTable = HeaderFeatureTable()
+
+  const listFunctionParseValues = listFunctionParseValue()
+
   return (
     <div>
-      <Text h4>Select feature</Text>
+      <Text h4>{selectFeature}</Text>
       <CustomTable<FeatureResponse>
         header={headerFeatureTable}
         body={featureResponse?.data ?? []}
         selectionMode={editAble ? 'multiple' : 'none'}
-        listFunctionParseValue={{}}
+        listFunctionParseValue={listFunctionParseValues}
         handleChangeSelection={setListFeature}
         selectedKeys={listFeature}
         loading={featureResult.loading}

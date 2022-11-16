@@ -1,6 +1,6 @@
 import { apiRoute } from '@/constants/apiRoutes'
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useEventSource, useResponsive, useScroll } from '@/hooks'
+import { useApiCall, useEventSource, useResponsive, useScroll, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
 import { getOldMessage, sendMessage } from '@/services'
 import { MessageResponse, MessageResponseList } from '@/types'
@@ -25,6 +25,8 @@ export const ChatContent = ({ setUserChoose, user }: IChatContent) => {
   const [cookie] = useCookies([DEVICE_ID, USER_ID])
 
   const { theme } = useTheme()
+
+  const writeMessage = useTranslation('writeMessage')
 
   const getOldMessages = useApiCall<MessageResponseList, string>({
     callApi: () =>
@@ -174,7 +176,7 @@ export const ChatContent = ({ setUserChoose, user }: IChatContent) => {
       </div>
       <Input
         css={{ fontSize: 20, width: '100%', padding: 5, height: '80px' }}
-        placeholder="write a message..."
+        placeholder={writeMessage}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         contentRight={

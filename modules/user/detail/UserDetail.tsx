@@ -1,6 +1,6 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
-import { generateToken, getListEditAble, lostOddProps, statusList } from '@/lib'
+import { useApiCall, useTranslation } from '@/hooks'
+import { generateToken, getListEditAble, lostOddProps, StatusList } from '@/lib'
 import { changeStatusUser, getDetailUser, updateUser } from '@/services'
 import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
 import { Button, Container, Dropdown, Loading, Text } from '@nextui-org/react'
@@ -84,6 +84,23 @@ export const UserDetail = () => {
     }
   }, [router])
 
+  const onchangeUserState = (newUpdate: Partial<UserResponseSuccess>) => {
+    const newUserState = { ...UserState }
+    setUserState({ ...newUserState, ...newUpdate })
+  }
+
+  const cancelLabel = useTranslation('cancel')
+
+  const saveLabel = useTranslation('save')
+
+  const editLabel = useTranslation('edit')
+
+  const userDetail = useTranslation('userDetail')
+
+  const userEdit = useTranslation('userEdit')
+
+  const statusList = StatusList()
+
   if (viewResult.loading)
     return (
       <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
@@ -91,15 +108,10 @@ export const UserDetail = () => {
       </Container>
     )
 
-  const onchangeUserState = (newUpdate: Partial<UserResponseSuccess>) => {
-    const newUserState = { ...UserState }
-    setUserState({ ...newUserState, ...newUpdate })
-  }
-
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
       <Text h2 showIn="sm">
-        {type === 'read' ? 'User Detail' : 'Update Detail'}
+        {type === 'read' ? userDetail : userEdit}
       </Text>
       <div
         style={{
@@ -110,7 +122,7 @@ export const UserDetail = () => {
         }}
       >
         <Text h1 hideIn="sm">
-          {type === 'read' ? 'User Detail' : 'Update Detail'}
+          {type === 'read' ? userDetail : userEdit}
         </Text>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <Dropdown isDisabled={changeStatus.loading} isBordered>
@@ -150,7 +162,7 @@ export const UserDetail = () => {
                   }}
                   size="sm"
                 >
-                  Edit
+                  {editLabel}
                 </Button>
                 <Button
                   color="warning"
@@ -159,7 +171,7 @@ export const UserDetail = () => {
                   }}
                   size="sm"
                 >
-                  Cancel
+                  {cancelLabel}
                 </Button>
               </>
             ) : (
@@ -172,7 +184,7 @@ export const UserDetail = () => {
                   size="sm"
                   disabled={updateResult.loading}
                 >
-                  {updateResult.loading ? <Loading /> : <>Save</>}
+                  {updateResult.loading ? <Loading /> : <>{saveLabel}</>}
                 </Button>
                 <Button
                   color="warning"
@@ -184,7 +196,7 @@ export const UserDetail = () => {
                   size="sm"
                   disabled={updateResult.loading}
                 >
-                  Cancel
+                  {cancelLabel}
                 </Button>
               </>
             )}
