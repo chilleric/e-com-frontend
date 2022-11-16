@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
 import { addNewLanguage } from '@/services'
 import { AddNewLanguageRequest, LanguageRequest } from '@/types'
@@ -42,10 +42,20 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
       handleClose()
       setLetCallList(true)
     },
-    handleError(message) {
-      toast.error(message)
+    handleError(status, message) {
+      if (status) toast.error(message)
     },
   })
+
+  const labelButton = useTranslation('createNewLang')
+
+  const labelKey = useTranslation('languageKey')
+
+  const labelName = useTranslation('languageName')
+
+  const cancel = useTranslation('cancel')
+
+  const create = useTranslation('create')
 
   return (
     <>
@@ -55,13 +65,13 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
         }}
         size="sm"
       >
-        Create New Language
+        {labelButton}
       </Button>
       {open ? (
         <Modal open={open} onClose={handleClose} blur>
           <Modal.Header>
             <Text h2 id="modal-title">
-              Create New Language
+              {labelButton}
             </Text>
           </Modal.Header>
 
@@ -69,7 +79,7 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
             <Input
               css={{ width: '100%' }}
               value={languageState.key}
-              label="language key"
+              label={labelKey}
               onChange={(event) => {
                 handleChangeState({
                   key: event.currentTarget.value,
@@ -80,7 +90,7 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
             <Input
               css={{ width: '100%' }}
               value={languageState.language}
-              label="language name"
+              label={labelName}
               onChange={(event) => {
                 handleChangeState({
                   language: event.currentTarget.value,
@@ -92,7 +102,7 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
 
           <Modal.Footer justify="center">
             <Button disabled={createResult.loading} auto color="warning" onClick={handleClose}>
-              Cancel
+              {cancel}
             </Button>
 
             <Button
@@ -103,7 +113,7 @@ export const LanguageCreatePopup = ({ setLetCallList }: ILanguageCreatePopup) =>
                 createResult.setLetCall(true)
               }}
             >
-              Create
+              {create}
             </Button>
           </Modal.Footer>
         </Modal>

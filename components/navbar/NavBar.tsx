@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
 import { logout } from '@/services'
 import { Avatar, Dropdown, Navbar } from '@nextui-org/react'
@@ -35,18 +35,22 @@ export const NavBar = () => {
     },
   })
 
+  const settings = useTranslation('settings')
+
+  const signOut = useTranslation('signOut')
+
   return (
     <Navbar variant="sticky" css={{ zIndex: 1000 }}>
       <Navbar.Toggle showIn="xs" />
       <Navbar.Content hideIn="xs" enableCursorHighlight variant="underline">
-        {NavBarItems.map((item) => (
+        {NavBarItems().map((item) => (
           <Fragment key={item.path}>
             <RenderItemDesktop item={item} />
           </Fragment>
         ))}
       </Navbar.Content>
       <Navbar.Collapse showIn="xs">
-        {NavBarItems.map((item) => (
+        {NavBarItems().map((item) => (
           <Fragment key={item.path}>
             <RenderItemMobile level={0} item={item} />
           </Fragment>
@@ -75,7 +79,7 @@ export const NavBar = () => {
           </Dropdown.Trigger>
           <Dropdown.Menu variant="light">
             <Dropdown.Item>
-              <div onClick={() => router.push('/settings')}>Settings</div>
+              <div onClick={() => router.push('/settings')}>{settings}</div>
             </Dropdown.Item>
             <Dropdown.Item>
               <div
@@ -83,7 +87,7 @@ export const NavBar = () => {
                   logoutResult.setLetCall(true)
                 }}
               >
-                Sign out
+                {signOut}
               </div>
             </Dropdown.Item>
           </Dropdown.Menu>

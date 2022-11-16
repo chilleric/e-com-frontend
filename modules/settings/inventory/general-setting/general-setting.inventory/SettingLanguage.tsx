@@ -1,5 +1,5 @@
 import { SelectCustom } from '@/components'
-import { useApiCall, useResponsive } from '@/hooks'
+import { useApiCall, useResponsive, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
 import { setGeneralSettings } from '@/redux/general-settings'
 import { getLanguageSelectList } from '@/services'
@@ -40,6 +40,8 @@ export const SettingLanguage = ({ disabled, languageKey, setLetCallUpdate }: ISe
     languageResult.setLetCall(true)
   }, [])
 
+  const languagePascal = useTranslation('languagePascal')
+
   return (
     <SelectCustom<string>
       value={languageKey}
@@ -47,7 +49,7 @@ export const SettingLanguage = ({ disabled, languageKey, setLetCallUpdate }: ISe
         dispatch(setGeneralSettings({ languageKey: value }))
         setLetCallUpdate(true)
       }}
-      label="gender"
+      label={languagePascal}
       disabled={disabled || languageResult.loading}
       options={languageOptions}
       buttonProps={{ underlined: true, width: breakPoint < 2 ? '100%' : '40%' }}

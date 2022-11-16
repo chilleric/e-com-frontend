@@ -1,47 +1,59 @@
-import { accessStatus, convertValueToLabel } from '@/lib'
+import { useTranslation } from '@/hooks'
+import { AccessStatus, convertValueToLabel } from '@/lib'
 import { ActionType } from '@/types'
 import { NextRouter } from 'next/router'
 import { AiOutlineEye } from 'react-icons/ai'
 
-export const header = [
-  {
-    key: 'actions',
-    name: '',
-  },
-  {
-    key: 'get_id',
-    name: 'ID',
-  },
-  {
-    key: 'name',
-    name: 'Name',
-  },
-  {
-    key: 'created',
-    name: 'Created',
-  },
-  {
-    key: 'modified',
-    name: 'Modified',
-  },
-  {
-    key: 'skipAccessability',
-    name: 'Skip Access',
-  },
-]
+export const Header = () => {
+  const name = useTranslation('permissionName')
+  const created = useTranslation('created')
+  const modified = useTranslation('modified')
+  const skipAccessability = useTranslation('skipAccessability')
 
-export const listActions: ActionType[] = [
-  {
-    content: 'Details',
-    icon: <AiOutlineEye size={20} fill="#979797" />,
-    func: (id: string, router: NextRouter) => {
-      router.push(`/permission/${id}`)
+  return [
+    {
+      key: 'actions',
+      name: '',
     },
-  },
-]
+    {
+      key: 'name',
+      name,
+    },
+    {
+      key: 'created',
+      name: created,
+    },
+    {
+      key: 'modified',
+      name: modified,
+    },
+    {
+      key: 'skipAccessability',
+      name: skipAccessability,
+    },
+  ]
+}
 
-export const listFunctionParseValue = {
-  skipAccessability: (value: number) => {
-    return convertValueToLabel(value, accessStatus)
-  },
+export const ListActions = () => {
+  const detail = useTranslation('detail')
+
+  return [
+    {
+      content: detail,
+      icon: <AiOutlineEye size={20} fill="#979797" />,
+      func: (id: string, router: NextRouter) => {
+        router.push(`/permission/${id}`)
+      },
+    },
+  ] as ActionType[]
+}
+
+export const listFunctionParseValue = () => {
+  const accessStatus = AccessStatus()
+
+  return {
+    skipAccessability: (value: number) => {
+      return convertValueToLabel(value, accessStatus)
+    },
+  }
 }

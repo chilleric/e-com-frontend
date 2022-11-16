@@ -1,47 +1,72 @@
+import { useTranslation } from '@/hooks'
 import { OptionsType } from '@/types'
 
-export const genderList: OptionsType<number>[] = [
-  {
-    value: 0,
-    label: 'Male',
-  },
-  {
-    value: 1,
-    label: 'Female',
-  },
-]
+export const GenderList = () => {
+  const male = useTranslation('male')
 
-export const statusList: OptionsType<number>[] = [
-  {
-    value: 0,
-    label: 'Active',
-  },
-  {
-    value: 1,
-    label: 'Deactivated',
-  },
-]
+  const female = useTranslation('female')
 
-export const statusListBoolean: OptionsType<boolean>[] = [
-  {
-    value: true,
-    label: 'Active',
-  },
-  {
-    value: false,
-    label: 'Deactivated',
-  },
-]
+  return [
+    {
+      value: 0,
+      label: male,
+    },
+    {
+      value: 1,
+      label: female,
+    },
+  ] as OptionsType<number>[]
+}
 
-export const accessStatus: OptionsType<number>[] = [
-  {
-    value: 0,
-    label: 'Access',
-  },
-  {
-    value: 1,
-    label: 'Denied',
-  },
-]
+export const StatusList = () => {
+  const activeLabel = useTranslation('active')
+
+  const deactivated = useTranslation('deactivated')
+
+  return [
+    {
+      value: 0,
+      label: activeLabel,
+    },
+    {
+      value: 1,
+      label: deactivated,
+    },
+  ] as OptionsType<number>[]
+}
+
+export const StatusListBoolean = () => {
+  const activeLabel = useTranslation('active')
+
+  const deactivated = useTranslation('deactivated')
+
+  return [
+    {
+      value: true,
+      label: activeLabel,
+    },
+    {
+      value: false,
+      label: deactivated,
+    },
+  ] as OptionsType<boolean>[]
+}
+
+export const AccessStatus = () => {
+  const activeLabel = useTranslation('active')
+
+  const deactivated = useTranslation('deactivated')
+
+  return [
+    {
+      value: 0,
+      label: activeLabel,
+    },
+    {
+      value: 1,
+      label: deactivated,
+    },
+  ] as OptionsType<number>[]
+}
 
 export const formatDate = 'yyyy-MM-dd'

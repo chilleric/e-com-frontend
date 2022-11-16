@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { DefaultUser, UserForm } from '@/modules/user/inventory'
 import { getDetailUser } from '@/services'
@@ -65,13 +65,17 @@ export const UpdateAccount = () => {
     setUserState({ ...newUserState, ...newUpdate })
   }
 
+  const accountInformation = useTranslation('accountInformation')
+
+  const updateInformation = useTranslation('updateInformation')
+
   return viewResult.loading ? (
     <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
       <Loading />
     </Container>
   ) : (
     <div>
-      <Text h3>Account Information</Text>
+      <Text h3>{accountInformation}</Text>
       <hr style={{ margin: '10px 0' }} />
 
       <UserForm
@@ -90,7 +94,7 @@ export const UpdateAccount = () => {
         size="md"
         disabled={viewResult.loading || updateResult.loading}
       >
-        {updateResult.loading ? <Loading /> : <>Update Information</>}
+        {updateResult.loading ? <Loading /> : <>{updateInformation}</>}
       </Button>
     </div>
   )

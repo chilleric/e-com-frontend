@@ -1,4 +1,4 @@
-import { useApiCall, useResponsive } from '@/hooks'
+import { useApiCall, useResponsive, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
@@ -51,13 +51,15 @@ export const GeneralSettings = () => {
     },
   })
 
+  const generalSetting = useTranslation('generalSetting')
+
   return viewResult.loading ? (
     <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
       <Loading />
     </Container>
   ) : (
     <div>
-      <Text h3>General Setting</Text>
+      <Text h3>{generalSetting}</Text>
       <hr style={{ margin: '10px 0' }} />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>

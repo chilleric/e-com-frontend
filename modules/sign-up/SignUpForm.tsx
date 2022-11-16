@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { encodeBase64 } from '@/lib'
 import { authenticationSelector } from '@/redux/authentication'
 import { toggleTheme } from '@/redux/general-settings'
@@ -61,15 +61,21 @@ export const SignUpForm = () => {
     if (step > 1) setStep(step - 1)
   }
 
+  const changeTheme = useTranslation('changeTheme')
+  const signIn = useTranslation('signIn')
+  const next = useTranslation('next')
+  const back = useTranslation('back')
+  const signUp = useTranslation('signUp')
+
   const showButton = () => {
     if (step === 1) {
       return (
         <>
           <Button auto onClick={handleLogin}>
-            Sign in
+            {signIn}
           </Button>
           <Button disabled={loading} auto onClick={handleSignUp}>
-            Next
+            {next}
           </Button>
         </>
       )
@@ -78,7 +84,7 @@ export const SignUpForm = () => {
       return (
         <>
           <Button disabled={loading} auto onClick={handleBack}>
-            Back
+            {back}
           </Button>
           <Button disabled={loading} auto onClick={handleSignUp}>
             {loading ? <Loading /> : <>Sign up</>}
@@ -90,10 +96,10 @@ export const SignUpForm = () => {
     return (
       <>
         <Button disabled={loading} auto onClick={handleBack}>
-          Back
+          {back}
         </Button>
         <Button disabled={loading} auto onClick={handleSignUp}>
-          Next
+          {next}
         </Button>
       </>
     )
@@ -103,7 +109,7 @@ export const SignUpForm = () => {
     <>
       <Modal.Header>
         <Text id="modal-title" size={18}>
-          Sign up
+          {signUp}
         </Text>
       </Modal.Header>
       <Modal.Body>
@@ -112,7 +118,7 @@ export const SignUpForm = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat onClick={handleChangeTheme}>
-          Change theme
+          {changeTheme}
         </Button>
         {showButton()}
       </Modal.Footer>

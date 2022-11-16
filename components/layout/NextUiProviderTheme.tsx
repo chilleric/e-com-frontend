@@ -1,10 +1,11 @@
 import { useApiCall, useGetDarkMode, useResponsive } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
-import { setLoading } from '@/redux/share-store'
+import { setLanguage, setLoading } from '@/redux/share-store'
+import { getLanguageByKey } from '@/services'
 import { getGeneralSettings } from '@/services/settings.service'
 import { DarkTheme, LightTheme } from '@/styles/themes'
-import { GeneralSettingsResponseSuccess } from '@/types'
+import { GeneralSettingsResponseSuccess, LanguageResponseSuccess } from '@/types'
 import { NextUIProvider } from '@nextui-org/react'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
@@ -15,7 +16,7 @@ import { BackDropModal } from '../modals'
 export const NextUiProviderTheme = ({ children }: { children: React.ReactNode }) => {
   const [cookies] = useCookies()
 
-  const { darkTheme } = useSelector(GeneralSettingsSelector)
+  const { darkTheme, languageKey } = useSelector(GeneralSettingsSelector)
 
   const responsive = useResponsive()
 
@@ -36,6 +37,22 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
     },
   })
 
+  const getLanguage = useApiCall<LanguageResponseSuccess, string>({
+    callApi: () =>
+      getLanguageByKey(
+        generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }),
+        languageKey
+      ),
+    handleError(status, message) {
+      if (status) {
+        toast.error(message)
+      }
+    },
+    handleSuccess(message, data) {
+      dispatch(setLanguage(data.dictionary))
+    },
+  })
+
   const isDark = useGetDarkMode()
 
   useEffect(() => {
@@ -53,6 +70,10 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
   useEffect(() => {
     dispatch(setLoading(result.loading))
   }, [result.loading])
+
+  useEffect(() => {
+    getLanguage.setLetCall(true)
+  }, [languageKey])
 
   return (
     <NextUIProvider theme={darkTheme ? DarkTheme : LightTheme}>

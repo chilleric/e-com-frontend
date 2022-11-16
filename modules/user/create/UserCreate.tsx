@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { addNewUser } from '@/services'
 import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
@@ -41,10 +41,16 @@ export const UserCreate = () => {
     setUserState({ ...newUserState, ...newUpdate })
   }
 
+  const createUserLabel = useTranslation('createUserPascal')
+
+  const cancelLabel = useTranslation('cancel')
+
+  const saveLabel = useTranslation('save')
+
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
       <Text h2 showIn="sm">
-        Create User
+        {createUserLabel}
       </Text>
       <div
         style={{
@@ -55,7 +61,7 @@ export const UserCreate = () => {
         }}
       >
         <Text h1 hideIn="sm">
-          Create User
+          {createUserLabel}
         </Text>
         <div
           style={{
@@ -71,7 +77,7 @@ export const UserCreate = () => {
             disabled={createResult.loading}
             size="sm"
           >
-            {createResult.loading ? <Loading /> : <>Save</>}
+            {createResult.loading ? <Loading /> : <>{saveLabel}</>}
           </Button>
           <Button
             color="warning"
@@ -81,7 +87,7 @@ export const UserCreate = () => {
             disabled={createResult.loading}
             size="sm"
           >
-            Cancel
+            {cancelLabel}
           </Button>
         </div>
       </div>

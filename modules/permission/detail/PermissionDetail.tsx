@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { getListPermission, updatePermission } from '@/services/permission.service'
 import {
@@ -66,10 +66,20 @@ export const PermissionDetail = () => {
     }
   }, [router?.query?.id])
 
+  const cancelLabel = useTranslation('cancel')
+
+  const saveLabel = useTranslation('save')
+
+  const editLabel = useTranslation('edit')
+
+  const permissionDetail = useTranslation('permissionDetail')
+
+  const editPermission = useTranslation('editPermission')
+
   return (
     <div style={{ marginTop: 18, marginBottom: 80 }}>
       <Text h2 showIn="sm">
-        {type === 'read' ? 'Permission Detail' : 'Update Detail'}
+        {type === 'read' ? permissionDetail : editPermission}
       </Text>
       <div
         style={{
@@ -80,7 +90,7 @@ export const PermissionDetail = () => {
         }}
       >
         <Text h1 hideIn="sm">
-          {type === 'read' ? 'Permission Detail' : 'Update Detail'}
+          {type === 'read' ? permissionDetail : editPermission}
         </Text>
         <div>
           <Grid.Container css={{ gap: 20 }}>
@@ -93,7 +103,7 @@ export const PermissionDetail = () => {
                     }}
                     size="sm"
                   >
-                    Edit
+                    {editLabel}
                   </Button>
                 </Grid>
                 <Grid>
@@ -104,7 +114,7 @@ export const PermissionDetail = () => {
                     }}
                     size="sm"
                   >
-                    Cancel
+                    {cancelLabel}
                   </Button>
                 </Grid>
               </>
@@ -119,7 +129,7 @@ export const PermissionDetail = () => {
                     size="sm"
                     disabled={updateResult.loading}
                   >
-                    {updateResult.loading ? <Loading /> : <>Save</>}
+                    {updateResult.loading ? <Loading /> : <>{saveLabel}</>}
                   </Button>
                 </Grid>
                 <Grid>
@@ -134,7 +144,7 @@ export const PermissionDetail = () => {
                     size="sm"
                     disabled={updateResult.loading}
                   >
-                    Cancel
+                    {cancelLabel}
                   </Button>
                 </Grid>
               </>

@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
 import { getLanguageList } from '@/services'
 import { LanguageListResponseSuccess } from '@/types'
@@ -22,9 +22,6 @@ export const LanguageManagement = () => {
           deviceId: cookies.deviceId,
         })
       ),
-    handleSuccess(message) {
-      toast.success(message)
-    },
     handleError(status, message) {
       if (status) {
         toast.error(message)
@@ -39,11 +36,11 @@ export const LanguageManagement = () => {
   return (
     <>
       <Text showIn="sm" h2>
-        Language Management
+        {useTranslation('langMangPascal')}
       </Text>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text hideIn="sm" h1>
-          Language Management
+          {useTranslation('langMangPascal')}
         </Text>
         <div
           style={{

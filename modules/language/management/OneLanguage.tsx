@@ -1,4 +1,4 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
 import { updateLanguage } from '@/services'
 import { DictionaryKey, LanguageRequest, LanguageResponseSuccess } from '@/types'
@@ -43,6 +43,12 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
     setDictionaryList(language.dictionary)
   }, [language])
 
+  const edit = useTranslation('edit')
+
+  const cancel = useTranslation('cancel')
+
+  const save = useTranslation('save')
+
   return (
     <>
       <div style={{ display: 'flex', gap: 20, marginBottom: 20 }}>
@@ -57,7 +63,7 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
               size="sm"
               disabled={updateResult.loading}
             >
-              {updateResult.loading ? <Loading /> : <>Save</>}
+              {updateResult.loading ? <Loading /> : <>{save}</>}
             </Button>
             <Button
               color="warning"
@@ -68,7 +74,7 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
               size="sm"
               disabled={updateResult.loading}
             >
-              Cancel
+              {cancel}
             </Button>
           </>
         ) : (
@@ -78,7 +84,7 @@ export const OneLanguage = ({ language, setLetCallList }: IOneLanguage) => {
             }}
             size="sm"
           >
-            Edit
+            {edit}
           </Button>
         )}
       </div>

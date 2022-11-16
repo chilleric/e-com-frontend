@@ -1,10 +1,13 @@
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken } from '@/lib'
-import { addNewDictionary } from '@/services'
-import { DictionaryKey } from '@/types'
+import { GeneralSettingsSelector } from '@/redux/general-settings'
+import { setLanguage } from '@/redux/share-store'
+import { addNewDictionary, getLanguageByKey } from '@/services'
+import { DictionaryKey, LanguageResponseSuccess } from '@/types'
 import { Button, Input, Modal, Text } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { inputStylesLanguage } from './Language.inventory'
 
@@ -23,9 +26,29 @@ export const DictionaryCreatePopup = ({
 
   const [open, setOpen] = useState(false)
 
+  const dispatch = useDispatch()
+
+  const { languageKey } = useSelector(GeneralSettingsSelector)
+
   const handleClose = () => {
     setOpen(false)
   }
+
+  const getLanguage = useApiCall<LanguageResponseSuccess, string>({
+    callApi: () =>
+      getLanguageByKey(
+        generateToken({ userId: cookies.userId, deviceId: cookies.deviceId }),
+        languageKey
+      ),
+    handleError(status, message) {
+      if (status) {
+        toast.error(message)
+      }
+    },
+    handleSuccess(message, data) {
+      dispatch(setLanguage(data.dictionary))
+    },
+  })
 
   const createResult = useApiCall<DictionaryKey, Record<keyof DictionaryKey, string>>({
     callApi: () =>
@@ -37,6 +60,7 @@ export const DictionaryCreatePopup = ({
       toast.success(message)
       handleClose()
       setLetCallList(true)
+      getLanguage.setLetCall(true)
     },
     handleError(message) {
       toast.error(message)
@@ -51,6 +75,12 @@ export const DictionaryCreatePopup = ({
     setDictionaryState(newDictionaryState)
   }, [listKeyOfDictionary])
 
+  const labelButton = useTranslation('createNewDict')
+
+  const cancel = useTranslation('cancel')
+
+  const create = useTranslation('create')
+
   return (
     <>
       <Button
@@ -59,13 +89,13 @@ export const DictionaryCreatePopup = ({
         }}
         size="sm"
       >
-        Create New Dictionary
+        {labelButton}
       </Button>
       {open ? (
         <Modal open={open} onClose={handleClose} blur>
           <Modal.Header>
             <Text h2 id="modal-title">
-              Create New Dictionary
+              {labelButton}
             </Text>
           </Modal.Header>
 
@@ -88,7 +118,7 @@ export const DictionaryCreatePopup = ({
 
           <Modal.Footer justify="center">
             <Button disabled={createResult.loading} auto color="warning" onClick={handleClose}>
-              Cancel
+              {cancel}
             </Button>
 
             <Button
@@ -99,7 +129,7 @@ export const DictionaryCreatePopup = ({
                 createResult.setLetCall(true)
               }}
             >
-              Create
+              {create}
             </Button>
           </Modal.Footer>
         </Modal>

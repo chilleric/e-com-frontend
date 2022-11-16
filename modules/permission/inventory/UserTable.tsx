@@ -1,8 +1,8 @@
 import { CustomTable } from '@/components'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import {
-  headerUserTable,
+  HeaderUserTable,
   listFunctionParseValue,
 } from '@/modules/user/management/management.inventory'
 import { getListUser } from '@/services'
@@ -48,14 +48,20 @@ export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTa
     userResult.setLetCall(true)
   }, [page])
 
+  const listFunctionParseValues = listFunctionParseValue()
+
+  const selectUser = useTranslation('selectUser')
+
+  const headerUserTable = HeaderUserTable()
+
   return (
     <div>
-      <Text h4>Select User</Text>
+      <Text h4>{selectUser}</Text>
       <CustomTable<UserResponseSuccess>
         header={headerUserTable}
         body={userResponse?.data ?? []}
         selectionMode={editAble ? 'multiple' : 'none'}
-        listFunctionParseValue={listFunctionParseValue}
+        listFunctionParseValue={listFunctionParseValues}
         handleChangeSelection={setListUser}
         selectedKeys={listUser}
         loading={userResult.loading}

@@ -21,9 +21,11 @@ export const getLanguageList = (token: string, params?: QueryParams) => {
   })
 }
 
-export const getLanguageByKey = (token: string, params?: QueryParams) => {
+export const getLanguageByKey = (token: string, key: string) => {
   return axiosInstance.get(apiRoute.language.getLanguageByKey, {
-    params,
+    params: {
+      key,
+    },
     headers: {
       Authorization: token,
     },

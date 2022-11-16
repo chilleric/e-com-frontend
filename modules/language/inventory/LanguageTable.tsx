@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks'
 import { DictionaryKey } from '@/types'
 import { Input } from '@nextui-org/react'
 import { DeleteDictionaryPopup } from './DeleteDictionaryPopup'
@@ -16,6 +17,9 @@ export const LanguageTable = ({
   handleChangeState,
   setLetCallList,
 }: ILanguageTable) => {
+  const labelKey = useTranslation('labelKey')
+  const labelDict = useTranslation('labelDict')
+
   return (
     <div
       style={{
@@ -23,8 +27,8 @@ export const LanguageTable = ({
         gridTemplateColumns: 'repeat(2, minmax(min-content, 1fr))',
       }}
     >
-      <div style={{ gridColumn: 'span 1 / span 1' }}>key</div>
-      <div style={{ gridColumn: 'span 1 / span 1' }}>dictionary</div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>{labelKey}</div>
+      <div style={{ gridColumn: 'span 1 / span 1' }}>{labelDict}</div>
       <hr style={{ gridColumn: 'span 2 / span 2', margin: '10px 0px' }} />
       {Object.keys(dictionaryList).map((dictionaryKey) => {
         if (edit)
