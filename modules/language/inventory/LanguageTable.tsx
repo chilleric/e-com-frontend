@@ -9,6 +9,7 @@ interface ILanguageTable {
   edit?: boolean
   handleChangeState: Function
   setLetCallList: Function
+  updateStoreLanguage: Function
 }
 
 export const LanguageTable = ({
@@ -16,6 +17,7 @@ export const LanguageTable = ({
   edit,
   handleChangeState,
   setLetCallList,
+  updateStoreLanguage,
 }: ILanguageTable) => {
   const labelKey = useTranslation('labelKey')
   const labelDict = useTranslation('labelDict')
@@ -49,6 +51,7 @@ export const LanguageTable = ({
                   {...inputStylesLanguage({})}
                 />
                 <DeleteDictionaryPopup
+                  updateStoreLanguage={updateStoreLanguage}
                   dictionaryKey={dictionaryKey}
                   setLetCallList={setLetCallList}
                 />
@@ -80,6 +83,7 @@ export const LanguageTable = ({
             >
               <span>{dictionaryKey}</span>
               <DeleteDictionaryPopup
+                updateStoreLanguage={updateStoreLanguage}
                 dictionaryKey={dictionaryKey}
                 setLetCallList={setLetCallList}
               />
