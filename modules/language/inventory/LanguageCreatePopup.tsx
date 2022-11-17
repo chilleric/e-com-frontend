@@ -72,57 +72,55 @@ export const LanguageCreatePopup = ({
       >
         {labelButton}
       </Button>
-      {open ? (
-        <Modal open={open} onClose={handleClose} blur preventClose>
-          <Modal.Header>
-            <Text h2 id="modal-title">
-              {labelButton}
-            </Text>
-          </Modal.Header>
+      <Modal open={open} onClose={handleClose} blur preventClose>
+        <Modal.Header>
+          <Text h2 id="modal-title">
+            {labelButton}
+          </Text>
+        </Modal.Header>
 
-          <Modal.Body>
-            <Input
-              css={{ width: '100%' }}
-              value={languageState.key}
-              label={labelKey}
-              onChange={(event) => {
-                handleChangeState({
-                  key: event.currentTarget.value,
-                })
-              }}
-              {...inputStylesLanguage({ error: createResult?.error?.result.key })}
-            />
-            <Input
-              css={{ width: '100%' }}
-              value={languageState.language}
-              label={labelName}
-              onChange={(event) => {
-                handleChangeState({
-                  language: event.currentTarget.value,
-                })
-              }}
-              {...inputStylesLanguage({ error: createResult?.error?.result.language })}
-            />
-          </Modal.Body>
+        <Modal.Body>
+          <Input
+            css={{ width: '100%' }}
+            value={languageState.key}
+            label={labelKey}
+            onChange={(event) => {
+              handleChangeState({
+                key: event.currentTarget.value,
+              })
+            }}
+            {...inputStylesLanguage({ error: createResult?.error?.result.key })}
+          />
+          <Input
+            css={{ width: '100%' }}
+            value={languageState.language}
+            label={labelName}
+            onChange={(event) => {
+              handleChangeState({
+                language: event.currentTarget.value,
+              })
+            }}
+            {...inputStylesLanguage({ error: createResult?.error?.result.language })}
+          />
+        </Modal.Body>
 
-          <Modal.Footer justify="center">
-            <Button disabled={createResult.loading} auto color="warning" onClick={handleClose}>
-              {cancel}
-            </Button>
+        <Modal.Footer justify="center">
+          <Button disabled={createResult.loading} auto color="warning" onClick={handleClose}>
+            {cancel}
+          </Button>
 
-            <Button
-              disabled={createResult.loading}
-              auto
-              color="success"
-              onClick={() => {
-                createResult.setLetCall(true)
-              }}
-            >
-              {create}
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      ) : null}
+          <Button
+            disabled={createResult.loading}
+            auto
+            color="success"
+            onClick={() => {
+              createResult.setLetCall(true)
+            }}
+          >
+            {create}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

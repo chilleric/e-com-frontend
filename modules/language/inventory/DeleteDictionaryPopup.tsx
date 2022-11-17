@@ -51,34 +51,32 @@ export const DeleteDictionaryPopup = ({
           setOpen(true)
         }}
       />
-      {open ? (
-        <Modal open={open} onClose={handleClose} blur>
-          <Modal.Header>
-            <Text h2 id="modal-title">
-              Delete {dictionaryKey}
-            </Text>
-          </Modal.Header>
+      <Modal open={open} onClose={handleClose} blur>
+        <Modal.Header>
+          <Text h2 id="modal-title">
+            Delete {dictionaryKey}
+          </Text>
+        </Modal.Header>
 
-          <Modal.Body>Bạn sẽ xóa dictionary này tại toàn bộ ngôn ngữ</Modal.Body>
+        <Modal.Body>Bạn sẽ xóa dictionary này tại toàn bộ ngôn ngữ</Modal.Body>
 
-          <Modal.Footer justify="center">
-            <Button disabled={deleteResult.loading} auto color="warning" onClick={handleClose}>
-              Cancel
-            </Button>
+        <Modal.Footer justify="center">
+          <Button disabled={deleteResult.loading} auto color="warning" onClick={handleClose}>
+            Cancel
+          </Button>
 
-            <Button
-              disabled={deleteResult.loading}
-              auto
-              color="success"
-              onClick={() => {
-                deleteResult.setLetCall(true)
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      ) : null}
+          <Button
+            disabled={deleteResult.loading}
+            auto
+            color="success"
+            onClick={() => {
+              deleteResult.setLetCall(true)
+            }}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }
