@@ -1,5 +1,5 @@
 import { DatePicker, SelectCustom } from '@/components'
-import { useTranslation } from '@/hooks'
+import { useTranslation, useTranslationFunction } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
 import { GenderList } from '@/lib'
 import { UserDetailFailure, UserResponseSuccess } from '@/types'
@@ -15,6 +15,7 @@ interface IUserForm {
 
 export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUserForm) => {
   const breakPoint = useResponsive()
+  const translate = useTranslationFunction()
 
   const usernameLabel = useTranslation('username')
   const modifiedLabel = useTranslation('modified')
@@ -52,7 +53,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           label={createLabel}
           readOnly={!editAble?.created}
           {...inputStylesUser({
-            error: errorState?.created,
+            error: errorState?.created && translate(errorState.created),
           })}
         />
       </div>
@@ -63,7 +64,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           label={modifiedLabel}
           readOnly={!editAble?.modified}
           {...inputStylesUser({
-            error: errorState?.modified,
+            error: errorState?.modified && translate(errorState.modified),
           })}
         />
       </div>
@@ -78,7 +79,9 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
               username: event.currentTarget.value,
             })
           }}
-          {...inputStylesUser({ error: errorState?.username })}
+          {...inputStylesUser({
+            error: errorState?.username && translate(errorState.username),
+          })}
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
@@ -92,7 +95,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
               address: event.currentTarget.value,
             })
           }}
-          {...inputStylesUser({ error: errorState?.address })}
+          {...inputStylesUser({ error: errorState?.address && translate(errorState.address) })}
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
@@ -106,7 +109,9 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
               firstName: event.currentTarget.value,
             })
           }}
-          {...inputStylesUser({ error: errorState?.firstName })}
+          {...inputStylesUser({
+            error: errorState?.firstName && translate(errorState.firstName),
+          })}
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
@@ -120,7 +125,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
               lastName: event.currentTarget.value,
             })
           }}
-          {...inputStylesUser({ error: errorState?.lastName })}
+          {...inputStylesUser({ error: errorState?.lastName && translate(errorState.lastName) })}
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
@@ -133,7 +138,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
             })
           }}
           buttonProps={inputStylesUser({
-            error: errorState?.dob,
+            error: errorState?.dob && translate(errorState.dob),
           })}
           disable={!editAble?.dob}
         />
@@ -151,7 +156,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
           options={genderList}
           buttonProps={{
             ...inputStylesUser({
-              error: errorState?.gender,
+              error: errorState?.gender && translate(errorState.gender),
             }),
             width: '100%',
           }}
@@ -168,7 +173,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
               phone: event.currentTarget.value,
             })
           }}
-          {...inputStylesUser({ error: errorState?.phone })}
+          {...inputStylesUser({ error: errorState?.phone && translate(errorState.phone) })}
         />
       </div>
       <div style={{ gridColumn: 'span 1 / span 1' }}>
@@ -182,7 +187,7 @@ export const UserForm = ({ user, onchangeUserState, errorState, editAble }: IUse
               email: event.currentTarget.value,
             })
           }}
-          {...inputStylesUser({ error: errorState?.email })}
+          {...inputStylesUser({ error: errorState?.email && translate(errorState.email) })}
         />
       </div>
     </div>

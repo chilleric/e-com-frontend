@@ -1,6 +1,6 @@
 import { CustomTable } from '@/components'
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListPermission } from '@/services'
 import { PermissionListResponse, PermissionResponse } from '@/types'
@@ -13,6 +13,7 @@ import { Header, ListActions, listFunctionParseValue } from './management.invent
 
 export const PermissionManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
+  const translate = useTranslationFunction()
 
   const [page, setPage] = useState<number>(1)
 
@@ -33,7 +34,7 @@ export const PermissionManagement = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })

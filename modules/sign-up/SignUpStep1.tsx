@@ -1,4 +1,4 @@
-import { useTranslation } from '@/hooks'
+import { useTranslation, useTranslationFunction } from '@/hooks'
 import { authenticationSelector, setSignUpRequest } from '@/redux/authentication'
 import { CommonResponseType, SignUpFailure } from '@/types'
 import { Input, Text } from '@nextui-org/react'
@@ -8,6 +8,7 @@ import { inputStyles } from './sign-up.inventory'
 export const SignUpStep1 = ({ error }: { error?: CommonResponseType<SignUpFailure> }) => {
   const dispatch = useDispatch()
   const { signUpRequest } = useSelector(authenticationSelector)
+  const translate = useTranslationFunction()
 
   const usernameLabel = useTranslation('username')
   const passwordLabel = useTranslation('password')
@@ -31,7 +32,7 @@ export const SignUpStep1 = ({ error }: { error?: CommonResponseType<SignUpFailur
             })
           )
         }
-        {...inputStyles({ error: error?.result?.username })}
+        {...inputStyles({ error: error?.result?.username && translate(error.result.username) })}
         labelLeft={usernameLabel}
       />
       <Input
@@ -43,7 +44,7 @@ export const SignUpStep1 = ({ error }: { error?: CommonResponseType<SignUpFailur
             })
           )
         }
-        {...inputStyles({ error: error?.result?.password })}
+        {...inputStyles({ error: error?.result?.password && translate(error.result.password) })}
         type="password"
         labelLeft={passwordLabel}
       />

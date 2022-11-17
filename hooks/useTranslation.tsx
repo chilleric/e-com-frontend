@@ -12,3 +12,14 @@ export const useTranslation = (key: string) => {
 
   return result
 }
+
+export const useTranslationFunction = () => {
+  const { language } = useSelector(ShareStoreSelector)
+
+  const getTranslate = (key: string) => {
+    if (language[key]) return language[key]
+    return `Error translation: ${key}!`
+  }
+
+  return getTranslate
+}

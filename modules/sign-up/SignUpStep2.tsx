@@ -1,4 +1,4 @@
-import { useTranslation } from '@/hooks'
+import { useTranslation, useTranslationFunction } from '@/hooks'
 import { authenticationSelector, setSignUpRequest } from '@/redux/authentication'
 import { CommonResponseType, SignUpFailure } from '@/types'
 import { Input, Text } from '@nextui-org/react'
@@ -7,6 +7,7 @@ import { inputStyles } from './sign-up.inventory'
 
 export const SignUpStep2 = ({ error }: { error?: CommonResponseType<SignUpFailure> }) => {
   const dispatch = useDispatch()
+  const translate = useTranslationFunction()
 
   const { signUpRequest } = useSelector(authenticationSelector)
 
@@ -26,13 +27,13 @@ export const SignUpStep2 = ({ error }: { error?: CommonResponseType<SignUpFailur
       <Input
         value={signUpRequest.firstName}
         onChange={(e) => dispatch(setSignUpRequest({ firstName: e.target.value }))}
-        {...inputStyles({ error: error?.result?.firstName })}
+        {...inputStyles({ error: error?.result?.firstName && translate(error.result.firstName) })}
         labelLeft={firstName}
       />
       <Input
         value={signUpRequest.lastName}
         onChange={(e) => dispatch(setSignUpRequest({ lastName: e.target.value }))}
-        {...inputStyles({ error: error?.result?.lastName })}
+        {...inputStyles({ error: error?.result?.lastName && translate(error.result.lastName) })}
         labelLeft={lastName}
       />
     </>

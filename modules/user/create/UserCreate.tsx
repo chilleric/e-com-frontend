@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { addNewUser } from '@/services'
 import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
@@ -13,6 +13,7 @@ import { DefaultUser, initUserRequest, UserForm } from '../inventory'
 export const UserCreate = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
   const router = useRouter()
+  const translate = useTranslationFunction()
 
   const [UserState, setUserState] = useState<UserResponseSuccess>(DefaultUser)
 
@@ -27,11 +28,11 @@ export const UserCreate = () => {
       }),
     handleError(status, message) {
       if (status !== 400) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       router.push('/user/management')
     },
   })

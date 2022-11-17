@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { deleteDictionaryKey } from '@/services'
 import { Button, Modal, Text } from '@nextui-org/react'
@@ -22,6 +22,8 @@ export const DeleteDictionaryPopup = ({
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
   const [open, setOpen] = useState(false)
 
+  const translate = useTranslationFunction()
+
   const handleClose = () => {
     setOpen(false)
   }
@@ -33,13 +35,13 @@ export const DeleteDictionaryPopup = ({
         dictionaryKey
       ),
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       setOpen(false)
       setLetCallList(true)
       updateStoreLanguage()
     },
-    handleError(message) {
-      toast.error(message)
+    handleError(status, message) {
+      if (status) toast.error(translate(message))
     },
   })
   return (

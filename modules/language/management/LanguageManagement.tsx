@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector } from '@/redux/general-settings'
 import { setLanguage } from '@/redux/share-store'
@@ -16,6 +16,7 @@ import { OneLanguage } from './OneLanguage'
 
 export const LanguageManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
+  const translate = useTranslationFunction()
 
   const viewLanguageresult = useApiCall<LanguageListResponseSuccess, String>({
     callApi: () =>
@@ -27,7 +28,7 @@ export const LanguageManagement = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })
@@ -44,7 +45,7 @@ export const LanguageManagement = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message, data) {
@@ -82,6 +83,7 @@ export const LanguageManagement = () => {
               'key',
               ...(viewLanguageresult.data?.result.data.map((language) => language.key) ?? []),
             ]}
+            listKeyExist={Object.keys(getLanguage.data?.result?.dictionary ?? {})}
           />
           <LanguageCreatePopup
             updateStoreLanguage={updateStoreLanguage}

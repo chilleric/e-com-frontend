@@ -1,6 +1,6 @@
 import { CustomTable } from '@/components/table'
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListUser } from '@/services'
 import { UserListSuccess, UserResponseSuccess } from '@/types'
@@ -13,6 +13,7 @@ import { HeaderUserTable, ListActions, listFunctionParseValue } from './manageme
 
 export const UserManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
+  const translate = useTranslationFunction()
 
   const [page, setPage] = useState<number>(1)
 
@@ -33,7 +34,7 @@ export const UserManagement = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })

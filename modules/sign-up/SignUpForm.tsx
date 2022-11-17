@@ -1,4 +1,4 @@
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { encodeBase64 } from '@/lib'
 import { authenticationSelector } from '@/redux/authentication'
 import { toggleTheme } from '@/redux/general-settings'
@@ -20,6 +20,8 @@ export const SignUpForm = () => {
 
   const dispatch = useDispatch()
 
+  const translate = useTranslationFunction()
+
   const handleChangeTheme = () => {
     dispatch(toggleTheme())
   }
@@ -36,10 +38,10 @@ export const SignUpForm = () => {
         address: signUpRequest.address,
       }),
     handleError(status, message) {
-      toast.error(message)
+      toast.error(translate(message))
     },
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       setStep(4)
     },
   })

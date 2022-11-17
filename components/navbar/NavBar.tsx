@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { logout } from '@/services'
 import { Avatar, Dropdown, Navbar } from '@nextui-org/react'
@@ -16,6 +16,8 @@ export const NavBar = () => {
   const [cookies, , removeCookie] = useCookies([DEVICE_ID, USER_ID])
   const router = useRouter()
 
+  const translate = useTranslationFunction()
+
   const logoutResult = useApiCall({
     callApi: () =>
       logout(
@@ -24,11 +26,11 @@ export const NavBar = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       removeCookie('deviceId')
       removeCookie('userId')
       router.push('/login')
