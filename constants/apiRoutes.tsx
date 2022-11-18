@@ -45,5 +45,6 @@ export const apiRoute = {
     updateLanguage: 'language/update-language',
     addNewDictionary: 'language/add-new-dictionary',
     deleteDictionaryKey: 'language/delete-dictionary-key',
+    updateDictionaryList: 'language/update-dictionary-list',
   },
 }

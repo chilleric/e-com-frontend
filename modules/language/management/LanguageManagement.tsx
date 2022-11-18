@@ -11,6 +11,7 @@ import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { DictionaryCreatePopup } from '../inventory/DictionaryCreatePopup'
+import { IOCsvLanguage } from '../inventory/IOCsvLanguage'
 import { LanguageCreatePopup } from '../inventory/LanguageCreatePopup'
 import { OneLanguage } from './OneLanguage'
 
@@ -74,6 +75,7 @@ export const LanguageManagement = () => {
           style={{
             display: 'flex',
             gap: 10,
+            flexWrap: 'wrap',
           }}
         >
           <DictionaryCreatePopup
@@ -88,6 +90,10 @@ export const LanguageManagement = () => {
           <LanguageCreatePopup
             updateStoreLanguage={updateStoreLanguage}
             setLetCallList={viewLanguageresult.setLetCall}
+          />
+          <IOCsvLanguage
+            viewLanguageResult={viewLanguageresult.data?.result.data ?? []}
+            setLetCall={viewLanguageresult.setLetCall}
           />
         </div>
       </div>
