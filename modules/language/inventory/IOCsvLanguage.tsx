@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslationFunction } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { ShareStoreSelector } from '@/redux/share-store'
 import { updateDictionaryList } from '@/services'
@@ -7,6 +7,7 @@ import { DictionaryKey, LanguageResponseSuccess, UpdateDictionaryListRequest } f
 import { Button, Modal, Text } from '@nextui-org/react'
 import { ChangeEvent, useState } from 'react'
 import { useCookies } from 'react-cookie'
+import { TiDelete } from 'react-icons/ti'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
@@ -22,6 +23,13 @@ export const IOCsvLanguage = ({
   const translate = useTranslationFunction()
   const [open, setOpen] = useState(false)
   const [stateLanguage, setStateLanguage] = useState<UpdateDictionaryListRequest>([])
+  const [uploadFileName, setUploadFileName] = useState<string>('')
+
+  const labelInput = useTranslation('inputCSVLanguage')
+  const labelExport = useTranslation('exportCSVLanguage')
+  const overrideData = useTranslation('overrideData')
+  const submit = useTranslation('submit')
+  const cancel = useTranslation('cancel')
 
   const data = useApiCall<string, string>({
     callApi: () =>
@@ -32,6 +40,8 @@ export const IOCsvLanguage = ({
     handleSuccess(message) {
       toast.success(translate(message))
       setLetCall(true)
+      setStateLanguage([])
+      setUploadFileName('')
     },
     handleError(status, message) {
       if (status) {
@@ -54,6 +64,7 @@ export const IOCsvLanguage = ({
 
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e?.target?.files?.length) {
+      setUploadFileName(e?.target?.files[0].name)
       const reader = new FileReader()
       reader.onload = (event) => {
         const text = (event?.target?.result ?? '').toString()
@@ -78,35 +89,49 @@ export const IOCsvLanguage = ({
     }
   }
 
+  const handleDiscardFile = () => {
+    setUploadFileName('')
+    setStateLanguage([])
+  }
+
   return (
     <>
-      <div style={{ position: 'relative', width: 150 }}>
-        <input
-          style={{ opacity: '0', width: '100%', zIndex: 1, position: 'fixed' }}
-          type="file"
-          id="csvFile"
-          accept=".csv"
-          onChange={handleUploadFile}
-        />
-        <Button
-          size="sm"
-          css={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0 }}
-        >
-          Nhập file
+      {uploadFileName ? (
+        <Button size="sm" onClick={handleDiscardFile}>
+          {uploadFileName}
+          <TiDelete size={25} color="red" />
         </Button>
-      </div>
+      ) : (
+        <Button size="sm" css={{ position: 'relative' }}>
+          <input
+            style={{
+              opacity: '0',
+              left: 0,
+              top: 0,
+              right: 0,
+              bottom: 0,
+              position: 'absolute',
+            }}
+            type="file"
+            id="csvFile"
+            accept=".csv"
+            onChange={handleUploadFile}
+          />
+          {labelInput}
+        </Button>
+      )}
       <a href={encodedUri} download="language">
-        <Button size="sm">Xuất File CSV</Button>
+        <Button size="sm">{labelExport}</Button>
       </a>
 
       <Modal open={open} preventClose blur>
         <Modal.Header>
           <Text h2 id="modal-title">
-            Import CSV File
+            {labelExport}
           </Text>
         </Modal.Header>
         <Modal.Body>
-          <Text h4>Việc này sẽ ghi đè toàn bộ dữ liệu!</Text>
+          <Text h4>{overrideData}!</Text>
         </Modal.Body>
         <Modal.Footer justify="center">
           <Button
@@ -114,9 +139,10 @@ export const IOCsvLanguage = ({
             flat
             onClick={() => {
               setOpen(false)
+              setStateLanguage([])
             }}
           >
-            Cancel
+            {cancel}
           </Button>
           <Button
             auto
@@ -126,7 +152,7 @@ export const IOCsvLanguage = ({
               data.setLetCall(true)
             }}
           >
-            Submit
+            {submit}
           </Button>
         </Modal.Footer>
       </Modal>
