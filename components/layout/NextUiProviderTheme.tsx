@@ -1,4 +1,4 @@
-import { useApiCall, useGetDarkMode, useResponsive } from '@/hooks'
+import { useApiCall, useGetDarkMode, useResponsive, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
 import { setLanguage, setLoading } from '@/redux/share-store'
@@ -22,12 +22,14 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
 
   const dispatch = useDispatch()
 
+  const translate = useTranslationFunction()
+
   const result = useApiCall<GeneralSettingsResponseSuccess, string>({
     callApi: () =>
       getGeneralSettings(generateToken({ userId: cookies.userId, deviceId: cookies.deviceId })),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message, data) {
@@ -45,7 +47,7 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message, data) {

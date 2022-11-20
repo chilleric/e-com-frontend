@@ -1,4 +1,4 @@
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { getListPermission, updatePermission } from '@/services/permission.service'
 import {
@@ -18,6 +18,7 @@ import { ModifierPermission } from '../inventory/ModifierPermission'
 export const PermissionDetail = () => {
   const [cookies] = useCookies()
   const router = useRouter()
+  const translate = useTranslationFunction()
 
   const [type, setType] = useState<'read' | 'update'>('read')
   const [permissionState, setPermissionState] =
@@ -46,11 +47,11 @@ export const PermissionDetail = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       router.push('/permission/management')
     },
   })

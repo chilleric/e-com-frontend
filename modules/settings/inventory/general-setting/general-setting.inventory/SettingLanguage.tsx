@@ -1,5 +1,5 @@
 import { SelectCustom } from '@/components'
-import { useApiCall, useResponsive, useTranslation } from '@/hooks'
+import { useApiCall, useResponsive, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { setGeneralSettings } from '@/redux/general-settings'
 import { getLanguageSelectList } from '@/services'
@@ -19,6 +19,7 @@ export const SettingLanguage = ({ disabled, languageKey, setLetCallUpdate }: ISe
   const [cookie] = useCookies()
   const breakPoint = useResponsive()
   const dispatch = useDispatch()
+  const translate = useTranslationFunction()
 
   const [languageOptions, setLanguageOptions] = useState<OptionsType<string>[]>([])
 
@@ -26,12 +27,12 @@ export const SettingLanguage = ({ disabled, languageKey, setLetCallUpdate }: ISe
     callApi: () =>
       getLanguageSelectList(generateToken({ userId: cookie.userId, deviceId: cookie.deviceId })),
     handleSuccess: (message, data) => {
-      toast.success(message)
+      toast.success(translate(message))
       setLanguageOptions(data)
     },
     handleError: (status, message) => {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })

@@ -1,4 +1,4 @@
-import { useApiCall, useResponsive, useTranslation } from '@/hooks'
+import { useApiCall, useResponsive, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
 import { getGeneralSettings, updateGeneralSettings } from '@/services/settings.service'
@@ -12,6 +12,7 @@ import { SettingLanguage } from './general-setting.inventory/SettingLanguage'
 
 export const GeneralSettings = () => {
   const [cookie] = useCookies()
+  const translate = useTranslationFunction()
 
   const GeneralSettings = useSelector(GeneralSettingsSelector)
   const dispatch = useDispatch()
@@ -22,12 +23,12 @@ export const GeneralSettings = () => {
     callApi: () =>
       getGeneralSettings(generateToken({ userId: cookie.userId, deviceId: cookie.deviceId })),
     handleSuccess: (message, data) => {
-      toast.success(message)
+      toast.success(translate(message))
       dispatch(setGeneralSettings(data))
     },
     handleError: (status, message) => {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })
@@ -39,11 +40,11 @@ export const GeneralSettings = () => {
         GeneralSettings
       ),
     handleSuccess: (message) => {
-      toast.success(message)
+      toast.success(translate(message))
     },
     handleError: (status, message) => {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
       if (status !== 401 && status !== 403) {
         viewResult.setLetCall(true)

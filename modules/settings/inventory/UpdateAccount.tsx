@@ -1,4 +1,4 @@
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
 import { DefaultUser, UserForm } from '@/modules/user/inventory'
 import { getDetailUser } from '@/services'
@@ -12,6 +12,7 @@ import { initUpdateAccountRequest } from './settings.inventory'
 
 export const UpdateAccount = () => {
   const [cookies] = useCookies()
+  const translate = useTranslationFunction()
 
   const [userState, setUserState] = useState<UserResponseSuccess>(DefaultUser)
 
@@ -29,7 +30,7 @@ export const UpdateAccount = () => {
     },
     handleError: (status, message) => {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })
@@ -45,14 +46,14 @@ export const UpdateAccount = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
       if (status !== 401 && status !== 403) {
         viewResult.setLetCall(true)
       }
     },
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
     },
   })
 

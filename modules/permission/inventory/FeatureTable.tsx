@@ -1,5 +1,5 @@
 import { CustomTable } from '@/components'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListFeature } from '@/services/feature.service'
 import { FeatureListResponse, FeatureResponse } from '@/types'
@@ -21,6 +21,7 @@ export const FeatureTablePermission = ({
   editAble,
 }: IUserTablePermission) => {
   const [cookies] = useCookies()
+  const translate = useTranslationFunction()
 
   const [page, setPage] = useState<number>(1)
 
@@ -38,7 +39,7 @@ export const FeatureTablePermission = ({
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message, data) {

@@ -1,5 +1,5 @@
 import { CustomTable } from '@/components'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import {
   HeaderUserTable,
@@ -20,6 +20,7 @@ interface IUserTablePermission {
 
 export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTablePermission) => {
   const [cookies] = useCookies()
+  const translate = useTranslationFunction()
 
   const [userResponse, setUseResponse] = useState<UserListSuccess>()
 
@@ -36,7 +37,7 @@ export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTa
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message, data) {

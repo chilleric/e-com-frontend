@@ -26,3 +26,5 @@ export interface AddNewLanguageRequest {
   language: string
   key: string
 }
+
+export type UpdateDictionaryListRequest = { id: string; dictionary: DictionaryKey }[]

@@ -1,4 +1,4 @@
-import { useTranslation } from '@/hooks'
+import { useTranslation, useTranslationFunction } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
 import { Input, Switch, Text } from '@nextui-org/react'
@@ -20,6 +20,7 @@ export const ModifierPermission = ({
   errorState,
 }: IModifierPermission) => {
   const breakPoint = useResponsive()
+  const translate = useTranslationFunction()
 
   const setListUser = (listUser: string[]) => {
     handleChangeState({ userId: listUser })
@@ -52,7 +53,7 @@ export const ModifierPermission = ({
                 name: event.currentTarget.value,
               })
             }}
-            {...inputStylesPermission({ error: errorState?.name })}
+            {...inputStylesPermission({ error: errorState?.name && translate(errorState.name) })}
           />
         </div>
         <div>

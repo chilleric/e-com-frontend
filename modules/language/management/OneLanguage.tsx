@@ -1,4 +1,4 @@
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { updateLanguage } from '@/services'
 import { DictionaryKey, LanguageRequest, LanguageResponseSuccess } from '@/types'
@@ -17,6 +17,8 @@ interface IOneLanguage {
 export const OneLanguage = ({ language, setLetCallList, updateStoreLanguage }: IOneLanguage) => {
   const [cookies] = useCookies()
 
+  const translate = useTranslationFunction()
+
   const [editAble, setEditAble] = useState(false)
   const [dictionaryList, setDictionaryList] = useState<DictionaryKey>({})
 
@@ -32,11 +34,11 @@ export const OneLanguage = ({ language, setLetCallList, updateStoreLanguage }: I
         }
       ),
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       setLetCallList(true)
     },
-    handleError(message) {
-      toast.error(message)
+    handleError(status, message) {
+      if (status) toast.error(translate(message))
     },
   })
 

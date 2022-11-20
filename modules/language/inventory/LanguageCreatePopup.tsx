@@ -1,4 +1,4 @@
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { addNewLanguage } from '@/services'
 import { AddNewLanguageRequest, LanguageRequest } from '@/types'
@@ -18,6 +18,8 @@ export const LanguageCreatePopup = ({
   updateStoreLanguage,
 }: ILanguageCreatePopup) => {
   const [cookies] = useCookies()
+
+  const translate = useTranslationFunction()
 
   const [open, setOpen] = useState(false)
 
@@ -42,13 +44,13 @@ export const LanguageCreatePopup = ({
         languageState
       ),
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       handleClose()
       setLetCallList(true)
       updateStoreLanguage()
     },
     handleError(status, message) {
-      if (status) toast.error(message)
+      if (status) toast.error(translate(message))
     },
   })
 
@@ -89,7 +91,9 @@ export const LanguageCreatePopup = ({
                 key: event.currentTarget.value,
               })
             }}
-            {...inputStylesLanguage({ error: createResult?.error?.result.key })}
+            {...inputStylesLanguage({
+              error: createResult?.error?.result.key && translate(createResult.error.result.key),
+            })}
           />
           <Input
             css={{ width: '100%' }}
@@ -100,7 +104,11 @@ export const LanguageCreatePopup = ({
                 language: event.currentTarget.value,
               })
             }}
-            {...inputStylesLanguage({ error: createResult?.error?.result.language })}
+            {...inputStylesLanguage({
+              error:
+                createResult?.error?.result.language &&
+                translate(createResult.error.result.language),
+            })}
           />
         </Modal.Body>
 

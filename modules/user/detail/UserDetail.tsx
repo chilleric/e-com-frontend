@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps, StatusList } from '@/lib'
 import { changeStatusUser, getDetailUser, updateUser } from '@/services'
 import { UserRequest, UserRequestFailure, UserResponseSuccess } from '@/types'
@@ -13,6 +13,7 @@ import { DefaultUser, initUserRequest, UserForm } from '../inventory'
 export const UserDetail = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
   const router = useRouter()
+  const translate = useTranslationFunction()
 
   const [type, setType] = useState<'read' | 'update'>('read')
   const [UserState, setUserState] = useState<UserResponseSuccess>(DefaultUser)
@@ -31,7 +32,7 @@ export const UserDetail = () => {
     },
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })
@@ -48,11 +49,11 @@ export const UserDetail = () => {
       }),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       router.push('/user/management')
     },
   })
@@ -69,11 +70,11 @@ export const UserDetail = () => {
     },
     handleError: (status, message) => {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess: (message) => {
-      toast.success(message)
+      toast.success(translate(message))
       viewResult.setLetCall(true)
     },
   })

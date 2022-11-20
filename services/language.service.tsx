@@ -1,6 +1,11 @@
 import { apiRoute } from '@/constants/apiRoutes'
 import axiosInstance from '@/lib/axios/request'
-import { AddNewLanguageRequest, DictionaryKey, LanguageRequest } from '@/types'
+import {
+  AddNewLanguageRequest,
+  DictionaryKey,
+  LanguageRequest,
+  UpdateDictionaryListRequest,
+} from '@/types'
 import { QueryParams } from '@/types/common'
 
 export const getLanguageSelectList = (token: string, params?: QueryParams) => {
@@ -41,7 +46,7 @@ export const addNewLanguage = (token: string, request: AddNewLanguageRequest) =>
 }
 
 export const updateLanguage = (id: string, token: string, request: LanguageRequest) => {
-  return axiosInstance.post(apiRoute.language.updateLanguage, request, {
+  return axiosInstance.put(apiRoute.language.updateLanguage, request, {
     headers: {
       Authorization: token,
     },
@@ -65,5 +70,13 @@ export const deleteDictionaryKey = (token: string, key: string) => {
       Authorization: token,
     },
     params: { key },
+  })
+}
+
+export const updateDictionaryList = (token: string, request: UpdateDictionaryListRequest) => {
+  return axiosInstance.put(apiRoute.language.updateDictionaryList, request, {
+    headers: {
+      Authorization: token,
+    },
   })
 }

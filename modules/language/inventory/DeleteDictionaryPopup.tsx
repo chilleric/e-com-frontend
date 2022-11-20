@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { deleteDictionaryKey } from '@/services'
 import { Button, Modal, Text } from '@nextui-org/react'
@@ -22,6 +22,8 @@ export const DeleteDictionaryPopup = ({
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
   const [open, setOpen] = useState(false)
 
+  const translate = useTranslationFunction()
+
   const handleClose = () => {
     setOpen(false)
   }
@@ -33,18 +35,24 @@ export const DeleteDictionaryPopup = ({
         dictionaryKey
       ),
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       setOpen(false)
       setLetCallList(true)
       updateStoreLanguage()
     },
-    handleError(message) {
-      toast.error(message)
+    handleError(status, message) {
+      if (status) toast.error(translate(message))
     },
   })
+
+  const deleteLabel = useTranslation('delete')
+  const cancel = useTranslation('cancel')
+  const deleteKeyLabel = useTranslation('deleteKeyLabel')
+
   return (
     <>
       <TiDelete
+        style={{ cursor: 'pointer' }}
         size={25}
         color="red"
         onClick={() => {
@@ -54,15 +62,15 @@ export const DeleteDictionaryPopup = ({
       <Modal open={open} onClose={handleClose} blur>
         <Modal.Header>
           <Text h2 id="modal-title">
-            Delete {dictionaryKey}
+            {deleteLabel} {dictionaryKey}
           </Text>
         </Modal.Header>
 
-        <Modal.Body>Bạn sẽ xóa dictionary này tại toàn bộ ngôn ngữ</Modal.Body>
+        <Modal.Body>{deleteKeyLabel}</Modal.Body>
 
         <Modal.Footer justify="center">
           <Button disabled={deleteResult.loading} auto color="warning" onClick={handleClose}>
-            Cancel
+            {cancel}
           </Button>
 
           <Button
@@ -73,7 +81,7 @@ export const DeleteDictionaryPopup = ({
               deleteResult.setLetCall(true)
             }}
           >
-            Delete
+            {deleteLabel}
           </Button>
         </Modal.Footer>
       </Modal>

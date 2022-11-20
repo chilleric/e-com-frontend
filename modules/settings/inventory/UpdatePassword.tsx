@@ -1,4 +1,4 @@
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
 import { encodeBase64, generateToken } from '@/lib'
 import { inputStylesUser } from '@/modules/user/inventory'
@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'
 export const UpdatePassword = () => {
   const [cookies] = useCookies()
   const breakPoint = useResponsive()
+  const translate = useTranslationFunction()
 
   const [oldPasswordState, setOldPassword] = useState<string>('')
   const [newPasswordState, setNewPassword] = useState<string>('')
@@ -26,11 +27,11 @@ export const UpdatePassword = () => {
       }),
     handleError: (status, message) => {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess: (message) => {
-      toast.success(message)
+      toast.success(translate(message))
       setOldPassword('')
       setNewPassword('')
       setConfirmPasswordState('')
@@ -57,7 +58,9 @@ export const UpdatePassword = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <Input
           css={{ width: breakPoint < 2 ? '100%' : '40%' }}
-          {...inputStylesUser({ error: error?.result?.oldPassword })}
+          {...inputStylesUser({
+            error: error?.result?.oldPassword && translate(error.result.oldPassword),
+          })}
           type="password"
           label={oldPassword}
           onFocus={handleReset}
@@ -68,7 +71,9 @@ export const UpdatePassword = () => {
         />
         <Input
           css={{ width: breakPoint < 2 ? '100%' : '40%' }}
-          {...inputStylesUser({ error: error?.result?.newPassword })}
+          {...inputStylesUser({
+            error: error?.result?.newPassword && translate(error.result.newPassword),
+          })}
           type="password"
           label={newPassword}
           onFocus={handleReset}
@@ -79,7 +84,9 @@ export const UpdatePassword = () => {
         />
         <Input
           css={{ width: breakPoint < 2 ? '100%' : '40%' }}
-          {...inputStylesUser({ error: error?.result?.confirmNewPassword })}
+          {...inputStylesUser({
+            error: error?.result?.confirmNewPassword && translate(error.result.confirmNewPassword),
+          })}
           type="password"
           label={confirmPassword}
           onFocus={handleReset}

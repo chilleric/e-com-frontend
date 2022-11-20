@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { encodeBase64 } from '@/lib'
 import { toggleTheme } from '@/redux/general-settings'
 import { login } from '@/services'
@@ -17,6 +17,7 @@ export const LoginForm = () => {
   const passwordRef = useRef<FormElement>(null)
   const router = useRouter()
   const [cookies, setCookie] = useCookies([DEVICE_ID, USER_ID])
+  const translate = useTranslationFunction()
 
   const dispatch = useDispatch()
 
@@ -31,12 +32,12 @@ export const LoginForm = () => {
         password: encodeBase64(passwordRef.current ? passwordRef.current.value : ''),
       }),
     handleSuccess(message) {
-      toast.success(message)
+      toast.success(translate(message))
       router.push('/')
     },
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })
@@ -87,13 +88,13 @@ export const LoginForm = () => {
       <Modal.Body>
         <Input
           ref={emailRef}
-          {...inputStyles({ error: error?.result?.username })}
+          {...inputStyles({ error: error?.result?.username && translate(error.result.username) })}
           labelLeft={usernameLabel}
           onFocus={handleReset}
         />
         <Input
           ref={passwordRef}
-          {...inputStyles({ error: error?.result?.password })}
+          {...inputStyles({ error: error?.result?.password && translate(error.result.password) })}
           type="password"
           labelLeft={passwordLabel}
           onFocus={handleReset}

@@ -1,5 +1,5 @@
 import { DEVICE_ID, USER_ID } from '@/constants/auth'
-import { useApiCall, useTranslation } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector } from '@/redux/general-settings'
 import { setLanguage } from '@/redux/share-store'
@@ -11,11 +11,13 @@ import { useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { DictionaryCreatePopup } from '../inventory/DictionaryCreatePopup'
+import { IOCsvLanguage } from '../inventory/IOCsvLanguage'
 import { LanguageCreatePopup } from '../inventory/LanguageCreatePopup'
 import { OneLanguage } from './OneLanguage'
 
 export const LanguageManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
+  const translate = useTranslationFunction()
 
   const viewLanguageresult = useApiCall<LanguageListResponseSuccess, String>({
     callApi: () =>
@@ -27,7 +29,7 @@ export const LanguageManagement = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
   })
@@ -44,7 +46,7 @@ export const LanguageManagement = () => {
       ),
     handleError(status, message) {
       if (status) {
-        toast.error(message)
+        toast.error(translate(message))
       }
     },
     handleSuccess(message, data) {
@@ -73,6 +75,7 @@ export const LanguageManagement = () => {
           style={{
             display: 'flex',
             gap: 10,
+            flexWrap: 'wrap',
           }}
         >
           <DictionaryCreatePopup
@@ -82,10 +85,15 @@ export const LanguageManagement = () => {
               'key',
               ...(viewLanguageresult.data?.result.data.map((language) => language.key) ?? []),
             ]}
+            listKeyExist={Object.keys(getLanguage.data?.result?.dictionary ?? {})}
           />
           <LanguageCreatePopup
             updateStoreLanguage={updateStoreLanguage}
             setLetCallList={viewLanguageresult.setLetCall}
+          />
+          <IOCsvLanguage
+            viewLanguageResult={viewLanguageresult.data?.result.data ?? []}
+            setLetCall={viewLanguageresult.setLetCall}
           />
         </div>
       </div>
