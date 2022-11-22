@@ -3,10 +3,10 @@ import { Loading, Modal, Text } from '@nextui-org/react'
 import { useSelector } from 'react-redux'
 
 export const BackDropModal = () => {
-  const { loading } = useSelector(ShareStoreSelector)
+  const { settingsLoading, languageLoading } = useSelector(ShareStoreSelector)
 
   return (
-    <Modal open={loading} preventClose blur>
+    <Modal open={settingsLoading || languageLoading} preventClose blur>
       <Modal.Header>
         <Text h2 id="modal-title">
           Loading

@@ -1,5 +1,6 @@
 export interface ShareStoreTypes {
-  loading: boolean
+  settingsLoading: boolean
+  languageLoading: boolean
   language: {
     [key: string]: string
   }
