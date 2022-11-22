@@ -1,7 +1,7 @@
 import { useApiCall, useGetDarkMode, useResponsive, useTranslationFunction } from '@/hooks'
 import { generateToken } from '@/lib'
 import { GeneralSettingsSelector, setGeneralSettings } from '@/redux/general-settings'
-import { setLanguage, setLoading } from '@/redux/share-store'
+import { setLanguage, setLoadingLanguage, setLoadingSettings } from '@/redux/share-store'
 import { getLanguageByKey } from '@/services'
 import { getGeneralSettings } from '@/services/settings.service'
 import { DarkTheme, LightTheme } from '@/styles/themes'
@@ -70,8 +70,9 @@ export const NextUiProviderTheme = ({ children }: { children: React.ReactNode })
   }, [cookies.deviceId, cookies.userId])
 
   useEffect(() => {
-    dispatch(setLoading(result.loading))
-  }, [result.loading])
+    dispatch(setLoadingSettings(result.loading))
+    dispatch(setLoadingLanguage(getLanguage.loading))
+  }, [result.loading, getLanguage.loading])
 
   useEffect(() => {
     getLanguage.setLetCall(true)
