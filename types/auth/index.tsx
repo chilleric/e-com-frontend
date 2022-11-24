@@ -7,6 +7,7 @@ export interface LoginResponseSuccess {
   userId: string
   deviceId: string
   verify2Fa: boolean
+  needVerify: boolean
 }
 
 export type LoginResponseFailure = Record<keyof LoginRequest, string>

@@ -2,7 +2,7 @@ import { DEVICE_ID, USER_ID } from '@/constants/auth'
 import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { encodeBase64 } from '@/lib'
 import { toggleTheme } from '@/redux/general-settings'
-import { login } from '@/services'
+import { callForgotPassword, login } from '@/services'
 import { LoginResponseFailure, LoginResponseSuccess } from '@/types'
 import { Button, FormElement, Input, Loading, Modal, Row, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
@@ -25,15 +25,43 @@ export const LoginForm = () => {
     dispatch(toggleTheme())
   }
 
+  const resultForgotPassword = useApiCall({
+    callApi: () => callForgotPassword(emailRef?.current?.value || ''),
+    handleError(status, message) {
+      if (status) {
+        toast.error(translate(message))
+      }
+    },
+    handleSuccess(message) {
+      toast.success(translate(message))
+    },
+  })
+
   const result = useApiCall<LoginResponseSuccess, LoginResponseFailure>({
     callApi: () =>
       login({
         username: emailRef.current ? emailRef.current.value : '',
         password: encodeBase64(passwordRef.current ? passwordRef.current.value : ''),
       }),
-    handleSuccess(message) {
-      toast.success(translate(message))
-      router.push('/')
+    handleSuccess(message, data) {
+      if (data.needVerify) {
+        router.push('/verify?type=verifyEmail')
+      }
+      if (data.verify2Fa) {
+        router.push(`/verify?type=verify2FA&email=${emailRef.current?.value || ''}`)
+      }
+      if (!data.needVerify && !data.verify2Fa) {
+        toast.success(translate(message))
+        setCookie(DEVICE_ID, data.deviceId, {
+          path: '/',
+          expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+        })
+        setCookie(USER_ID, data.userId, {
+          path: '/',
+          expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+        })
+        router.push('/')
+      }
     },
     handleError(status, message) {
       if (status) {
@@ -42,7 +70,7 @@ export const LoginForm = () => {
     },
   })
 
-  const { error, data, loading, setLetCall, handleReset } = result
+  const { error, loading, setLetCall, handleReset } = result
 
   const handleLogin = () => {
     setLetCall(true)
@@ -51,19 +79,6 @@ export const LoginForm = () => {
   const handleSignUp = () => {
     router.push('/sign-up')
   }
-
-  useEffect(() => {
-    if (data) {
-      setCookie(DEVICE_ID, data.result.deviceId, {
-        path: '/',
-        expires: new Date(new Date().setDate(new Date().getDate() + 7)),
-      })
-      setCookie(USER_ID, data.result.userId, {
-        path: '/',
-        expires: new Date(new Date().setDate(new Date().getDate() + 7)),
-      })
-    }
-  }, [data])
 
   useEffect(() => {
     if (cookies.deviceId && cookies.userId) {
@@ -100,7 +115,12 @@ export const LoginForm = () => {
           onFocus={handleReset}
         />
         <Row justify="flex-end">
-          <Button disabled={loading} auto light>
+          <Button
+            disabled={loading}
+            auto
+            light
+            onClick={() => resultForgotPassword.setLetCall(true)}
+          >
             {forgotPassword}?
           </Button>
         </Row>

@@ -25,3 +25,15 @@ export const logout = (deviceId: string, token: string) => {
     },
   })
 }
+
+export const Verify2FA = (email: string, code: string) => {
+  return axiosInstance.post(`${apiRoute.auth.verify2FA}?email=${email}&code=${code}`)
+}
+
+export const resendVerify2FA = (email: string) => {
+  return axiosInstance.post(`${apiRoute.auth.verify2FA}/resend?email=${email}`)
+}
+
+export const callForgotPassword = (email: string) => {
+  return axiosInstance.post(`${apiRoute.auth.forgotPassword}?email=${email}`)
+}
