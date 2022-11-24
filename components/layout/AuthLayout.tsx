@@ -32,7 +32,9 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const onClose = () => {
-      outChatRoom.setLetCall(true)
+      if (cookies.userId && cookies.deviceId) {
+        outChatRoom.setLetCall(true)
+      }
     }
 
     onClose()
@@ -45,28 +47,34 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   useEffect(() => {
+    if (router.asPath.includes('chat') && cookies.deviceId && cookies.userId) {
+      if (chatStatus !== 'in') {
+        inChatRoom.setLetCall(true)
+        setChatStatus('in')
+      }
+    } else if (chatStatus !== 'out') {
+      outChatRoom.setLetCall(true)
+      setChatStatus('out')
+    }
+  }, [cookies, router])
+
+  useEffect(() => {
     if (
       router &&
       !router.asPath.includes('login') &&
       !router.asPath.includes('forgot-password') &&
-      !router.asPath.includes('sign-up')
+      !router.asPath.includes('sign-up') &&
+      !router.asPath.includes('verify')
     ) {
       if (!cookies.deviceId && !cookies.userId) {
         router.push('/login')
-      } else if (router.asPath.includes('chat')) {
-        if (chatStatus !== 'in') {
-          inChatRoom.setLetCall(true)
-          setChatStatus('in')
-        }
-      } else if (chatStatus !== 'out') {
-        outChatRoom.setLetCall(true)
-        setChatStatus('out')
       }
     }
     if (
       (router && router.asPath.includes('login')) ||
       router.asPath.includes('forgot-password') ||
-      router.asPath.includes('sign-up')
+      router.asPath.includes('sign-up') ||
+      router.asPath.includes('verify')
     ) {
       if (cookies.deviceId && cookies.userId) {
         router.push('/')

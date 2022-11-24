@@ -11,6 +11,8 @@ export const apiRoute = {
     signUp: '/auth/register',
     verifySignUp: '/auth/verify-email',
     logout: '/auth/logout',
+    verify2FA: '/auth/verify-2fa',
+    forgotPassword: '/auth/forgot-password',
   },
   settings: {
     updatePassword: 'settings/update-password',
