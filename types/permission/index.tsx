@@ -6,6 +6,7 @@ export interface PermissionResponse {
   created: string
   modified: string
   skipAccessability: number
+  viewPoints: { [key: string]: string[] }
 }
 
 export interface PermissionRequest {
@@ -13,6 +14,7 @@ export interface PermissionRequest {
   featureId: string[]
   userId: string[]
   skipAccessability: number
+  viewPoints: { [key: string]: string[] }
 }
 
 export interface PermissionListResponse {

@@ -32,12 +32,32 @@ export const updatePermission = (id: string, token: string, request: PermissionR
 }
 
 export const deletePermission = (token: string, id: string) => {
-  return axiosInstance.put(apiRoute.permissions.updatePermission, null, {
+  return axiosInstance.put(apiRoute.permissions.deletePermission, null, {
     headers: {
       Authorization: token,
     },
     params: {
       id,
+    },
+  })
+}
+
+export const getViewPointsSelect = (token: string, params?: QueryParams) => {
+  return axiosInstance.get(apiRoute.permissions.getViewPointsSelect, {
+    params,
+    headers: {
+      Authorization: token,
+    },
+  })
+}
+
+export const getDetailPermission = (token: string, id: string) => {
+  return axiosInstance.get(apiRoute.permissions.getDetailPermission, {
+    params: {
+      id,
+    },
+    headers: {
+      Authorization: token,
     },
   })
 }

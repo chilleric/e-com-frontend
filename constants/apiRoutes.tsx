@@ -25,6 +25,8 @@ export const apiRoute = {
     deletePermission: 'permission/delete-permission',
     addPermission: 'permission/add-new-permission',
     getListPermission: '/permission/get-list-permissions',
+    getViewPointsSelect: '/permission/get-view-points-select',
+    getDetailPermission: '/permission/get-detail-permission',
   },
   feature: {
     getFeatureList: 'feature/get-list-feature',

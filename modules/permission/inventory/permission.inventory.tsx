@@ -43,6 +43,7 @@ export const PermissionRequestDefault: PermissionRequest = {
   skipAccessability: 1,
   featureId: [],
   userId: [],
+  viewPoints: {},
 }
 
 export const inputStylesPermission = ({ error }: { error?: string }) => {
@@ -65,4 +66,5 @@ export const PermissionResponseDefault: PermissionResponse = {
   created: '',
   modified: '',
   skipAccessability: 0,
+  viewPoints: {},
 }

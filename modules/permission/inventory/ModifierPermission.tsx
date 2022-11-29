@@ -1,10 +1,16 @@
-import { useTranslation, useTranslationFunction } from '@/hooks'
+import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
+import { generateToken } from '@/lib'
+import { getViewPointsSelect } from '@/services'
 import { PermissionRequest, PermissionRequestFailure } from '@/types'
-import { Input, Switch, Text } from '@nextui-org/react'
+import { Collapse, Container, Input, Loading, Switch, Text } from '@nextui-org/react'
+import { useEffect } from 'react'
+import { useCookies } from 'react-cookie'
+import { toast } from 'react-toastify'
 import { FeatureTablePermission } from './FeatureTable'
 import { inputStylesPermission } from './permission.inventory'
 import { UserTablePermission } from './UserTable'
+import { ViewPointPermission } from './ViewPointPermission'
 
 interface IModifierPermission {
   handleChangeState: (newUpdate: Partial<PermissionRequest>) => void
@@ -21,6 +27,7 @@ export const ModifierPermission = ({
 }: IModifierPermission) => {
   const breakPoint = useResponsive()
   const translate = useTranslationFunction()
+  const [cookies] = useCookies()
 
   const setListUser = (listUser: string[]) => {
     handleChangeState({ userId: listUser })
@@ -28,10 +35,35 @@ export const ModifierPermission = ({
   const setListFeature = (listFeature: string[]) => {
     handleChangeState({ featureId: listFeature })
   }
+  const setViewPoints = (listView: { [key: string]: string[] }) => {
+    handleChangeState({ viewPoints: { ...permissionState.viewPoints, ...listView } })
+  }
 
   const permissionName = useTranslation('permissionName')
 
   const skipAccessability = useTranslation('skipAccessability')
+
+  const selectUser = useTranslation('selectUser')
+  const selectFeature = useTranslation('selectFeature')
+
+  const viewPointsResult = useApiCall<{ [key: string]: string[] }, String>({
+    callApi: () =>
+      getViewPointsSelect(
+        generateToken({
+          userId: cookies.userId,
+          deviceId: cookies.deviceId,
+        })
+      ),
+    handleError(status, message) {
+      if (status) {
+        toast.error(translate(message))
+      }
+    },
+  })
+
+  useEffect(() => {
+    viewPointsResult.setLetCall(true)
+  }, [])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
@@ -79,16 +111,39 @@ export const ModifierPermission = ({
         </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 80 }}>
-        <UserTablePermission
-          editAble={editAble?.userId}
-          listUser={permissionState.userId}
-          setListUser={setListUser}
-        />
-        <FeatureTablePermission
-          editAble={editAble?.featureId}
-          listFeature={permissionState.featureId}
-          setListFeature={setListFeature}
-        />
+        <Collapse.Group>
+          <Collapse title={selectUser}>
+            <UserTablePermission
+              editAble={editAble?.userId}
+              listUser={permissionState.userId}
+              setListUser={setListUser}
+            />
+          </Collapse>
+          <Collapse title={selectFeature}>
+            <FeatureTablePermission
+              editAble={editAble?.featureId}
+              listFeature={permissionState.featureId}
+              setListFeature={setListFeature}
+            />
+          </Collapse>
+          {viewPointsResult.loading ? (
+            <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+              <Loading />
+            </Container>
+          ) : (
+            Object.keys(viewPointsResult?.data?.result ?? []).map((viewPoint) => (
+              <Collapse key={viewPoint} title={viewPoint}>
+                <ViewPointPermission
+                  listViewPoint={viewPointsResult.data?.result?.[viewPoint] ?? []}
+                  listViewChecked={permissionState.viewPoints?.[viewPoint] ?? []}
+                  setListViewPoint={setViewPoints}
+                  editAble={editAble?.viewPoints}
+                  keyObj={viewPoint}
+                />
+              </Collapse>
+            ))
+          )}
+        </Collapse.Group>
       </div>
     </div>
   )
