@@ -1,5 +1,5 @@
 import { CustomTable } from '@/components'
-import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
+import { useApiCall, useTranslationFunction } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import {
   HeaderUserTable,
@@ -7,7 +7,7 @@ import {
 } from '@/modules/user/management/management.inventory'
 import { getListUser } from '@/services'
 import { UserListSuccess, UserResponseSuccess } from '@/types'
-import { Pagination, Text } from '@nextui-org/react'
+import { Pagination } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
@@ -21,8 +21,6 @@ interface IUserTablePermission {
 export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTablePermission) => {
   const [cookies] = useCookies()
   const translate = useTranslationFunction()
-
-  const [userResponse, setUseResponse] = useState<UserListSuccess>()
 
   const [page, setPage] = useState<number>(1)
 
@@ -40,9 +38,6 @@ export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTa
         toast.error(translate(message))
       }
     },
-    handleSuccess(message, data) {
-      setUseResponse(data)
-    },
   })
 
   useEffect(() => {
@@ -51,16 +46,13 @@ export const UserTablePermission = ({ listUser, setListUser, editAble }: IUserTa
 
   const listFunctionParseValues = listFunctionParseValue()
 
-  const selectUser = useTranslation('selectUser')
-
   const headerUserTable = HeaderUserTable()
 
   return (
     <div>
-      <Text h4>{selectUser}</Text>
       <CustomTable<UserResponseSuccess>
         header={headerUserTable}
-        body={userResponse?.data ?? []}
+        body={userResult?.data?.result?.data ?? []}
         selectionMode={editAble ? 'multiple' : 'none'}
         listFunctionParseValue={listFunctionParseValues}
         handleChangeSelection={setListUser}

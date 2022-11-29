@@ -1,18 +1,14 @@
 import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { generateToken, getListEditAble, lostOddProps } from '@/lib'
-import { getListPermission, updatePermission } from '@/services/permission.service'
-import {
-  PermissionListResponse,
-  PermissionRequest,
-  PermissionRequestFailure,
-  PermissionResponse,
-} from '@/types/permission'
+import { getDetailPermission, updatePermission } from '@/services/permission.service'
+import { PermissionRequest, PermissionRequestFailure, PermissionResponse } from '@/types/permission'
 import { Button, Grid, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
 import { PermissionRequestDefault, PermissionResponseDefault } from '../inventory'
+import { DeletePermissionPopup } from '../inventory/DeletePermissionPopup'
 import { ModifierPermission } from '../inventory/ModifierPermission'
 
 export const PermissionDetail = () => {
@@ -24,17 +20,17 @@ export const PermissionDetail = () => {
   const [permissionState, setPermissionState] =
     useState<PermissionResponse>(PermissionResponseDefault)
 
-  const viewResult = useApiCall<PermissionListResponse, string>({
+  const viewResult = useApiCall<PermissionResponse, string>({
     callApi: () =>
-      getListPermission(
+      getDetailPermission(
         generateToken({
           userId: cookies.userId,
           deviceId: cookies.deviceId,
         }),
-        { _id: router?.query?.id?.toString() ?? '1' }
+        router?.query?.id?.toString() ?? '1'
       ),
     handleSuccess: (message, data) => {
-      setPermissionState(data.data[0])
+      setPermissionState(data)
     },
   })
 
@@ -64,6 +60,8 @@ export const PermissionDetail = () => {
   useEffect(() => {
     if (router?.query?.id) {
       viewResult.setLetCall(true)
+    } else {
+      setPermissionState(PermissionResponseDefault)
     }
   }, [router?.query?.id])
 
@@ -108,6 +106,9 @@ export const PermissionDetail = () => {
                   </Button>
                 </Grid>
                 <Grid>
+                  <DeletePermissionPopup />
+                </Grid>
+                <Grid>
                   <Button
                     color="warning"
                     onClick={() => {
@@ -137,8 +138,7 @@ export const PermissionDetail = () => {
                   <Button
                     color="warning"
                     onClick={() => {
-                      if (viewResult?.data?.result)
-                        setPermissionState(viewResult.data.result.data[0])
+                      if (viewResult?.data?.result) setPermissionState(viewResult.data.result)
                       updateResult.handleReset()
                       setType('read')
                     }}

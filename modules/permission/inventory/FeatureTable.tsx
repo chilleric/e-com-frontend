@@ -1,9 +1,9 @@
 import { CustomTable } from '@/components'
-import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
+import { useApiCall, useTranslationFunction } from '@/hooks'
 import { generateToken, getTotalPage } from '@/lib'
 import { getListFeature } from '@/services/feature.service'
 import { FeatureListResponse, FeatureResponse } from '@/types'
-import { Pagination, Text } from '@nextui-org/react'
+import { Pagination } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
@@ -25,7 +25,6 @@ export const FeatureTablePermission = ({
 
   const [page, setPage] = useState<number>(1)
 
-  const [featureResponse, setFeatureResponse] = useState<FeatureListResponse>()
   const featureResult = useApiCall<FeatureListResponse, String>({
     callApi: () =>
       getListFeature(
@@ -42,16 +41,11 @@ export const FeatureTablePermission = ({
         toast.error(translate(message))
       }
     },
-    handleSuccess(message, data) {
-      setFeatureResponse(data)
-    },
   })
 
   useEffect(() => {
     featureResult.setLetCall(true)
   }, [page])
-
-  const selectFeature = useTranslation('selectFeature')
 
   const headerFeatureTable = HeaderFeatureTable()
 
@@ -59,10 +53,9 @@ export const FeatureTablePermission = ({
 
   return (
     <div>
-      <Text h4>{selectFeature}</Text>
       <CustomTable<FeatureResponse>
         header={headerFeatureTable}
-        body={featureResponse?.data ?? []}
+        body={featureResult?.data?.result?.data ?? []}
         selectionMode={editAble ? 'multiple' : 'none'}
         listFunctionParseValue={listFunctionParseValues}
         handleChangeSelection={setListFeature}

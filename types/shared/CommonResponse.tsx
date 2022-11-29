@@ -3,4 +3,5 @@ export interface CommonResponseType<T> {
   result: T
   message: string
   statusCode: number
+  viewPoints: string[]
 }
