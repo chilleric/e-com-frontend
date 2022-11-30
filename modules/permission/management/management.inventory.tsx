@@ -1,5 +1,4 @@
 import { useTranslation } from '@/hooks'
-import { AccessStatus, convertValueToLabel } from '@/lib'
 import { ActionType } from '@/types'
 import { NextRouter } from 'next/router'
 import { AiOutlineEye } from 'react-icons/ai'
@@ -46,14 +45,4 @@ export const ListActions = () => {
       },
     },
   ] as ActionType[]
-}
-
-export const listFunctionParseValue = () => {
-  const accessStatus = AccessStatus()
-
-  return {
-    skipAccessability: (value: number) => {
-      return convertValueToLabel(value, accessStatus)
-    },
-  }
 }

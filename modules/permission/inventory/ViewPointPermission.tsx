@@ -1,9 +1,10 @@
-import { useResponsive } from '@/hooks'
+import { useResponsive, useTranslationFunction } from '@/hooks'
+import { ViewPointType } from '@/types'
 import { Checkbox } from '@nextui-org/react'
 
 interface IViewPointPermission {
-  listViewPoint: string[]
-  listViewChecked: string[]
+  listViewPoint: ViewPointType[]
+  listViewChecked: ViewPointType[]
   setListViewPoint: Function
   editAble?: boolean
   keyObj: string
@@ -17,6 +18,8 @@ export const ViewPointPermission = ({
   keyObj,
 }: IViewPointPermission) => {
   const breakPoint = useResponsive()
+  const translate = useTranslationFunction()
+
   return (
     <div
       style={{
@@ -27,15 +30,17 @@ export const ViewPointPermission = ({
     >
       {listViewPoint.map((viewPoint) => (
         <div
-          key={viewPoint}
+          key={viewPoint.key}
           style={{ gridColumn: 'span 1 / span 1', display: 'flex', alignItems: 'center', gap: 10 }}
         >
           <Checkbox
-            isSelected={listViewChecked?.includes(viewPoint)}
+            isSelected={
+              listViewChecked?.find((viewChecked) => viewChecked.key === viewPoint.key) && true
+            }
             onChange={() => {
-              if (listViewChecked.includes(viewPoint)) {
+              if (listViewChecked.find((viewChecked) => viewChecked.key === viewPoint.key)) {
                 setListViewPoint({
-                  [keyObj]: listViewChecked.filter((item) => item !== viewPoint),
+                  [keyObj]: listViewChecked.filter((item) => item.key !== viewPoint.key),
                 })
                 return
               }
@@ -45,7 +50,7 @@ export const ViewPointPermission = ({
             }}
             isReadOnly={!editAble}
           >
-            {viewPoint}
+            {translate(viewPoint.label)}
           </Checkbox>
         </div>
       ))}

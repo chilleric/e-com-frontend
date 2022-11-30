@@ -1,20 +1,18 @@
 export interface PermissionResponse {
   id: string
   name: string
-  featureId: string[]
   userId: string[]
   created: string
   modified: string
-  skipAccessability: number
-  viewPoints: { [key: string]: string[] }
+  viewPoints: ViewPointKey
+  editable: ViewPointKey
 }
 
 export interface PermissionRequest {
   name: string
-  featureId: string[]
   userId: string[]
-  skipAccessability: number
-  viewPoints: { [key: string]: string[] }
+  viewPoints: ViewPointKey
+  editable: ViewPointKey
 }
 
 export interface PermissionListResponse {
@@ -25,3 +23,6 @@ export interface PermissionListResponse {
 }
 
 export type PermissionRequestFailure = Record<keyof PermissionRequest, string>
+
+export type ViewPointType = { key: string; label: string }
+export type ViewPointKey = { [key: string]: ViewPointType[] }
