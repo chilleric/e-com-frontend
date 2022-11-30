@@ -2,12 +2,11 @@ import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
 import { generateToken } from '@/lib'
 import { getViewPointsSelect } from '@/services'
-import { PermissionRequest, PermissionRequestFailure } from '@/types'
-import { Collapse, Container, Input, Loading, Switch, Text } from '@nextui-org/react'
+import { PermissionRequest, PermissionRequestFailure, ViewPointKey } from '@/types'
+import { Collapse, Container, Input, Loading } from '@nextui-org/react'
 import { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { FeatureTablePermission } from './FeatureTable'
 import { inputStylesPermission } from './permission.inventory'
 import { UserTablePermission } from './UserTable'
 import { ViewPointPermission } from './ViewPointPermission'
@@ -32,21 +31,23 @@ export const ModifierPermission = ({
   const setListUser = (listUser: string[]) => {
     handleChangeState({ userId: listUser })
   }
-  const setListFeature = (listFeature: string[]) => {
-    handleChangeState({ featureId: listFeature })
-  }
-  const setViewPoints = (listView: { [key: string]: string[] }) => {
+  const setViewPoints = (listView: ViewPointKey) => {
     handleChangeState({ viewPoints: { ...permissionState.viewPoints, ...listView } })
+  }
+
+  const setEditAble = (listView: ViewPointKey) => {
+    handleChangeState({ editable: { ...permissionState.editable, ...listView } })
   }
 
   const permissionName = useTranslation('permissionName')
 
-  const skipAccessability = useTranslation('skipAccessability')
-
   const selectUser = useTranslation('selectUser')
-  const selectFeature = useTranslation('selectFeature')
 
-  const viewPointsResult = useApiCall<{ [key: string]: string[] }, String>({
+  const selectViewPoint = useTranslation('selectViewPoint')
+
+  const selectEditable = useTranslation('selectEditable')
+
+  const viewPointsResult = useApiCall<ViewPointKey, String>({
     callApi: () =>
       getViewPointsSelect(
         generateToken({
@@ -88,27 +89,6 @@ export const ModifierPermission = ({
             {...inputStylesPermission({ error: errorState?.name && translate(errorState.name) })}
           />
         </div>
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 40,
-              gridColumn: 'span 1 / span 1',
-            }}
-          >
-            <Text>{skipAccessability}</Text>
-            <Switch
-              disabled={!editAble?.skipAccessability}
-              checked={permissionState.skipAccessability === 0}
-              onChange={() => {
-                handleChangeState({
-                  skipAccessability: permissionState.skipAccessability === 1 ? 0 : 1,
-                })
-              }}
-            />
-          </div>
-        </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 80 }}>
         <Collapse.Group>
@@ -119,30 +99,50 @@ export const ModifierPermission = ({
               setListUser={setListUser}
             />
           </Collapse>
-          <Collapse title={selectFeature}>
-            <FeatureTablePermission
-              editAble={editAble?.featureId}
-              listFeature={permissionState.featureId}
-              setListFeature={setListFeature}
-            />
+
+          <Collapse title={selectViewPoint}>
+            <Collapse.Group>
+              {viewPointsResult.loading ? (
+                <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+                  <Loading />
+                </Container>
+              ) : (
+                Object.keys(viewPointsResult?.data?.result ?? []).map((viewPoint) => (
+                  <Collapse key={viewPoint} title={viewPoint}>
+                    <ViewPointPermission
+                      listViewPoint={viewPointsResult.data?.result?.[viewPoint] ?? []}
+                      listViewChecked={permissionState.viewPoints?.[viewPoint] ?? []}
+                      setListViewPoint={setViewPoints}
+                      editAble={editAble?.viewPoints}
+                      keyObj={viewPoint}
+                    />
+                  </Collapse>
+                ))
+              )}
+            </Collapse.Group>
           </Collapse>
-          {viewPointsResult.loading ? (
-            <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
-              <Loading />
-            </Container>
-          ) : (
-            Object.keys(viewPointsResult?.data?.result ?? []).map((viewPoint) => (
-              <Collapse key={viewPoint} title={viewPoint}>
-                <ViewPointPermission
-                  listViewPoint={viewPointsResult.data?.result?.[viewPoint] ?? []}
-                  listViewChecked={permissionState.viewPoints?.[viewPoint] ?? []}
-                  setListViewPoint={setViewPoints}
-                  editAble={editAble?.viewPoints}
-                  keyObj={viewPoint}
-                />
-              </Collapse>
-            ))
-          )}
+
+          <Collapse title={selectEditable}>
+            <Collapse.Group>
+              {viewPointsResult.loading ? (
+                <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
+                  <Loading />
+                </Container>
+              ) : (
+                Object.keys(viewPointsResult?.data?.result ?? []).map((viewPoint) => (
+                  <Collapse key={viewPoint} title={viewPoint}>
+                    <ViewPointPermission
+                      listViewPoint={viewPointsResult.data?.result?.[viewPoint] ?? []}
+                      listViewChecked={permissionState.editable?.[viewPoint] ?? []}
+                      setListViewPoint={setEditAble}
+                      editAble={editAble?.editable}
+                      keyObj={viewPoint}
+                    />
+                  </Collapse>
+                ))
+              )}
+            </Collapse.Group>
+          </Collapse>
         </Collapse.Group>
       </div>
     </div>

@@ -40,10 +40,9 @@ export const listFunctionParseValue = () => {
 
 export const PermissionRequestDefault: PermissionRequest = {
   name: '',
-  skipAccessability: 1,
-  featureId: [],
   userId: [],
   viewPoints: {},
+  editable: {},
 }
 
 export const inputStylesPermission = ({ error }: { error?: string }) => {
@@ -61,10 +60,9 @@ export const inputStylesPermission = ({ error }: { error?: string }) => {
 export const PermissionResponseDefault: PermissionResponse = {
   id: '',
   name: '',
-  featureId: [],
   userId: [],
   created: '',
   modified: '',
-  skipAccessability: 0,
   viewPoints: {},
+  editable: {},
 }

@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { toast } from 'react-toastify'
-import { Header, ListActions, listFunctionParseValue } from './management.inventory'
+import { Header, ListActions } from './management.inventory'
 
 export const PermissionManagement = () => {
   const [cookies] = useCookies([DEVICE_ID, USER_ID])
@@ -45,8 +45,6 @@ export const PermissionManagement = () => {
     setLetCall(true)
   }, [])
 
-  const listFunctionParseValues = listFunctionParseValue()
-
   const header = Header()
 
   const listActions = ListActions()
@@ -74,7 +72,7 @@ export const PermissionManagement = () => {
         body={data ? data.result.data : []}
         listActions={listActions}
         selectionMode="single"
-        listFunctionParseValue={listFunctionParseValues}
+        listFunctionParseValue={{}}
         loading={loading}
       >
         <>{null}</>
