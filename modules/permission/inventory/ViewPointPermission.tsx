@@ -1,4 +1,4 @@
-import { useResponsive } from '@/hooks'
+import { useResponsive, useTranslationFunction } from '@/hooks'
 import { ViewPointType } from '@/types'
 import { Checkbox } from '@nextui-org/react'
 
@@ -18,6 +18,8 @@ export const ViewPointPermission = ({
   keyObj,
 }: IViewPointPermission) => {
   const breakPoint = useResponsive()
+  const translate = useTranslationFunction()
+
   return (
     <div
       style={{
@@ -48,7 +50,7 @@ export const ViewPointPermission = ({
             }}
             isReadOnly={!editAble}
           >
-            {viewPoint.label}
+            {translate(viewPoint.label)}
           </Checkbox>
         </div>
       ))}

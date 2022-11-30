@@ -61,3 +61,12 @@ export const getDetailPermission = (token: string, id: string) => {
     },
   })
 }
+
+export const getEditableSelect = (token: string, params?: QueryParams) => {
+  return axiosInstance.get(apiRoute.permissions.getEditableSelect, {
+    params,
+    headers: {
+      Authorization: token,
+    },
+  })
+}

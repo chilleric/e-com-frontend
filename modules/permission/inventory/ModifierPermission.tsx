@@ -1,7 +1,7 @@
 import { useApiCall, useTranslation, useTranslationFunction } from '@/hooks'
 import { useResponsive } from '@/hooks/useResponsive'
 import { generateToken } from '@/lib'
-import { getViewPointsSelect } from '@/services'
+import { getEditableSelect, getViewPointsSelect } from '@/services'
 import { PermissionRequest, PermissionRequestFailure, ViewPointKey } from '@/types'
 import { Collapse, Container, Input, Loading } from '@nextui-org/react'
 import { useEffect } from 'react'
@@ -62,8 +62,24 @@ export const ModifierPermission = ({
     },
   })
 
+  const editAblesResult = useApiCall<ViewPointKey, String>({
+    callApi: () =>
+      getEditableSelect(
+        generateToken({
+          userId: cookies.userId,
+          deviceId: cookies.deviceId,
+        })
+      ),
+    handleError(status, message) {
+      if (status) {
+        toast.error(translate(message))
+      }
+    },
+  })
+
   useEffect(() => {
     viewPointsResult.setLetCall(true)
+    editAblesResult.setLetCall(true)
   }, [])
 
   return (
@@ -124,15 +140,15 @@ export const ModifierPermission = ({
 
           <Collapse title={selectEditable}>
             <Collapse.Group>
-              {viewPointsResult.loading ? (
+              {editAblesResult.loading ? (
                 <Container css={{ textAlign: 'center', marginTop: 20 }} justify="center">
                   <Loading />
                 </Container>
               ) : (
-                Object.keys(viewPointsResult?.data?.result ?? []).map((viewPoint) => (
+                Object.keys(editAblesResult?.data?.result ?? []).map((viewPoint) => (
                   <Collapse key={viewPoint} title={viewPoint}>
                     <ViewPointPermission
-                      listViewPoint={viewPointsResult.data?.result?.[viewPoint] ?? []}
+                      listViewPoint={editAblesResult.data?.result?.[viewPoint] ?? []}
                       listViewChecked={permissionState.editable?.[viewPoint] ?? []}
                       setListViewPoint={setEditAble}
                       editAble={editAble?.editable}
